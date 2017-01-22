@@ -1,0 +1,100 @@
+// ==========================================================================
+// ENDPOITN DETAIL PAGE
+// ==========================================================================
+
+.fs-tag-margin--bottom {
+  margin-bottom: 50px;
+}
+
+.fs-tag-margin--bottom-new-device {
+  margin-bottom: 30px;
+}
+.card-item-header--fs-icons i {
+  font-size: 16px;
+}
+
+.device-detail-flex-grow {
+  flex-grow: 2;
+  margin-right: 50px;
+}
+
+.device-detail-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.card-list-layout-grid .device-detail-flex-container {
+  flex-direction: column;
+}
+
+.card-list-layout-list .device-detail-flex-container {
+  flex-direction: row;
+}
+
+.card-list-layout-grid .device-alerting {
+  margin: 25px 0;
+}
+
+.device-name {
+  line-height: 1.3;
+}
+
+.device-alerting {
+  float: left;
+  font-size: 1rem;
+}
+
+.device-alerting-status,
+.device-alerting-recipients {
+  display: inline-block;
+
+  .icon {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 16px;
+    vertical-align: top;
+    margin-top: 2px;
+  }
+}
+
+.device-alerting-recipients {
+  .icon {
+    margin-right: 10px;
+  }
+}
+
+.device-alerting-status {
+  margin-right: 30px;
+  font-weight: 400;
+
+  &.not-enabled,
+  &.not-enabled a {
+    display: inline-block;
+    color: $text-color-weak;
+    font-weight: normal;
+
+    &:hover {
+     color: $link-hover-color;
+    }
+  }
+
+  a {
+    display: inline-block;
+  }
+
+  @media (min-width: 675px) {
+    margin-bottom: 2px;
+  }
+}
+
+.device-alerting-recipients {
+  color: $text-color-weak;
+}
+
+.device-alerting-status,
+.device-alerting-recipients {
+  @media (min-width: 675px) {
+    display: block;
+  }
+}

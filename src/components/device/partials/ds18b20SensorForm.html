@@ -1,0 +1,70 @@
+<h1> Temperature Sensors</h1>
+<div  ng-hide="ctrl.config.ds18b20 | isEmpty">
+<p>No Sensors Detected..<info-popover>Connected sensors will automatically show up here after the device syncs with the cloud, sensors can also be manually added if you have their ID numbers.</info-popover></p>
+</div>
+
+
+<div ng-repeat="(sensorid,sensorcfg) in ctrl.config.ds18b20" class="gf-form-group gf-form-group--header" id="ds18b20cfg">
+  <div class="fs-config-box--hit-area" ng-click="ctrl.showDsCfg[sensorid] = !ctrl.showDsCfg[sensorid]">
+    <div class="playlist-column-header section-header-flex-container">
+      <h3 class="page-headering" ng-show="ctrl.config.ds18b20[sensorid].label.length > 3">ID:{{sensorid}} | {{ctrl.config.ds18b20[sensorid].label}}</h3>
+      <h3 class="page-headering" ng-hide="ctrl.config.ds18b20[sensorid].label.length > 3">ID:{{sensorid}}</h3>
+      <div>
+        <a href="#">
+          <!-- Monitoring -->
+          <i class="fa fa-thermometer-full" style="font-size:17px; vertical-align: text-bottom;" ></i>
+          <span class="freqMsg" ng-show="ctrl.config.ds18b20[sensorid].label.length > 3" > Digital Temperature Probe |</span>
+          <span class="freqMsg disabled" ng-hide="ctrl.config.ds18b20[sensorid].label.length > 3" > Not Configured |</span>
+          <!-- Configure -->
+          <span class="highlight-word"> Configure</span>
+          <span><i class="fa fa-caret-down" ng-show="ctrl.showDsCfg[sensorid]"></i></span>
+          <span><i class="fa fa-caret-right fs-box-accordian-control" ng-hide="ctrl.showDsCfg[sensorid]"></i></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="fs-config-box fs-page-box" id="temp" ng-class="{ 'temp-open': ctrl.showDsCfg[sensorid] }">
+    <div>
+        <div class="gf-form">
+          <i class="fa fa-thermometer-full fa-3x inline-icon"></i>
+          <h3 class="inline-header">&nbsp;Sensor Configuration</h3>
+        </div>
+        <div class="device-config-left-margin">
+          <div class="gf-form-group">
+
+                       <div class="gf-form">
+          <label class="gf-form-label width-9">Label</label>
+          <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.config.ds18b20[sensorid].label" ng-class="{ 'fs-text-box-success' : ctrl.discovered, 'fs-font-shrinker' : ctrl.config.ds18b20[sensorid].label > 10 }" placeholder="Front Bearing Temperature">
+        </div>
+           <div class="gf-form">
+            <span class="gf-form-label width-6">Tags:</span>
+            <bootstrap-tagsinput ng-model="ctrl.config.ds18b20[sensorid].tags" tagclass="label fs-label-tag" placeholder="New Tag" ></bootstrap-tagsinput>
+        </div>
+        <div class="gf-form">
+              <label class="gf-form-label width-9">Channel Link</label>
+              <input class="gf-form-input max-width-5" type="number" ng-model="ctrl.config.ds18b20[sensorid].chlink" min="1" max="4">
+              <info-popover>(Optional) If the temperature probe is installed on the same object that a vibration probe is installed on, please specify the channel number</info-popover>
+            </div>
+            <div class="gf-form gf-form--v-stretch">
+              <label class="gf-form-label width-9">Description</label>
+              <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.config.ds18b20[sensorid].desc"></textarea>
+              <info-popover>Describe in detail how this probe is mounted, the type of equiptment being monitored (Including Specifications, Part Numbers, etc)</info-popover>
+            </div>
+            <hr>
+            <button type="submit" class="btn btn-warning" ng-click="ctrl.delDs18b20(sensorid)">Remove</button><info-popover>Removing a sensor is only useful if it has been un-installed or manually entered with an incorrect ID.<br> If you remove a sensor that is currently connected to the device it will be automatically re-added when the device checks in next.</info-popover>
+          </div>
+        </div>
+
+
+
+    </div>
+  </div>
+</div>
+<div class="gf-form-group">
+<div class="gf-form-inline">
+<label class="gf-form-label width-12">Manually Add Sensor</label>
+<input class="gf-form-input max-width-9" type="number"  placeholder="Sensor ID"  ng-model="ctrl.newTempSensorID">
+  <button type="submit" class="btn btn-success" ng-click="ctrl.addDs18b20()">Add</button>
+  </div>
+  </div>

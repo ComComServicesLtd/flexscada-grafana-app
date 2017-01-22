@@ -1,0 +1,98 @@
+<div class="page-header" ng-if="ctrl.pageReady">
+	<h1>{{ctrl.device.name}}<a ng-click="ctrl.gotoDashboard(ctrl.device)"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to device dashboard'" data-delay='{"show":"750", "hide":"0"}'></i></a></h1>
+
+	<div class="page-header-tabs">
+
+     <a class="btn btn-link" href="plugins/flexscada-app/page/devices"><i class="fa fa-mail-reply" aria-hidden="true"></i>&nbsp;Back to device list</a>
+ 
+		<ul class="gf-tabs">
+			<li class="gf-tabs-item">
+				<a class="gf-tabs-link active" href="plugins/flexscada-app/page/device-details?device={{ctrl.device.uid}}">
+					Status
+				</a>
+			</li>
+			<li class="gf-tabs-item" ng-if="ctrl.isOrgEditor">
+				<a class="gf-tabs-link" href="plugins/flexscada-app/page/device-config?device={{ctrl.device.uid}}">
+					Configuration
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<section class="card-section card-list-layout-list" layout-mode  ng-if="ctrl.pageReady">
+	<ol class="card-list" >
+		<li class="card-item-wrapper" ng-repeat="(chnumber,channel) in ctrl.device.channels">
+			<div class="card-item pointer" ng-click="ctrl.gotoDashboard(device, checktype.name)">
+				<div class="card-item-header card-item-header--fs-icons card-item-header-action">
+				
+					<a ng-show="channel.enabled" ng-click="ctrl.gotoDashboard(device, channel)">
+						<i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to Device: </br>dashboard for {{channel.label}}'" data-delay='{"show":"750", "hide":"0"}'></i>
+					</a>
+					
+					
+					
+					<a href="plugins/flexscada-app/page/device-config?device={{ctrl.device.uid}}&channel={{channel}}" ng-if="ctrl.isOrgEditor"">
+						<i ng-class="icon" class="icon-gf icon-gf-settings" bs-tooltip="'Configure {{channel.label}}'" data-delay='{"show":"750", "hide":"0"}'></i>
+					</a>
+					
+					
+				</div>
+				<div class="card-item-body">
+					<figure class="card-item-figure health">
+						<img ng-src="public/plugins/flexscada-app/img/{{ctrl.monitorStateClass(checktype.name)}}.svg" style="width: 40px; height: 40px;">
+					</figure>
+					
+					
+					
+					<div class="card-item-details device-detail-flex-grow">
+						<div class="card-item-name">
+							<div class="device-detail-flex-container">
+								<div class="device-name">
+								
+								
+									<a ng-show="channel.enabled" href="/dashboard/db/{{checktype.dashName}}var-device={{ctrl.device.slug}}&var-probe=All" bs-tooltip="'Go to {{checktype.name}} dashboard'" data-delay='{"show":"750", "hide":"0"}' ng-click="$event.stopPropagation();">CH {{chnumber}} - {{channel.label}}</a>
+									
+									<div class="device-name">
+										<span ng-show="ctrl.getMonitorByTypeName(checktype.name).enabled">
+											<span class="checkStatus {{ctrl.monitorStateClass(checktype.name)}}">{{ctrl.monitorStateTxt(checktype.name)}}</span>
+											<span class="checkTime">{{ctrl.stateChangeStr(checktype.name)}}</span>
+										</span>
+										<span ng-show="!ctrl.getMonitorByTypeName(checktype.name).enabled">
+											<a href="plugins/flexscada-app/page/device-config?device={{ctrl.device.id}}&check={{checktype.name|lowercase}}" ng-if="ctrl.isOrgEditor" class="freqMsg disabled" ng-click="$event.stopPropagation();">Not enabled, configure now.</a>
+											<span class="freqMsg" ng-if="!ctrl.isOrgEditor">Not Enabled.</span>
+										</span>
+									</div>
+								</div>
+								<div class="device-alerting" ng-show="ctrl.getMonitorByTypeName(checktype.name).enabled">
+									<div ng-if="!ctrl.getMonitorByTypeName(checktype.name).healthSettings.notifications.enabled">
+										<span class="device-alerting-status not-enabled"><i ng-class="icon" class="icon-gf icon-disabled"></i>
+										<a href="plugins/flexscada-app/page/device-config?device={{ctrl.device.id}}&check={{checktype.name|lowercase}}" class="freqMsg disabled" ng-if="ctrl.isOrgEditor" ng-click="$event.stopPropagation();">Alerting not enabled,<br>configure now</a>
+										<span ng-if="!ctrl.isOrgEditor">Alerting not enabled.</span>
+										</span>
+									</div>
+									<div ng-if="ctrl.getMonitorByTypeName(checktype.name).healthSettings.notifications.enabled">
+										<span class="device-alerting-status">
+											<i ng-class="icon" class="icon-gf icon-gf-alert"></i>
+											<a href="plugins/flexscada-app/page/device-config?device={{ctrl.device.id}}&check={{checktype.name|lowercase}}" ng-if="ctrl.isOrgEditor" ng-click="$event.stopPropagation();">Alerting Enabled</a>
+											<span ng-if="!ctrl.isOrgEditor">Alerting Enabled</span>
+											<span class="device-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString(checktype.name)}}'" data-delay='{"show":"750", "hide":"0"}'><i ng-class="icon" class="icon-gf icon-gf-users"></i>{{ctrl.getNotificationEmails(checktype.name).length}} recipients</span>
+										</span>
+									</div>
+								</div>
+								<div>
+									<div ng-if="ctrl.getMonitorByTypeName(checktype.name).enabled">
+										<div class="frequency">
+											<span class="freqMsg"><span class="emphasis-word">Events - </span>&nbsp;Last check from&nbsp;</span>{{ctrl.getProbesForCheck(checktype.name).length}}<span class="freqMsg">&nbsp;probes&nbsp;</span><a ng-click="$event.stopPropagation(); ctrl.gotoEventDashboard(ctrl.device, checktype.name)" bs-tooltip="'Go to worldPing: Events </br>dashboard for {{checktype.name}}'" data-delay='{"show":"750", "hide":"0"}'><i class="frequency fa fa-fw fa-external-link"></i></a>
+										</div>
+										<fs-check-health check="ctrl.getMonitorByTypeName(checktype.name)" ctrl="ctrl" ></fs-check-health>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</li>
+	</ol>
+</section>

@@ -1,0 +1,34 @@
+// ==========================================================================
+// worldPing APP CONFIG Tab
+// ==========================================================================
+
+.gnet-logo--inline {
+  vertical-align: sub;
+  margin-right: 5px;
+  height: 17px;
+}
+
+.fs-app-advanced-box {
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.2s;
+  -o-transition: height 0.2s;
+  -moz-transition: height 0.2s;
+  -webkit-transition: height 0.2s;
+
+  &.fs-app-advanced-open {
+    height: 125px;
+  }
+}
+
+.fs-app-advanced-link {
+  margin: 1rem 0;
+}
+
+.fs-inline-field-margin--right {
+  margin-right: $spacer;
+}
+
+.fs-enabled-box {
+  margin: $spacer 0;
+}

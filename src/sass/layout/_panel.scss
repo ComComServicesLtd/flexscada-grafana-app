@@ -1,0 +1,225 @@
+// ==========================================================================
+// Panels CSS
+// ==========================================================================
+
+
+
+// Endpoint Nav Header
+// ==========================================================================
+
+.fs-nav {
+  position: relative;
+  display: block;
+}
+
+.fs-nav-header {
+  position: relative;
+  line-height: normal;
+}
+
+.fs-nav-breadcrumb {
+  margin: 0 0 7px -10px;
+  display: inline-block;
+}
+
+.fs-nav-icon-font {
+  font-size: 17px;
+  vertical-align: text-top;
+  color: #666766;
+}
+
+.pipe-separator {
+  color: $text-color-weak;
+}
+
+.fs-nav-hr {
+  margin-left: -10px;
+  border-bottom: $panel-border;
+}
+
+.fs-nav-icon {
+  font-size: 24px;
+  vertical-align: sub;
+}
+
+// Home Dashboard
+
+
+.fs-icon-success {
+  color: $online;
+  font-size: 24px;
+  text-decoration:none;
+  vertical-align: sub;
+}
+
+.fs-nav--background {
+  background-color: $panel-bg;
+  margin-left: -10px;
+  border: $panel-border;
+}
+
+.fs-nav-no-endpoints {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.fs-nav-header--message {
+  color: $gray-2;
+  margin-right: 10px;
+}
+
+.fs-nav-header--button {
+  margin-right: 5px;
+}
+
+/******************************************
+RAINTANK DASHBOARD STYLES
+******************************************/
+
+.fs-dashboard-h1 {
+    font-size: 60px;
+    font-weight:900;
+    letter-spacing: -1px;
+    color: #EEE;
+    display: inline;
+    padding-top: 20px;
+}
+
+p.fs-dashboard-copy {
+    font-size:14px;
+    color: $text-color;
+}
+
+.fs-dash-flex-container {
+     display: flex;
+     justify-content: flex-start;
+     flex-direction: column;
+}
+
+.fs-panel-CTA-flex-container {
+     display: flex;
+     justify-content: center;
+     flex-direction: row;
+     flex-wrap: wrap-reverse;
+     align-items: center;
+     text-align: center;
+     min-height: 220px;
+     margin: 0 100px 25px 80px;
+     background: lighten($panel-bg,1%);
+     border: $panel-border;
+     padding: 5px 30px;
+
+    .fs-CTA-flex-copy {
+      flex-grow: 2;
+    }
+}
+
+.fs-CTA-flex-image {
+    min-width: 185px;
+    max-width: 200px;
+    margin-bottom: 10px;
+}
+
+.fs-dash-flex-item {
+    flex: 1;
+    text-align: left;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.fs-dash--warning {
+  background-color: rgba($red, 0.5);
+  margin-bottom: 10px;
+  margin-left: 5px;
+  padding-left: 10px;
+}
+
+ @media screen and (max-width: 780px) {
+  .fs-dash-flex-item {
+    flex: 0 100%;
+    text-align: center;
+    flex-direction: column;
+    margin:0 auto;
+    }
+}
+
+p.fs-helper-blurb{
+     font-size:14px;
+     color: $text-color;
+     min-height: 35px;
+}
+
+p.fs-dashboard-blurb{
+     font-size:14px;
+     color: $text-color;
+     margin: 0;
+}
+
+a.fs-dashboard-blurb{
+     font-size:14px;
+     color: $text-color;
+     margin: 0;
+}
+
+a.fs-dashboard-blurb:hover{
+     text-decoration: underline;
+}
+
+.fs-dashboard-icons {
+  color: $brand-primary;
+  -webkit-text-fill-color: transparent;
+  background: $brand-gradient;
+  -webkit-background-clip: text;
+  text-decoration:none;
+  font-size: 20px;
+  vertical-align: sub;
+}
+
+.fs-dashboard-icons-upcoming {
+  color: $text-color-weak;
+  text-decoration:none;
+  font-size: 20px;
+  vertical-align: sub;
+}
+
+.fs-dashboard-icons-warning {
+  color: $text-color-strong;
+  text-decoration:none;
+  font-size: 20px;
+  vertical-align: sub;
+}
+
+.fs-CTA-item {
+  margin: 10px 0;
+}
+
+.fs-blurb-success {
+  color: $text-color-weak;
+  text-decoration: line-through;
+}
+
+a.fs-blurb-upcoming {
+  color: $text-color-weak;
+}
+
+.fs-dashboard-icons-container {
+  width: 30px;
+  display: inline-block;
+  margin-right: 5px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.fs-dashboard-icons-copy-container {
+  max-width: 285px;
+  display: inline-block;
+}
+
+.fs-dashboard-icons-subcopy {
+     display: block;
+     font-size:12px;
+     color: $text-color;
+     margin: 0;
+}

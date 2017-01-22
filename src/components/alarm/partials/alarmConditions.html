@@ -1,0 +1,71 @@
+<div class="gf-form-group" id="conditions">
+<br>
+<br>
+      <h3 class="page-headering">Fault Conditions</h3>
+<hr>
+
+<div  ng-hide="ctrl.config.conditions[0]">
+<p>No Conditions Defined...<info-popover>Add a new condition from the button below</info-popover></p>
+</div>
+
+
+<div ng-repeat="(conditionid,condition) in ctrl.config.conditions" class="gf-form-group gf-form-group--header" id="conditionlist">
+  <div class="fs-config-box--hit-area" ng-click="ctrl.showCondition[conditionid] = !ctrl.showCondition[conditionid]">
+    <div class="playlist-column-header section-header-flex-container">
+      <h5 class="page-headering" ng-show="true">{{condition.label}}</h5>
+      <div>
+        <a href="#">
+          <!-- Monitoring -->
+          <span class="freqMsg" ng-show="true" >{{ condition.frequency}} {{ctrl.conditionOperators[condition.operator].text}} {{condition.value}}</span>
+          <!-- Configure -->
+          <span class="highlight-word"> Configure</span>
+          <span><i class="fa fa-caret-down" ng-show="ctrl.showCondition[conditionid]"></i></span>
+          <span><i class="fa fa-caret-right fs-box-accordian-control" ng-hide="ctrl.showCondition[conditionid]"></i></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="fs-config-box fs-page-box" id="condition" ng-class="{ 'cond-open': ctrl.showCondition[conditionid] }">
+    
+    
+    
+        <div class="gf-form">
+          <h5 class="inline-header">&nbsp;Edit Condition</h5>
+        </div>
+        <div class="device-config-left-margin">
+          <div class="gf-form-group">
+          
+          <div class="gf-form">
+           <label class="gf-form-label width-9">Label</label>
+          <input class="gf-form-input max-width-15" type="text" ng-model="condition.label"  placeholder="Inner Race Defect">
+        </div>
+
+           <div class="gf-form-inline">
+          <div class="gf-form">
+          <label class="gf-form-label width-12">If Amplitude @</label>
+          <input class="gf-form-input max-width-15" type="text" ng-model="condition.frequency" placeholder="e.g. '400hz to 600hz' or '355hz'">
+        </div>
+         <div class="gf-form-select-wrapper">
+                <select class="gf-form-input gf-size-auto" ng-model="condition.operator" ng-options="f.value as f.text for f in ctrl.conditionOperators" ng-change="ctrl.refresh()"></select>
+            </div>
+            <input class="gf-form-input max-width-15" type="text" ng-model="condition.value" placeholder="e.g. '5G' or '5%''">
+
+            
+        </div>
+
+            <hr>
+            <button type="submit" class="btn btn-warning" ng-click="ctrl.deleteCondition(conditionid)">Remove</button> <button type="submit" class="pull-right btn btn-secondary" ng-click="ctrl.showCondition[conditionid] = !ctrl.showCondition[conditionid]">Done</button>
+          </div>
+        </div>
+
+
+
+  </div>
+</div>
+
+
+<button type="submit" class="btn btn-success" ng-click="ctrl.addCondition()">Add Condition</button>
+
+  
+  </div>

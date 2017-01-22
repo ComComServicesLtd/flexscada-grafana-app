@@ -1,0 +1,86 @@
+{
+  "type": "app",
+  "name": "FlexSCADA",
+  "id": "flexscada-app",
+
+  "routes": [
+    {
+      "path": "api/*",
+      "method": "PUT,POST,DELETE",
+      "url": "http://162.216.185.242:7001/api",
+      "reqSignedIn": true,
+      "reqRole": "Editor",
+      "headers": [
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+      ]
+    },
+    {
+      "path": "api/*",
+      "method": "GET",
+      "url": "http://162.216.185.242:7001/api",
+      "reqSignedIn": true,
+      "reqRole": "Viewer",
+      "headers": [
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+      ]
+    }
+  ],
+
+  "info": {
+    "description": "This plugin transforms grafana into a world class situational monitoring toolkit, Using our revolutionary vibration monitoring devices this plugin allows you to quickly visualize dangerous trends.  With our Flexs Q4 remote site monitoring device this plugin allows you to log and visualize metrics from remote power systems.",
+    "author": {
+      "name": "Com Com Services LTD",
+      "url": "https://flexscada.com"
+    },
+    "keywords": ["flexscada", "pulsation", "Flexs Q4"],
+    "logos": {
+      "small": "img/flexscada.png",
+      "large": "img/flexscada.png"
+    },
+    "links": [
+      {"name": "FlexSCADA", "url": "https://flexscada.com"},
+      {"name": "GitHub", "url": "https://github.com/comming-soon"},
+      {"name": "License", "url": "https://www.apache.org/licenses/LICENSE-2.0"}
+    ],
+    "screenshots": [
+      {"name": "FlexSCADA Vibration Monitoring", "path": "img/vibration-montioring-dashboard.png"},
+      {"name": "FlexSCADA Remote Site Monitoring", "path": "img/remote-site-monitoring-dashboard.png"}
+    ],
+    "version": "0.0.1",
+    "updated": "2017-02-10"
+  },
+
+  "includes": [
+    {
+      "type": "dashboard",
+      "name": "FlexSCADA Home",
+      "path": "dashboards/flexscada-home.json",
+      "addToNav": true,
+      "defaultNav": true
+    },
+    { "type": "page", "name": "Devices", "component": "DeviceListCtrl", "role": "Viewer", "addToNav": true},
+    { "type": "page", "name": "Device Details", "component": "DeviceDetailsCtrl", "role": "Viewer",  "addToNav": false},
+    { "type": "page", "name": "Device Config", "component": "DeviceConfigCtrl", "role": "Editor", "addToNav": false},
+    { "type": "page", "name": "Alarm Config", "component": "AlarmConfigCtrl", "role": "Editor", "addToNav": false},
+    { "type": "page", "name": "Alarm List", "component": "AlarmListCtrl", "role": "Viewer", "addToNav": true},
+    {
+      "type": "dashboard",
+      "name": "Alarm Events",
+      "path": "dashboards/events.json",
+      "addToNav": false
+    },
+    {
+      "type": "panel",
+      "name": "Worldping Device List"
+    },
+    {
+      "type": "panel",
+      "name": "Worldping Device Nav"
+    }
+  ],
+
+  "dependencies": {
+    "grafanaVersion": "3.x 4.x",
+    "plugins": []
+  }
+}

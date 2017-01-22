@@ -1,0 +1,66 @@
+// ==========================================================================
+// FlexSCADA Device List
+// ==========================================================================
+
+.fs-empty-device-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.fs-app-devicedesc-box {
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.2s;
+  -o-transition: height 0.2s;
+  -moz-transition: height 0.2s;
+  -webkit-transition: height 0.2s;
+
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+
+  &.fs-app-devicedesc-open {
+    height: 160px;
+  }
+}
+
+.fs-collapse-blurb-box{
+  text-align: center;
+  max-width: 500px;
+}
+
+.fs-collapse{
+  margin: 10px 0;
+  display:block;
+  cursor: pointer;
+  color: $fs-blue;
+}
+
+.fs-collapse-secondary{
+  color: $text-color-strong;
+  font-style: italic;
+}
+
+.fs-collapse:hover {
+ color: $text-color;
+}
+
+.fs-collapse + input{
+  // display:none;
+  opacity: 0;
+}
+.fs-collapse + input + *{
+  // display:none;
+  opacity: 0;
+
+  transition: opacity 100ms ease-in-out;
+  -moz-transition: opacity 100ms ease-in-out;
+  -webkit-transition: opacity 100ms ease-in-out;
+}
+.fs-collapse+ input:checked + *{
+  // display:block;
+  opacity: 1;
+}
