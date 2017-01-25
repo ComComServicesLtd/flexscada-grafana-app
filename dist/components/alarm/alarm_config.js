@@ -69,6 +69,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
 
           this.addNotificationSegment = this.uiSegmentSrv.newPlusButton();
 
+          this.ruleAggregations = [{ text: 'Average Amplitude', value: 0 }, { text: 'Peak Amplitude', value: 1 }, { text: 'Total Amplitude', value: 2 }, { text: 'Any Amplitude', value: 3 }];
+
           this.conditionOperators = [{ text: 'Is Greater Than', value: 0 }, { text: 'Is Less Than', value: 1 }, { text: 'Exceeds Average by', value: 2 }];
 
           this.detectionMethods = [{ text: 'Rule Based', value: "rule" }, { text: 'Automatic (Bearing)', value: "gearbox" }, { text: 'Automatic (Gearbox)', value: "bearing" }];
@@ -172,6 +174,11 @@ System.register(['lodash', 'angular'], function (_export, _context) {
         }
 
         _createClass(AlarmConfigCtrl, [{
+          key: 'forceUnit',
+          value: function forceUnit(unit, value) {
+            value = 'test';value.replace(/[^0-9]/g, '') + unit;
+          }
+        }, {
           key: 'cancel',
           value: function cancel() {
             this.reset();

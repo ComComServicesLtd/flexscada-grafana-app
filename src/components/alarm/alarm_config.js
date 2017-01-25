@@ -34,6 +34,14 @@ class AlarmConfigCtrl {
         this.addNotificationSegment = this.uiSegmentSrv.newPlusButton();
         
 
+        
+        this.ruleAggregations = [
+        {text: 'Average Amplitude', value: 0},
+        {text: 'Peak Amplitude', value: 1},
+        {text: 'Total Amplitude', value: 2},
+        {text: 'Any Amplitude', value: 3}
+        ];
+        
 
     this.conditionOperators = [
         {text: 'Is Greater Than', value: 0},
@@ -159,7 +167,11 @@ class AlarmConfigCtrl {
       }
     });
   }
-
+  
+  
+  forceUnit(unit, value){
+ value = 'test';value.replace(/[^0-9]/g, '') + unit;
+  }
 
 
   cancel() {
@@ -287,6 +299,9 @@ class AlarmConfigCtrl {
     this.config.notifications.splice(index, 1);
     this.alertNotifications.splice(index, 1);
   }
+  
+  
+  
   
   
 

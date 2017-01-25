@@ -119,6 +119,7 @@
 
               <div  ng-if="ctrl.config.detectionMethod == 'rule'">
 
+              <div ng-if="ctrl.showAdvanced">
                                <div class="gf-form">
                 <span class="gf-form-label width-12">FFT Bins</span>
                      <div class="gf-form-select-wrapper">
@@ -132,8 +133,9 @@
                 <select class="gf-form-input gf-size-auto" ng-model="ctrl.config.frequencyAggregation"  ng-init="ctrl.config.frequencyAggregation='max'" ng-options="f.value as f.text for f in ctrl.aggregationMethods" ng-change="ctrl.refresh()"></select>
             </div><info-popover>When downconverting a 1024 point fft to a 256 point fft we will combine several fft bins together, choosing average as the mode will average the amplitude of all of the bins while selecting maximum will downsample to the amplitude of the bin with the highest amplitude.  If you're not sure what to choose here select maximum.</info-popover>
             </div>
+            </div>
             
-                                           <div class="gf-form">
+                <div class="gf-form">
                 <span class="gf-form-label width-12">Timespan for Average</span>
                      <div class="gf-form-select-wrapper">
                 <select class="gf-form-input gf-size-auto" ng-model="ctrl.config.averageTimespan" ng-init="ctrl.config.averageTimespan=2678400" ng-options="f.value as f.text for f in ctrl.averagingSpans" ng-change="ctrl.refresh()"></select>
