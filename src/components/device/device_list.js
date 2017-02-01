@@ -11,7 +11,9 @@ class DeviceListCtrl {
     this.$q = $q;
     this.$location = $location;
     this.pageReady = false;
-    this.filter = {'tag': ''};
+    this.filter = {
+      'tag': ''
+    };
     this.sort_field = 'name';
     this.devices = {};
     this.refresh();
@@ -55,53 +57,54 @@ class DeviceListCtrl {
 
   monitorStateTxt(device, type) {
 
-      
     var state = 0;
-    
-    if(type === "battery"){
-     state = 0;
-        
-        
-    } else if(type === "link"){
-        state = 0;
-        
-    } else if(type === "sensors"){
-        state = 0;
-        
-        
+
+    if (type === "battery") {
+      state = 0;
+
+    } else if (type === "link") {
+      state = 0;
+
+    } else if (type === "sensors") {
+      state = 0;
+
     }
-      
+
     var states = ["online", "warn", "critical"];
     return states[state];
   }
 
   monitorStateStr(device, type) {
 
-if(type === "battery"){
-     return "Battery at 90% charge level";
-        
-        
-    } else if(type === "link"){
-       return "14% Signal";
-        
-    } else if(type === "sensors"){
-        return "4 of 4 Registered sensors online";
+    if (type === "battery") {
+      return "Battery at 90% charge level";
+
+    } else if (type === "link") {
+      return "14% Signal";
+
+    } else if (type === "sensors") {
+      return "4 of 4 Registered sensors online";
     }
-    
+
     return "Unknown Metric";
   }
 
   gotoDashboard(device, evt) {
     var clickTargetIsLinkOrHasLinkParents = $(evt.target).closest('a').length > 0;
     if (clickTargetIsLinkOrHasLinkParents === false) {
-      this.$location.path("/dashboard/db/flexscada-device-summary").search({"var-collector": "All", "var-device": device.slug});
+      this.$location.path("/dashboard/db/flexscada-device-summary").search({
+        "var-collector": "All",
+        "var-device": device.slug
+      });
     }
   }
 
   gotoDeviceURL(device) {
-    this.$location.url('plugins/flexscada-app/page/device-details?device='+ device.id);
+    this.$location.url('plugins/flexscada-app/page/device-details?device=' + device.id);
   }
 }
 
 DeviceListCtrl.templateUrl = 'public/plugins/flexscada-app/components/device/partials/device_list.html';
-export {DeviceListCtrl};
+export {
+  DeviceListCtrl
+};

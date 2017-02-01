@@ -15,21 +15,21 @@
   <form name="destroyDeviceForm">
     <div class="fs-config-box fs-page-box" id="destroy" ng-class="{ 'destroy-open': ctrl.showDestroy }">
       <div>
+        <div class="gf-form">
+          <i class="icon-gf icon-gf-skull inline-icon"></i>
+          <h3 class="inline-header">Delete your device</h3>
+        </div>
+        <div class="device-config-left-margin">
+          <p>When a device is deleted, we will remove it from your account, however all historical data will still remain on our servers</span>. To have this data completely removed, pease contact us.</p>
+          <p>Type DELETE to confirm:</p>
           <div class="gf-form">
-            <i class="icon-gf icon-gf-skull inline-icon"></i>
-            <h3 class="inline-header">Delete your device</h3>
+            <input class="gf-form-input max-width-21" type="text" required pattern="^[dD][eE][lL][eE][tT][eE]$" ng-model="verifyDelete">
           </div>
-          <div class="device-config-left-margin">
-            <p>When a device is deleted, we will remove it from your account, however all historical data will still remain on our servers</span>. To have this data completely removed, pease contact us.</p>
-            <p>Type DELETE to confirm:</p>
-            <div class="gf-form">
-              <input class="gf-form-input max-width-21" type="text" required pattern="^[dD][eE][lL][eE][tT][eE]$" ng-model="verifyDelete">
-            </div>
-            <div class="gf-form-button-row">
-              <button type="submit" class="btn btn-danger" ng-disabled="destroyDeviceForm.$invalid" ng-click="ctrl.removeDevice()">DELETE</button>
-              <a class="btn btn-link" ng-click="ctrl.showDestroy = !ctrl.showDestroy">Cancel</a>
-            </div>
+          <div class="gf-form-button-row">
+            <button type="submit" class="btn btn-danger" ng-disabled="destroyDeviceForm.$invalid" ng-click="ctrl.removeDevice()">DELETE</button>
+            <a class="btn btn-link" ng-click="ctrl.showDestroy = !ctrl.showDestroy">Cancel</a>
           </div>
+        </div>
       </div>
     </div>
   </form>

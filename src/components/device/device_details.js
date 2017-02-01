@@ -3,7 +3,7 @@ import _ from 'lodash';
 class DeviceDetailsCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location,$q, backendSrv, contextSrv, alertSrv) {
+  constructor($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
     this.isOrgEditor = contextSrv.hasRole("Admin") || contextSrv.hasRole("Editor");
     this.backendSrv = backendSrv;
     this.alertSrv = alertSrv;
@@ -21,11 +21,10 @@ class DeviceDetailsCtrl {
 
   }
 
-
   getDevice(id) {
     var self = this;
 
-    self.backendSrv.get('api/plugin-proxy/flexscada-app/api/vibration/v1/config/'+id).then(function(resp) {
+    self.backendSrv.get('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + id).then(function(resp) {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to get device.", resp.meta.msg, 'error', 10000);
         return self.$q.reject(resp.meta.msg);
@@ -112,18 +111,18 @@ class DeviceDetailsCtrl {
       return "a few seconds ago";
     }
     if (duration < 60000) {
-      var secs = Math.floor(duration/1000);
+      var secs = Math.floor(duration / 1000);
       return "for " + secs + " seconds";
     }
     if (duration < 3600000) {
-      var mins = Math.floor(duration/1000/60);
+      var mins = Math.floor(duration / 1000 / 60);
       return "for " + mins + " minutes";
     }
     if (duration < 86400000) {
-      var hours = Math.floor(duration/1000/60/60);
+      var hours = Math.floor(duration / 1000 / 60 / 60);
       return "for " + hours + " hours";
     }
-    var days = Math.floor(duration/1000/60/60/24);
+    var days = Math.floor(duration / 1000 / 60 / 60 / 24);
     return "for " + days + " days";
   }
 
@@ -151,7 +150,7 @@ class DeviceDetailsCtrl {
   }
 
   setDevice(id) {
-    this.$location.url('plugins/flexscada-app/page/device_details?device='+id);
+    this.$location.url('plugins/flexscada-app/page/device_details?device=' + id);
   }
 
   gotoDashboard(device, type) {
@@ -162,7 +161,7 @@ class DeviceDetailsCtrl {
       "var-probe": "All",
       "var-device": device.slug
     };
-    switch(type.toLowerCase()) {
+    switch (type.toLowerCase()) {
       case "summary":
         this.$location.path("/dashboard/db/flexscada-device-summary").search(search);
         break;
@@ -228,4 +227,6 @@ class DeviceDetailsCtrl {
 }
 
 DeviceDetailsCtrl.templateUrl = 'public/plugins/flexscada-app/components/device/partials/device_details.html';
-export {DeviceDetailsCtrl};
+export {
+  DeviceDetailsCtrl
+};

@@ -4,6 +4,7 @@ import {DeviceDetailsCtrl} from './components/device/device_details';
 import {DeviceConfigCtrl} from './components/device/device_config';
 import {AlarmConfigCtrl} from './components/alarm/alarm_config';
 import {AlarmListCtrl} from './components/alarm/alarm_list';
+import {AnalysisCtrl} from './components/analysis/analysis';
 import {loadPluginCss} from 'app/plugins/sdk';
 import './filters/all';
 import './directives/all';
@@ -19,5 +20,6 @@ export {
   DeviceConfigCtrl,
   AlarmConfigCtrl,
   AlarmListCtrl,
+  AnalysisCtrl,
   ConfigCtrl
 };

@@ -55,43 +55,37 @@ class AlarmListCtrl {
 
   monitorStateTxt(device, type) {
 
-      
     var state = 0;
-    
-    if(type == "battery"){
-     state = 0;
-        
-        
-    } else if(type == "link"){
-        state = 0;
-        
-    } else if(type == "sensors"){
-        state = 0;
-        
-        
+
+    if(type === "battery"){
+      state = 0;
+
+    } else if(type === "link"){
+      state = 0;
+
+    } else if(type === "sensors"){
+      state = 0;
+
     }
-      
+
     var states = ["online", "warn", "critical"];
     return states[state];
   }
 
   monitorStateStr(device, type) {
 
-if(type == "battery"){
-     return "Battery at 90% charge level";
-        
-        
-    } else if(type == "link"){
-       return "14% Signal";
-        
-    } else if(type == "sensors"){
-        return "4 of 4 Registered sensors online";
+    if(type === "battery"){
+      return "Battery at 90% charge level";
+
+    } else if(type === "link"){
+      return "14% Signal";
+
+    } else if(type === "sensors"){
+      return "4 of 4 Registered sensors online";
     }
-    
+
     return "Unknown Metric";
-    
-      
-      
+/*
     var duration = 312;
     if (duration < 10000) {
       return "for a few seconds ago";
@@ -110,6 +104,7 @@ if(type == "battery"){
     }
     var days = Math.floor(duration/1000/60/60/24);
     return "for " + days + " days";
+    */
   }
 
   gotoDashboard(device, evt) {

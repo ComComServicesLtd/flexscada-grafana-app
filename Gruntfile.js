@@ -20,6 +20,12 @@ module.exports = function(grunt) {
         src: ['**/*', '!**/*.js', '!**/*.scss'],
         dest: 'dist'
       },
+        externals: {
+        cwd: 'src',
+        expand: true,
+        src: ['**/external/*'],
+        dest: 'dist'
+      },
       includes_to_dist: {
         cwd: 'includes',
         expand: true,
@@ -36,7 +42,7 @@ module.exports = function(grunt) {
     watch: {
       rebuild_all: {
         files: ['src/**/*', 'README.md'],
-        tasks: ['rebuild'],
+        tasks: ['watch'],
         options: {spawn: false}
       },
     },
@@ -72,6 +78,7 @@ module.exports = function(grunt) {
         ignores: [
           'node_modules/*',
           'dist/*',
+          'src/external/**',
         ]
       }
     },
@@ -96,10 +103,23 @@ module.exports = function(grunt) {
     }
   });
 
+
+  grunt.registerTask('watch', [
+    //'clean',
+  //  'sass',
+  //  'copy:src_to_dist',
+//    "copy:externals",
+//    'copy:pluginDef',
+    'babel',
+  //  'jshint',
+  //  'jscs',
+    ]);
+
   grunt.registerTask('default', [
     'clean',
     'sass',
     'copy:src_to_dist',
+    "copy:externals",
     'copy:pluginDef',
     'babel',
     'jshint',
@@ -110,6 +130,7 @@ module.exports = function(grunt) {
     'clean:dist',
     'sass',
     'copy:src_to_dist',
+    "copy:externals",
     'copy:pluginDef',
     'babel',
     'jshint',

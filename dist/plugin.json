@@ -6,8 +6,8 @@
   "routes": [
     {
       "path": "api/*",
-      "method": "PUT,POST,DELETE",
-      "url": "http://162.216.185.242:7001/api",
+      "method": "PUT,DELETE",
+      "url": "http://127.0.0.1/api",
       "reqSignedIn": true,
       "reqRole": "Editor",
       "headers": [
@@ -16,8 +16,8 @@
     },
     {
       "path": "api/*",
-      "method": "GET",
-      "url": "http://162.216.185.242:7001/api",
+      "method": "POST,GET",
+      "url": "http://127.0.0.1:7001/api",
       "reqSignedIn": true,
       "reqRole": "Viewer",
       "headers": [
@@ -25,6 +25,7 @@
       ]
     }
   ],
+  
 
   "info": {
     "description": "This plugin transforms grafana into a world class situational monitoring toolkit, Using our revolutionary vibration monitoring devices this plugin allows you to quickly visualize dangerous trends.  With our Flexs Q4 remote site monitoring device this plugin allows you to log and visualize metrics from remote power systems.",
@@ -63,6 +64,7 @@
     { "type": "page", "name": "Device Config", "component": "DeviceConfigCtrl", "role": "Editor", "addToNav": false},
     { "type": "page", "name": "Alarm Config", "component": "AlarmConfigCtrl", "role": "Editor", "addToNav": false},
     { "type": "page", "name": "Alarm List", "component": "AlarmListCtrl", "role": "Viewer", "addToNav": true},
+    { "type": "page", "name": "Advanced Analysis", "component" : "AnalysisCtrl", "role": "Viewer", "addToNav": true},
     {
       "type": "dashboard",
       "name": "Alarm Events",
@@ -80,7 +82,7 @@
   ],
 
   "dependencies": {
-    "grafanaVersion": "3.x 4.x",
+    "grafanaVersion": "4.x",
     "plugins": []
   }
 }

@@ -16,9 +16,8 @@ var _defaultCheck = {
   }
 };
 
-
 class DeviceConfigCtrl {
-   /** @ngInject */
+  /** @ngInject */
   constructor($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv) {
     var self = this;
     this.backendSrv = backendSrv;
@@ -28,7 +27,7 @@ class DeviceConfigCtrl {
     this.alertSrv = alertSrv;
     this.$window = $window;
     this.$rootScope = $rootScope;
-    
+
     $window.scope = $scope;
     $window.rootscope = $rootScope;
 
@@ -37,24 +36,23 @@ class DeviceConfigCtrl {
     this.config.ds18b20 = {};
     this.config.channels = {};
     this.deviceStatus = 0; // 0 = new, stage 1, 1 = new, adding information stage, 2 = exiting
-    
+
     this.ignoreChanges = false;
-    
-    
 
     $window.console.log($location.search());
-      if ("device" in $location.search()) {
-          this.deviceStatus = 2;
-          this.loadDevice($location.search().device);
+    if ("device" in $location.search()) {
+      this.deviceStatus = 2;
+      this.loadDevice($location.search().device);
     } else {
-        this.deviceStatus = 0;
+      this.deviceStatus = 0;
     }
 
     self.pageReady = true;
 
-
     $window.onbeforeunload = function() {
-      if (self.ignoreChanges) { return; }
+      if (self.ignoreChanges) {
+        return;
+      }
       if (self.changesPending()) {
         return "There are unsaved changes to this dashboard";
       }
@@ -85,8 +83,6 @@ class DeviceConfigCtrl {
     });
   }
 
-
-
   reset() {
     var self = this;
     this.showConfig = false;
@@ -100,25 +96,25 @@ class DeviceConfigCtrl {
   }
 
   addDevice() {
-    if (!this.config.uid){
+    if (!this.config.uid) {
       return;
     }
     this.deviceStatus = 1;
   }
-  
-  addDs18b20(){
-      this.config.ds18b20[this.newTempSensorID] = {};
-      this.config.ds18b20[this.newTempSensorID].label = "New Sensor (Click to edit)";
-      this.newTempSensorID = '';
-      
+
+  addDs18b20() {
+    this.config.ds18b20[this.newTempSensorID] = {};
+    this.config.ds18b20[this.newTempSensorID].label = "New Sensor (Click to edit)";
+    this.newTempSensorID = '';
+
   }
-  
-   delDs18b20(id){
-      delete this.config.ds18b20[id];
-      this.$window.console.log(this.config);
-      
+
+  delDs18b20(id) {
+    delete this.config.ds18b20[id];
+    this.$window.console.log(this.config);
+
   }
-  
+
   removeDevice() {
     var self = this;
     return this.backendSrv.delete('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + this.config.uid).then((resp) => {
@@ -136,8 +132,8 @@ class DeviceConfigCtrl {
     this.config.userid = this.$rootScope.contextSrv.user.id;
 
     var self = this;
-    return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + this.config.uid + ((this.deviceStatus == 1) ? '/?create=true' : ''), this.config).then((resp) => {
-    self.$window.console.log(resp);
+    return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + this.config.uid + ((this.deviceStatus === 1) ? '/?create=true' : ''), this.config).then((resp) => {
+      self.$window.console.log(resp);
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to update device.", resp.meta.message, 'error', 10000);
         return self.$q.reject(resp.meta.message);
@@ -145,12 +141,11 @@ class DeviceConfigCtrl {
       this.deviceStatus = 2;
     });
   }
-  
-  
+
   loadDevice(uid) {
     var self = this;
     return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + uid).then((resp) => {
-          self.$window.console.log(resp);
+      self.$window.console.log(resp);
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to update device.", resp.meta.message, 'error', 10000);
         return self.$q.reject(resp.meta.message);
@@ -159,17 +154,15 @@ class DeviceConfigCtrl {
       this.deviceStatus = 2;
     });
   }
-  
-  gotoDashboard() {
-   // Load the devices dashboard   
-  }
 
+  gotoDashboard() {
+    // Load the devices dashboard
+  }
 
   changesPending() {
     var self = this;
     var changes = false;
 
-    
     return changes;
   }
 
@@ -177,4 +170,6 @@ class DeviceConfigCtrl {
 
 DeviceConfigCtrl.templateUrl = 'public/plugins/flexscada-app/components/device/partials/device_config.html';
 
-export {DeviceConfigCtrl};
+export {
+  DeviceConfigCtrl
+};

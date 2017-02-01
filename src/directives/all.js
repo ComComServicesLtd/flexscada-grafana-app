@@ -102,15 +102,11 @@ angular.module('grafana.directives').directive("rtCheckHealth", function($compil
   };
 });
 
-
 angular.module('grafana.directives').filter('isEmpty', [function() {
   return function(object) {
     return !angular.equals({}, object);
-  }
-}])
-
-
-
+  };
+}]);
 
 angular.module('grafana.directives').directive('fcsaNumber', function() {
     var addCommasToInteger, controlKeys, hasMultipleDecimals, isNotControlKey, isNotDigit, isNumber, makeIsValid, makeMaxDecimals, makeMaxDigits, makeMaxNumber, makeMinNumber;
@@ -190,7 +186,7 @@ angular.module('grafana.directives').directive('fcsaNumber', function() {
     };
     addCommasToInteger = function(val) {
       var commas, decimals, wholeNumbers;
-      decimals = val.indexOf('.') == -1 ? '' : val.replace(/^\d+(?=\.)/, '');
+      decimals = val.indexOf('.') === -1 ? '' : val.replace(/^\d+(?=\.)/, '');
       wholeNumbers = val.replace(/(\.\d+)$/, '');
       commas = wholeNumbers.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
       return "" + commas + decimals;
@@ -272,8 +268,6 @@ angular.module('grafana.directives').directive('fcsaNumber', function() {
       }
     };
   });
-
-
 
 angular.module('grafana.directives').directive("rtEndpointHealth", function() {
   return {

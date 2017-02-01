@@ -48,7 +48,9 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
           this.$q = $q;
           this.$location = $location;
           this.pageReady = false;
-          this.filter = { 'tag': '' };
+          this.filter = {
+            'tag': ''
+          };
           this.sort_field = 'name';
           this.devices = {};
           this.refresh();
@@ -130,7 +132,10 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
           value: function gotoDashboard(device, evt) {
             var clickTargetIsLinkOrHasLinkParents = $(evt.target).closest('a').length > 0;
             if (clickTargetIsLinkOrHasLinkParents === false) {
-              this.$location.path("/dashboard/db/flexscada-device-summary").search({ "var-collector": "All", "var-device": device.slug });
+              this.$location.path("/dashboard/db/flexscada-device-summary").search({
+                "var-collector": "All",
+                "var-device": device.slug
+              });
             }
           }
         }, {

@@ -100,11 +100,11 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
 
             var state = 0;
 
-            if (type == "battery") {
+            if (type === "battery") {
               state = 0;
-            } else if (type == "link") {
+            } else if (type === "link") {
               state = 0;
-            } else if (type == "sensors") {
+            } else if (type === "sensors") {
               state = 0;
             }
 
@@ -115,34 +115,35 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
           key: 'monitorStateStr',
           value: function monitorStateStr(device, type) {
 
-            if (type == "battery") {
+            if (type === "battery") {
               return "Battery at 90% charge level";
-            } else if (type == "link") {
+            } else if (type === "link") {
               return "14% Signal";
-            } else if (type == "sensors") {
+            } else if (type === "sensors") {
               return "4 of 4 Registered sensors online";
             }
 
             return "Unknown Metric";
-
-            var duration = 312;
-            if (duration < 10000) {
-              return "for a few seconds ago";
-            }
-            if (duration < 60000) {
-              var secs = Math.floor(duration / 1000);
-              return "for " + secs + " seconds";
-            }
-            if (duration < 3600000) {
-              var mins = Math.floor(duration / 1000 / 60);
-              return "for " + mins + " minutes";
-            }
-            if (duration < 86400000) {
-              var hours = Math.floor(duration / 1000 / 60 / 60);
-              return "for " + hours + " hours";
-            }
-            var days = Math.floor(duration / 1000 / 60 / 60 / 24);
-            return "for " + days + " days";
+            /*
+                var duration = 312;
+                if (duration < 10000) {
+                  return "for a few seconds ago";
+                }
+                if (duration < 60000) {
+                  var secs = Math.floor(duration/1000);
+                  return "for " + secs + " seconds";
+                }
+                if (duration < 3600000) {
+                  var mins = Math.floor(duration/1000/60);
+                  return "for " + mins + " minutes";
+                }
+                if (duration < 86400000) {
+                  var hours = Math.floor(duration/1000/60/60);
+                  return "for " + hours + " hours";
+                }
+                var days = Math.floor(duration/1000/60/60/24);
+                return "for " + days + " days";
+                */
           }
         }, {
           key: 'gotoDashboard',

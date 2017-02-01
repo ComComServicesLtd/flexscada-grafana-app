@@ -1,0 +1,36 @@
+<div class="gf-form-group" id="ranges">
+  <h3 class="page-headering">Frequency Ranges</h3>
+  <hr>
+
+  <div ng-hide="ctrl.config.ranges[0]">
+    <p>No Ranges Defined...
+      <info-popover>Click the add button below to add the current fft view as a range</info-popover>
+    </p>
+  </div>
+
+
+  <div ng-repeat="(rangeid,range) in ctrl.config.ranges" class="gf-form-group gf-form-group--header" id="conditionlist">
+
+    <div class="gf-form-inline">
+      <div class="gf-form">
+        <input class="gf-form-input max-width-6" type="text" fcsa-number="{ append: 'HZ' }" ng-model="range.frequencyFrom" placeholder="400 (HZ)">
+        <label class="gf-form-label width-3">To</label>
+        <input class="gf-form-input max-width-6" type="text" fcsa-number="{ append: 'HZ' }" ng-model="range.frequencyTo" placeholder="600 (HZ)">
+        <select class="gf-form-input gf-size-auto" ng-init="range.aggregation='Avg'" ng-model="range.aggregation" ng-options="f as f for f in ['Avg','Max']" ng-change="ctrl.refresh()"></select>
+        <input class="gf-form-input max-width-10" type="text" ng-model="range.label" placeholder="Label..">
+        <button type="submit" class="btn btn-warning" ng-click="ctrl.deleteRange(rangeid)">Delete</button>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+
+<button type="submit" class="btn btn-success" ng-click="ctrl.addRange()">Add Range</button>
+<info-popover>Adds the current view as a range to analyze</info-popover>
+</p>
+
+
+</div>

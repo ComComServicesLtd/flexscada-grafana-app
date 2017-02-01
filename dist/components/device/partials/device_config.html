@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="public/plugins/flexscada-app/css/font-awesome.min.css">
- <div ng-if="ctrl.deviceStatus < 2" >
- <div class="page-header">
+<div ng-if="ctrl.deviceStatus < 2">
+  <div class="page-header">
     <h1>Add a new device</h1>
   </div>
   <div ng-if="ctrl.deviceStatus == 0" class="row">
@@ -11,89 +11,89 @@
 </div>
 
 
-  <div ng-if="ctrl.deviceStatus == 2" class="page-header">
-    <h1>{{ctrl.config.name}}<a ng-click="ctrl.gotoDashboard()"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to device summary </br>dashboard for this device'"></i></a></h1>
-    <div class="page-header-tabs">
+<div ng-if="ctrl.deviceStatus == 2" class="page-header">
+  <h1>{{ctrl.config.name}}<a ng-click="ctrl.gotoDashboard()"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to device summary </br>dashboard for this device'"></i></a></h1>
+  <div class="page-header-tabs">
     <a class="btn btn-link" href="plugins/flexscada-app/page/devices"><i class="fa fa-mail-reply" aria-hidden="true"></i>&nbsp;Back to device list</a>
-      <ul class="gf-tabs">
-        <li class="gf-tabs-item">
-          <a class="gf-tabs-link" href="plugins/flexscada-app/page/device-details?device={{ctrl.config.uid}}">
+    <ul class="gf-tabs">
+      <li class="gf-tabs-item">
+        <a class="gf-tabs-link" href="plugins/flexscada-app/page/device-details?device={{ctrl.config.uid}}">
             Status
           </a>
-        </li>
-        <li class="gf-tabs-item">
-          <a class="gf-tabs-link active" href="plugins/flexscada-app/page/device-config?device={{ctrl.config.uid}}">
+      </li>
+      <li class="gf-tabs-item">
+        <a class="gf-tabs-link active" href="plugins/flexscada-app/page/device-config?device={{ctrl.config.uid}}">
             Configuration
           </a>
-        </li>
-      </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+
+<!-- New device -->
+<div class="gf-form-group" ng-if="ctrl.deviceStatus == 0">
+  <!-- Below replaces header area on submit -->
+
+  <div class="gf-form-inline">
+    <div class="gf-form gf-form--right-margin">
+      <label class="gf-form-label width-9">UID</label>
+      <input class="gf-form-input max-width-15" type="numeric" ng-model="ctrl.config.uid" required="" placeholder="123542322112">
     </div>
+    <!-- Unsubmitted state -->
+    <div class="gf-form">
+      <button class="btn btn-success" ng-click="ctrl.addDevice()">Next</button>
+    </div>
+
   </div>
 
+</div>
 
-
-
-    <!-- New device -->
-    <div class="gf-form-group" ng-if="ctrl.deviceStatus == 0">
-      <!-- Below replaces header area on submit -->
-
-      <div class="gf-form-inline">
-        <div class="gf-form gf-form--right-margin">
-          <label class="gf-form-label width-9">UID</label>
-          <input class="gf-form-input max-width-15" type="numeric" ng-model="ctrl.config.uid" required="" placeholder="123542322112">
-        </div>
-        <!-- Unsubmitted state -->
-        <div class="gf-form">
-          <button class="btn btn-success" ng-click="ctrl.addDevice()">Next</button>
-        </div>
-
-      </div>
-
+<div ng-if="ctrl.deviceStatus > 0">
+  <div class="gf-form-inline">
+    <div class="gf-form gf-form--right-margin">
+      <label class="gf-form-label width-9">Device Name</label>
+      <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.config.name" ng-class="{ 'fs-text-box-success' : ctrl.discovered, 'fs-font-shrinker' : ctrl.config.name > 10 }" placeholder="6X9 Pump">
     </div>
-
-    <div ng-if="ctrl.deviceStatus > 0">
-            <div class="gf-form-inline">
-        <div class="gf-form gf-form--right-margin">
-          <label class="gf-form-label width-9">Device Name</label>
-          <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.config.name" ng-class="{ 'fs-text-box-success' : ctrl.discovered, 'fs-font-shrinker' : ctrl.config.name > 10 }" placeholder="6X9 Pump">
-        </div>
-        </div>
-                 <div class="gf-form">
+  </div>
+  <div class="gf-form">
     <span class="gf-form-label width-6">Tags:</span>
     <bootstrap-tagsinput ng-model="ctrl.config.tags" tagclass="label fs-label-tag" placeholder="Add tags"></bootstrap-tagsinput>
-     <info-popover>Device Tags is an optional feature that is useful for device sorting and categorization. As an example if this device is critcal to an operation you might add the tag 'critical'</info-popover>
+    <info-popover>Device Tags is an optional feature that is useful for device sorting and categorization. As an example if this device is critcal to an operation you might add the tag 'critical'</info-popover>
   </div>
-              <div class="gf-form-inline max-width-37">
-              <div class="gf-form max-width-12">
-                <label class="gf-form-label width-4">Lat</label>
-                <input class="gf-form-input max-width-8" type="number" ng-model="ctrl.config.lat">
-              </div>
-              <div class="gf-form max-width-12">
-                <label class="gf-form-label width-4">Long</label>
-                  <input class="gf-form-input max-width-8" type="number" ng-model="ctrl.config.lng" >
-              </div>
-               <info-popover>Device Coordinates are optional but highly reccomended as it allows the device to be visualized on a map and located by service personalle</info-popover>
-            </div>
-            
-          <div class="gf-form gf-form--v-stretch">
-              <label class="gf-form-label width-9">Description</label>
-              <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.config.desc"></textarea>
-              <info-popover>Describe where the devices is located, what equiptment is monitored, how the unit is powered and any other relevant pieces of information about this installation.</info-popover>
-            </div>
-      <hr>
-      <div ng-include src="'public/plugins/flexscada-app/components/device/partials/vibrationSensorForm.html'"></div>
-      <hr>
-      <div ng-include src="'public/plugins/flexscada-app/components/device/partials/ds18b20SensorForm.html'"></div>
+  <div class="gf-form-inline max-width-37">
+    <div class="gf-form max-width-12">
+      <label class="gf-form-label width-4">Lat</label>
+      <input class="gf-form-input max-width-8" type="number" ng-model="ctrl.config.lat">
     </div>
-    
-  <div ng-show="ctrl.deviceStatus == 2" ng-include src="'public/plugins/flexscada-app/components/device/partials/destroyForm.html'"></div>
- 
-  <div ng-show="ctrl.deviceStatus > 0" class="pull-right">
-      <button type="submit" ng-if="ctrl.deviceStatus == 1" class="btn btn-success" ng-click="ctrl.saveDevice()">Add</button>
-      <button type="submit" ng-if="ctrl.deviceStatus == 2" class="btn btn-success" ng-click="ctrl.saveDevice()">Save</button>
-      
-      <a class="btn btn-link" ng-click="ctrl.cancel();">Cancel</a>
+    <div class="gf-form max-width-12">
+      <label class="gf-form-label width-4">Long</label>
+      <input class="gf-form-input max-width-8" type="number" ng-model="ctrl.config.lng">
+    </div>
+    <info-popover>Device Coordinates are optional but highly reccomended as it allows the device to be visualized on a map and located by service personalle</info-popover>
   </div>
-  
-  
+
+  <div class="gf-form gf-form--v-stretch">
+    <label class="gf-form-label width-9">Description</label>
+    <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.config.desc"></textarea>
+    <info-popover>Describe where the devices is located, what equiptment is monitored, how the unit is powered and any other relevant pieces of information about this installation.</info-popover>
+  </div>
+  <hr>
+  <div ng-include src="'public/plugins/flexscada-app/components/device/partials/vibrationSensorForm.html'"></div>
+  <hr>
+  <div ng-include src="'public/plugins/flexscada-app/components/device/partials/ds18b20SensorForm.html'"></div>
+</div>
+
+<div ng-show="ctrl.deviceStatus == 2" ng-include src="'public/plugins/flexscada-app/components/device/partials/destroyForm.html'"></div>
+
+<div ng-show="ctrl.deviceStatus > 0" class="pull-right">
+  <button type="submit" ng-if="ctrl.deviceStatus == 1" class="btn btn-success" ng-click="ctrl.saveDevice()">Add</button>
+  <button type="submit" ng-if="ctrl.deviceStatus == 2" class="btn btn-success" ng-click="ctrl.saveDevice()">Save</button>
+
+  <a class="btn btn-link" ng-click="ctrl.cancel();">Cancel</a>
+</div>
+
+
 </div>

@@ -195,7 +195,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
         };
         addCommasToInteger = function addCommasToInteger(val) {
           var commas, decimals, wholeNumbers;
-          decimals = val.indexOf('.') == -1 ? '' : val.replace(/^\d+(?=\.)/, '');
+          decimals = val.indexOf('.') === -1 ? '' : val.replace(/^\d+(?=\.)/, '');
           wholeNumbers = val.replace(/(\.\d+)$/, '');
           commas = wholeNumbers.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
           return "" + commas + decimals;

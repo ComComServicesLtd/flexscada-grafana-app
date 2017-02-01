@@ -138,7 +138,6 @@ System.register(['lodash', 'angular'], function (_export, _context) {
 
           // loadNotifications();
 
-
           $window.onbeforeunload = function () {
             if (self.ignoreChanges) {
               return;
@@ -255,7 +254,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
         }, {
           key: 'gotoDashboard',
           value: function gotoDashboard() {
-            // Load the devices dashboard   
+            // Load the devices dashboard
           }
         }, {
           key: 'changesPending',

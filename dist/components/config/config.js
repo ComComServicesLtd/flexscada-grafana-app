@@ -75,13 +75,13 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
             self.validKey = true;
 
             /*
-              self.alertSrv.set("failed to verify apiKey", resp.statusText, 'error', 10000);
-              self.appModel.enabled = false;
-              self.appModel.jsonData.apiKeySet = false;
-              self.appModel.secureJsonData.apiKey = "";
-              self.errorMsg = "invalid apiKey";
-              self.validKey = false;
-              */
+            self.alertSrv.set("failed to verify apiKey", resp.statusText, 'error', 10000);
+            self.appModel.enabled = false;
+            self.appModel.jsonData.apiKeySet = false;
+            self.appModel.secureJsonData.apiKey = "";
+            self.errorMsg = "invalid apiKey";
+            self.validKey = false;
+            */
           }
         }, {
           key: 'getOrgDetails',

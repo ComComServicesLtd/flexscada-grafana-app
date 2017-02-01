@@ -14,7 +14,10 @@
 			<i class="icon-gf icon-gf-check fs-icon-success"></i> Flexscada is enabled. <strong>Next up: </strong><a href="dashboard/db/flexscada-home" class="external-link">Go to Flexscada Home Dashboard</a>
 		</div>
 		<div ng-if="!ctrl.validKey && ctrl.errorMsg">
-			<div class="alert alefs-error"><div class="alefs-title ng-binding">Error</div><div>{{ctrl.errorMsg}}</div></div>
+			<div class="alert alefs-error">
+				<div class="alefs-title ng-binding">Error</div>
+				<div>{{ctrl.errorMsg}}</div>
+			</div>
 		</div>
 	</div>
 	<div class="gf-form-group" ng-if="ctrl.appModel.jsonData.apiKeySet && ctrl.org">
@@ -26,5 +29,5 @@
 		<div class="gf-form">
 			<span class="gf-form-label width-12">Plan</span>
 			<span class="gf-form-label width-12">{{ctrl.account.plan}}</span>
-	</div>
+		</div>
 </form>

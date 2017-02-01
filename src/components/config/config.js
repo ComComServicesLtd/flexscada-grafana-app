@@ -1,6 +1,6 @@
 import configTemplate from './config.html!text';
 
-import _ from 'lodash' ;
+import _ from 'lodash';
 
 class FlexscadaConfigCtrl {
   constructor($scope, $injector, $q, backendSrv, alertSrv) {
@@ -25,29 +25,29 @@ class FlexscadaConfigCtrl {
   }
 
   reset() {
-    this.appModel.jsonData.apiKeySet=false;
+    this.appModel.jsonData.apiKeySet = false;
     this.validKey = false;
     this.org = null;
   }
 
   validateKey() {
     var self = this;
-    
-      self.validKey = true;
-     
-      /*
-        self.alertSrv.set("failed to verify apiKey", resp.statusText, 'error', 10000);
-        self.appModel.enabled = false;
-        self.appModel.jsonData.apiKeySet = false;
-        self.appModel.secureJsonData.apiKey = "";
-        self.errorMsg = "invalid apiKey";
-        self.validKey = false;
-        */
-      
+
+    self.validKey = true;
+
+    /*
+    self.alertSrv.set("failed to verify apiKey", resp.statusText, 'error', 10000);
+    self.appModel.enabled = false;
+    self.appModel.jsonData.apiKeySet = false;
+    self.appModel.secureJsonData.apiKey = "";
+    self.errorMsg = "invalid apiKey";
+    self.validKey = false;
+    */
+
   }
 
   getOrgDetails() {
-      return;
+    return;
     var self = this;
     var p = this.backendSrv.get('api/plugin-proxy/flexscada-app/api/grafana-net/profile/org');
     p.then((resp) => {
@@ -89,14 +89,14 @@ class FlexscadaConfigCtrl {
     }
     var self = this;
     return this.validateKey()
-    .then(() => {
-      return self.appEditCtrl.importDashboards().then(() => {
-        return {
-          url: "dashboard/db/flexscada-home",
-          message: "FlexSCADA app installed!"
-        };
+      .then(() => {
+        return self.appEditCtrl.importDashboards().then(() => {
+          return {
+            url: "dashboard/db/flexscada-home",
+            message: "FlexSCADA app installed!"
+          };
+        });
       });
-    });
   }
 
   configureDatasource() {
@@ -108,14 +108,15 @@ class FlexscadaConfigCtrl {
 
   initDatasource() {
     var self = this;
-    
-    
+
     //check for existing datasource.
     var p = self.backendSrv.get('/api/datasources');
     p.then(function(results) {
       var foundFlexscada = false;
       _.forEach(results, function(ds) {
-        if (foundFlexscada) { return; }
+        if (foundFlexscada) {
+          return;
+        }
         if (ds.name === "flexscada") {
           foundFlexscada = true;
         }
@@ -130,8 +131,8 @@ class FlexscadaConfigCtrl {
           url: 'api/plugin-proxy/flexscada-app',
           access: 'direct',
           jsonData: {
-              APIVersion: "v1"
-        }
+            APIVersion: "v1"
+          }
         };
         promises.push(self.backendSrv.post('/api/datasources', flexscada));
       }

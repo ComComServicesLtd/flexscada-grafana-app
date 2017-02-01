@@ -176,7 +176,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             this.config.userid = this.$rootScope.contextSrv.user.id;
 
             var self = this;
-            return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + this.config.uid + (this.deviceStatus == 1 ? '/?create=true' : ''), this.config).then(function (resp) {
+            return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + this.config.uid + (this.deviceStatus === 1 ? '/?create=true' : ''), this.config).then(function (resp) {
               self.$window.console.log(resp);
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to update device.", resp.meta.message, 'error', 10000);
@@ -204,7 +204,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
         }, {
           key: 'gotoDashboard',
           value: function gotoDashboard() {
-            // Load the devices dashboard   
+            // Load the devices dashboard
           }
         }, {
           key: 'changesPending',
