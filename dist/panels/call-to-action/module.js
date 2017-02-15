@@ -214,4 +214,3 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
     }
   };
 });
-//# sourceMappingURL=module.js.map

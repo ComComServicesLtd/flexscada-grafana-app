@@ -245,4 +245,3 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
     }
   };
 });
-//# sourceMappingURL=module.js.map

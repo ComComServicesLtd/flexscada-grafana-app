@@ -6,7 +6,6 @@ import '../../external/vizuly_corona.min.js';
 import Dygraph from '../../external/dygraph.min.js';
 import * as Downsampler from './downsample.js';
 import * as Colormap from './colormaps.js';
-import * as Testdata from './testdata.js';
 
 //public/plugins/flexscada-app/img/
 class AnalysisCtrl {
@@ -75,6 +74,24 @@ class AnalysisCtrl {
     ];
 
 
+    this.filterModes = [{
+        text: "FIR Band Pass",
+        value: "fir_band_pass"
+      },
+      {
+        text: "FIR High Pass",
+        value: "fir_high_pass"
+      },
+      {
+        text: "FIR Low Pass",
+        value: "fir_low_pass"
+      }
+    ];
+
+    this.filterTaps = ["1024", "512", "256", "128", "64", "32", "16", "8", "4"];
+    this.windowModes = ["kaiser", "flattop", "lanczos", "bohman", "bartlett", "triangular", "gaussian", "blackman_harris", "blackman", "hamming", "hann"];
+
+
 
     //Fire Sunset Neon Ocean Business
     this.radialThemes = [{
@@ -126,9 +143,9 @@ class AnalysisCtrl {
 
 
 
-        // Shift one portion out of line.
-        var highlight_start = 450;
-        var highlight_end = 500;
+    // Shift one portion out of line.
+    var highlight_start = 450;
+    var highlight_end = 500;
 
 
 
@@ -230,6 +247,7 @@ class AnalysisCtrl {
 
 
 
+
   barChartPlotter(e) {
     var ctx = e.drawingContext;
     var points = e.points;
@@ -242,7 +260,7 @@ class AnalysisCtrl {
 
 
 
-    points = Downsampler.dygraph_downsample(points, 2048, 'avg');
+    points = Downsampler.dygraph_downsample(points, 2048, 'max');
 
     var bar_width = 2 / 3 * (points[1].canvasx - points[0].canvasx);
 
@@ -262,7 +280,7 @@ class AnalysisCtrl {
       ctx.fillStyle = ctx.strokeStyle;
 
       ctx.fillRect(p.canvasx - bar_width / 2, p.canvasy, bar_width, y_bottom - p.canvasy);
-      //  ctx.strokeRect(p.canvasx - bar_width / 2, p.canvasy, bar_width, y_bottom - p.canvasy);
+        ctx.strokeRect(p.canvasx - bar_width / 2, p.canvasy, bar_width, y_bottom - p.canvasy);
     }
   }
 

@@ -154,4 +154,3 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
     }
   };
 });
-//# sourceMappingURL=device_list.js.map

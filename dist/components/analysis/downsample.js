@@ -7,8 +7,7 @@ System.register([], function (_export, _context) {
   function dygraph_downsample(points, threshold, aggregation) {
 
     var sampled = [];
-
-    var bar_width = 2 / 3 * (points[1].canvasx - points[0].canvasx);
+    var bar_width = points[1].canvasx - points[0].canvasx;
 
     var ratio = 1 / bar_width;
     if (ratio <= 1) {
@@ -31,8 +30,8 @@ System.register([], function (_export, _context) {
             sampled.push({
               canvasx: points[i].canvasx,
               canvasy: total_value / total_count
-
             });
+
             total_value = 0;
             total_count = 0;
           }
@@ -234,4 +233,3 @@ System.register([], function (_export, _context) {
     }
   };
 });
-//# sourceMappingURL=downsample.js.map

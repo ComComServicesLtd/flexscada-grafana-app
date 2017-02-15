@@ -45,4 +45,3 @@ System.register(['./components/config/config', './components/device/device_list'
     }
   };
 });
-//# sourceMappingURL=module.js.map

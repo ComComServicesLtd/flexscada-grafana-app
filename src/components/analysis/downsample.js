@@ -1,17 +1,10 @@
 export const floor = Math.floor;
 export const abs = Math.abs;
 
-
-
-
-
-
 export function dygraph_downsample(points, threshold, aggregation) {
 
   var sampled = [];
-
-  var bar_width = 2 / 3 * (points[1].canvasx - points[0].canvasx);
-
+  var bar_width = points[1].canvasx - points[0].canvasx;
 
   var ratio = 1 / bar_width;
   if (ratio <= 1) {
@@ -20,9 +13,6 @@ export function dygraph_downsample(points, threshold, aggregation) {
     bar_width = 1;
     ratio = Math.round(ratio);
   }
-
-
-
 
   if (aggregation === 'avg') {
     var total_value = 0;
@@ -37,14 +27,12 @@ export function dygraph_downsample(points, threshold, aggregation) {
           sampled.push({
             canvasx: points[i].canvasx,
             canvasy: total_value / total_count
-
           });
+
           total_value = 0;
           total_count = 0;
         }
-
       }
-
     }
   } else if (aggregation == 'max') {
 
@@ -63,7 +51,6 @@ export function dygraph_downsample(points, threshold, aggregation) {
         total_count++;
         if (total_count === ratio) {
 
-
           var value = min_value;
           if (Math.abs(max_value) > Math.abs(min_value))
             value = max_value;
@@ -78,11 +65,8 @@ export function dygraph_downsample(points, threshold, aggregation) {
           min_value = 0;
           total_count = 0;
         }
-
       }
-
     }
-
   }
 
 

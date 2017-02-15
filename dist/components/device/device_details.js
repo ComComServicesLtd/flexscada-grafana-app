@@ -289,4 +289,3 @@ System.register(["lodash"], function (_export, _context) {
     }
   };
 });
-//# sourceMappingURL=device_details.js.map

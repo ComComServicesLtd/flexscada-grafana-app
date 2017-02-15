@@ -123,4 +123,3 @@ System.register([], function (_export, _context) {
     }
   };
 });
-//# sourceMappingURL=vizuly_corona.js.map

@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['lodash', 'angular', '../../external/d3.min.js', '../../external/vizuly_core.min.js', '../../external/vizuly_corona.min.js', '../../external/dygraph.min.js', './downsample.js', './colormaps.js', './testdata.js'], function (_export, _context) {
+System.register(['lodash', 'angular', '../../external/d3.min.js', '../../external/vizuly_core.min.js', '../../external/vizuly_corona.min.js', '../../external/dygraph.min.js', './downsample.js', './colormaps.js'], function (_export, _context) {
   "use strict";
 
-  var _, angular, d3, vizuly, Dygraph, Downsampler, Colormap, Testdata, _createClass, AnalysisCtrl;
+  var _, angular, d3, vizuly, Dygraph, Downsampler, Colormap, _createClass, AnalysisCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -26,8 +26,6 @@ System.register(['lodash', 'angular', '../../external/d3.min.js', '../../externa
       Downsampler = _downsampleJs;
     }, function (_colormapsJs) {
       Colormap = _colormapsJs;
-    }, function (_testdataJs) {
-      Testdata = _testdataJs;
     }],
     execute: function () {
       _createClass = function () {
@@ -112,6 +110,20 @@ System.register(['lodash', 'angular', '../../external/d3.min.js', '../../externa
             text: "Overlap",
             value: "OVERLAP"
           }];
+
+          this.filterModes = [{
+            text: "FIR Band Pass",
+            value: "fir_band_pass"
+          }, {
+            text: "FIR High Pass",
+            value: "fir_high_pass"
+          }, {
+            text: "FIR Low Pass",
+            value: "fir_low_pass"
+          }];
+
+          this.filterTaps = ["1024", "512", "256", "128", "64", "32", "16", "8", "4"];
+          this.windowModes = ["kaiser", "flattop", "lanczos", "bohman", "bartlett", "triangular", "gaussian", "blackman_harris", "blackman", "hamming", "hann"];
 
           //Fire Sunset Neon Ocean Business
           this.radialThemes = [{
@@ -251,7 +263,7 @@ System.register(['lodash', 'angular', '../../external/d3.min.js', '../../externa
             ctx.fillStyle = e.color; // a lighter shade might be more aesthetically pleasing
 
 
-            points = Downsampler.dygraph_downsample(points, 2048, 'avg');
+            points = Downsampler.dygraph_downsample(points, 2048, 'max');
 
             var bar_width = 2 / 3 * (points[1].canvasx - points[0].canvasx);
 
@@ -266,7 +278,7 @@ System.register(['lodash', 'angular', '../../external/d3.min.js', '../../externa
               ctx.fillStyle = ctx.strokeStyle;
 
               ctx.fillRect(p.canvasx - bar_width / 2, p.canvasy, bar_width, y_bottom - p.canvasy);
-              //  ctx.strokeRect(p.canvasx - bar_width / 2, p.canvasy, bar_width, y_bottom - p.canvasy);
+              ctx.strokeRect(p.canvasx - bar_width / 2, p.canvasy, bar_width, y_bottom - p.canvasy);
             }
           }
         }, {
@@ -539,4 +551,3 @@ System.register(['lodash', 'angular', '../../external/d3.min.js', '../../externa
     }
   };
 });
-//# sourceMappingURL=analysis.js.map

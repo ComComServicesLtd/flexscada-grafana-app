@@ -195,4 +195,3 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
     }
   };
 });
-//# sourceMappingURL=config.js.map

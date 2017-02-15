@@ -225,4 +225,3 @@ System.register(['lodash', 'angular'], function (_export, _context) {
     }
   };
 });
-//# sourceMappingURL=device_config.js.map
