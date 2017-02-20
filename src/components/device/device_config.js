@@ -1,20 +1,6 @@
 import _ from 'lodash';
 import angular from 'angular';
 
-var _defaultCheck = {
-  settings: {},
-  healthSettings: {
-    notifications: {},
-    num_collectors: 3,
-    steps: 3
-  },
-  route: {
-    type: "byIds",
-    config: {
-      "ids": []
-    }
-  }
-};
 
 class DeviceConfigCtrl {
   /** @ngInject */
@@ -81,7 +67,11 @@ class DeviceConfigCtrl {
         });
       }
     });
+
+
+
   }
+
 
   reset() {
     var self = this;
@@ -99,8 +89,22 @@ class DeviceConfigCtrl {
     if (!this.config.uid) {
       return;
     }
+
+
+    var qtype = new RegExp("Q[0-9]*$");
+    var ctype = new RegExp("C[0-9]*$");
+
+    if (this.config.uid.match(qtype)) {
+      this.config.type = 1;
+    } else if (this.config.uid.match(ctype)) {
+      this.config.type = 2;
+    } else {
+      this.alertSrv.set("Invalid UID", "UID should look like 'Q1535235511'", 'error', 5000);
+      return;
+    }
     this.deviceStatus = 1;
   }
+
 
   addDs18b20() {
     this.config.ds18b20[this.newTempSensorID] = {};
@@ -117,7 +121,7 @@ class DeviceConfigCtrl {
 
   removeDevice() {
     var self = this;
-    return this.backendSrv.delete('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + this.config.uid).then((resp) => {
+    return this.backendSrv.delete('api/plugin-proxy/flexscada-app/api/v2/config/' + this.config.uid).then((resp) => {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to delete device.", resp.meta.message, 'error', 10000);
         return self.$q.reject(resp.meta.message);
@@ -132,7 +136,7 @@ class DeviceConfigCtrl {
     this.config.userid = this.$rootScope.contextSrv.user.id;
 
     var self = this;
-    return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + this.config.uid + ((this.deviceStatus === 1) ? '/?create=true' : ''), this.config).then((resp) => {
+    return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/v2/config/' + this.config.uid + ((this.deviceStatus === 1) ? '/?create=true' : ''), this.config).then((resp) => {
       self.$window.console.log(resp);
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to update device.", resp.meta.message, 'error', 10000);
@@ -144,7 +148,7 @@ class DeviceConfigCtrl {
 
   loadDevice(uid) {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + uid).then((resp) => {
+    return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/config/' + uid).then((resp) => {
       self.$window.console.log(resp);
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to update device.", resp.meta.message, 'error', 10000);
@@ -153,6 +157,27 @@ class DeviceConfigCtrl {
       self.config = resp.body;
       this.deviceStatus = 2;
     });
+  }
+
+  addFeed() {
+    if (!this.config.feeds) {
+      this.config.feeds = [];
+    }
+    this.config.feeds.push({});
+  }
+
+
+
+  addRelay() {
+    if (!this.config.relays) {
+      this.config.relays = [];
+    }
+    this.config.relays.push({});
+  }
+
+
+  deleteItem(_array, id) {
+    _array.splice(id, 1);
   }
 
   gotoDashboard() {

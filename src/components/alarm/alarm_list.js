@@ -43,7 +43,7 @@ class AlarmListCtrl {
 
   getdevices() {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/flexscada-app/api/vibration/v1/org/1/devices').then(function(resp) {
+    this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/org/1/devices').then(function(resp) {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to get device list.", resp.meta.msg, 'error', 10000);
         return self.$q.reject(resp.meta.msg);

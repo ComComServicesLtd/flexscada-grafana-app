@@ -23,6 +23,31 @@ System.register(['angular', 'lodash'], function (_export, _context) {
         };
       });
 
+      angular.module('grafana.directives').directive('influxtags', function () {
+        return function (scope, element, attrs) {
+
+          $(element).on('beforeItemAdd', function (event) {
+            event.item = event.item.replace(/[^a-zA-Z0-9,=_]/gi, '');
+
+            var key = event.item.split('=')[0];
+            var value = event.item.split('=')[1];
+
+            if (key == 'measurement') {
+              event.cancel = true;
+              alert('\'measurement\' is reserved for internal use and cannot be used as a key value, how about use \'sensor\' or \'feed\' instead?');
+            }
+
+            if (!key || !value) {
+              event.cancel = true;
+              alert('Invalid Syntax! Please add tags with the syntax, key=value  Only letters and numbers are allowed');
+            } else if (key.length < 3 || value.length < 1) {
+              event.cancel = true;
+              alert('Invalid Syntax! Please make sure the key value is at least 3 characters long');
+            }
+          });
+        };
+      });
+
       angular.module('grafana.directives').directive("rtCheckHealth", function ($compile, datasourceSrv, timeSrv) {
         return {
           templateUrl: 'public/plugins/raintank-worldping-app/directives/partials/checkHealth.html',
@@ -32,13 +57,18 @@ System.register(['angular', 'lodash'], function (_export, _context) {
           },
           link: function link(scope) {
             timeSrv.init({
-              time: { from: "now-" + (scope.check.frequency + 30) + 's', to: "now" }
+              time: {
+                from: "now-" + (scope.check.frequency + 30) + 's',
+                to: "now"
+              }
             });
             var metricsQuery = {
               range: timeSrv.timeRange(),
               rangeRaw: timeSrv.timeRange(true),
               interval: scope.check.frequency + 's',
-              targets: [{ target: "worldping." + scope.ctrl.endpoint.slug + ".*." + scope.check.type.toLowerCase() + ".{ok_state,error_state}" }],
+              targets: [{
+                target: "worldping." + scope.ctrl.endpoint.slug + ".*." + scope.check.type.toLowerCase() + ".{ok_state,error_state}"
+              }],
               format: 'json',
               maxDataPoints: 10
             };
@@ -48,7 +78,9 @@ System.register(['angular', 'lodash'], function (_export, _context) {
               ds.query(metricsQuery).then(function (results) {
                 showHealth(results);
               }, function () {
-                showHealth({ data: [] });
+                showHealth({
+                  data: []
+                });
               });
             });
 
@@ -62,7 +94,10 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                 var stateStr = parts[4];
                 var collector = parts[2];
                 if (!(collector in collectorResults)) {
-                  collectorResults[collector] = { ts: -1, state: -1 };
+                  collectorResults[collector] = {
+                    ts: -1,
+                    state: -1
+                  };
                 }
 
                 //start with the last point and work backwards till we find a non-null value.
@@ -303,10 +338,14 @@ System.register(['angular', 'lodash'], function (_export, _context) {
             scope.init = function () {
               if (scope.model.route.type === 'byIds') {
                 selectedIds = scope.model.route.config.ids;
-                scope.footprint = { value: "static" };
+                scope.footprint = {
+                  value: "static"
+                };
               } else {
                 selectedTags = scope.model.route.config.tags;
-                scope.footprint = { value: "dynamic" };
+                scope.footprint = {
+                  value: "dynamic"
+                };
               }
               scope.error = false;
 
@@ -323,14 +362,21 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                 return o.name.toLowerCase();
               });
               _.forEach(sortedProbes, function (c) {
-                var option = { id: c.id, selected: false, text: c.name };
+                var option = {
+                  id: c.id,
+                  selected: false,
+                  text: c.name
+                };
                 if (_.indexOf(selectedIds, c.id) >= 0) {
                   option.selected = true;
                 }
                 _.forEach(c.tags.sort(), function (t) {
                   if (!(t in seenTags)) {
                     seenTags[t] = true;
-                    var o = { selected: false, text: t };
+                    var o = {
+                      selected: false,
+                      text: t
+                    };
                     if (_.indexOf(selectedTags, t) >= 0) {
                       o.selected = true;
                     }
@@ -366,7 +412,9 @@ System.register(['angular', 'lodash'], function (_export, _context) {
 
             scope.selectAll = function () {
               var select = true;
-              selectedIds = _.map(_.filter(scope.ids, { selected: true }), "id");
+              selectedIds = _.map(_.filter(scope.ids, {
+                selected: true
+              }), "id");
 
               if (selectedIds.length === scope.ids.length) {
                 select = false;
@@ -383,7 +431,9 @@ System.register(['angular', 'lodash'], function (_export, _context) {
             scope.probesWithTags = function () {
               var probeList = {};
               _.forEach(scope.probes, function (c) {
-                _.forEach(_.filter(scope.tags, { selected: true }), function (t) {
+                _.forEach(_.filter(scope.tags, {
+                  selected: true
+                }), function (t) {
                   if (_.indexOf(c.tags, t.text) !== -1) {
                     probeList[c.name] = true;
                   }
@@ -403,7 +453,9 @@ System.register(['angular', 'lodash'], function (_export, _context) {
             };
 
             scope.selectTagTitle = function () {
-              selectedTags = _.map(_.filter(scope.tags, { selected: true }), "text");
+              selectedTags = _.map(_.filter(scope.tags, {
+                selected: true
+              }), "text");
               if (selectedTags.length === 0) {
                 return "Select Tags";
               }
@@ -414,19 +466,27 @@ System.register(['angular', 'lodash'], function (_export, _context) {
             };
 
             scope.selectIdTitle = function () {
-              selectedIds = _.map(_.filter(scope.ids, { selected: true }), "id");
+              selectedIds = _.map(_.filter(scope.ids, {
+                selected: true
+              }), "id");
               if (selectedIds.length === 0) {
                 return "Select Probes";
               }
               if (selectedIds.length <= 2) {
-                return _.map(_.filter(scope.ids, { selected: true }), "text").join(", ");
+                return _.map(_.filter(scope.ids, {
+                  selected: true
+                }), "text").join(", ");
               }
-              return _.map(_.filter(scope.ids, { selected: true }), "text").slice(0, 2).join(", ") + " and " + (selectedIds.length - 2) + " more";
+              return _.map(_.filter(scope.ids, {
+                selected: true
+              }), "text").slice(0, 2).join(", ") + " and " + (selectedIds.length - 2) + " more";
             };
 
             scope.routeTypeChange = function () {
               if (scope.footprint.value === 'dynamic') {
-                selectedTags = _.map(_.filter(scope.tags, { selected: true }), "text");
+                selectedTags = _.map(_.filter(scope.tags, {
+                  selected: true
+                }), "text");
                 scope.model.route = {
                   type: "byTags",
                   config: {
@@ -437,7 +497,9 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                   scope.model.route.config.tags.push(t.text);
                 });
               } else {
-                selectedIds = _.map(_.filter(scope.ids, { selected: true }), "id");
+                selectedIds = _.map(_.filter(scope.ids, {
+                  selected: true
+                }), "id");
                 scope.model.route = {
                   type: "byIds",
                   config: {
@@ -458,7 +520,9 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                     tags: []
                   }
                 };
-                selectedTags = _.map(_.filter(scope.tags, { selected: true }), "text");
+                selectedTags = _.map(_.filter(scope.tags, {
+                  selected: true
+                }), "text");
                 _.forEach(selectedTags, function (t) {
                   scope.model.route.config.tags.push(t);
                 });
@@ -469,7 +533,9 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                     ids: []
                   }
                 };
-                selectedIds = _.map(_.filter(scope.ids, { selected: true }), "id");
+                selectedIds = _.map(_.filter(scope.ids, {
+                  selected: true
+                }), "id");
                 _.forEach(selectedIds, function (c) {
                   scope.model.route.config.ids.push(c);
                 });

@@ -3,16 +3,16 @@
   "name": "FlexSCADA",
   "id": "flexscada-app",
 
-  "routes": [
-    {
+  "routes": [{
       "path": "api/*",
       "method": "PUT,DELETE",
-      "url": "http://127.0.0.1/api",
+      "url": "http://127.0.0.1:7001/api",
       "reqSignedIn": true,
       "reqRole": "Editor",
-      "headers": [
-        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
-      ]
+      "headers": [{
+        "name": "Authorization",
+        "content": "Bearer {{.SecureJsonData.apiKey}}"
+      }]
     },
     {
       "path": "api/*",
@@ -20,12 +20,13 @@
       "url": "http://127.0.0.1:7001/api",
       "reqSignedIn": true,
       "reqRole": "Viewer",
-      "headers": [
-        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
-      ]
+      "headers": [{
+        "name": "Authorization",
+        "content": "Bearer {{.SecureJsonData.apiKey}}"
+      }]
     }
   ],
-  
+
 
   "info": {
     "description": "This plugin transforms grafana into a world class situational monitoring toolkit, Using our revolutionary vibration monitoring devices this plugin allows you to quickly visualize dangerous trends.  With our Flexs Q4 remote site monitoring device this plugin allows you to log and visualize metrics from remote power systems.",
@@ -38,14 +39,27 @@
       "small": "img/flexscada.png",
       "large": "img/flexscada.png"
     },
-    "links": [
-      {"name": "FlexSCADA", "url": "https://flexscada.com"},
-      {"name": "GitHub", "url": "https://github.com/comming-soon"},
-      {"name": "License", "url": "https://www.apache.org/licenses/LICENSE-2.0"}
+    "links": [{
+        "name": "FlexSCADA",
+        "url": "https://flexscada.com"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com/comming-soon"
+      },
+      {
+        "name": "License",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0"
+      }
     ],
-    "screenshots": [
-      {"name": "FlexSCADA Vibration Monitoring", "path": "img/vibration-montioring-dashboard.png"},
-      {"name": "FlexSCADA Remote Site Monitoring", "path": "img/remote-site-monitoring-dashboard.png"}
+    "screenshots": [{
+        "name": "FlexSCADA Vibration Monitoring",
+        "path": "img/vibration-montioring-dashboard.png"
+      },
+      {
+        "name": "FlexSCADA Remote Site Monitoring",
+        "path": "img/remote-site-monitoring-dashboard.png"
+      }
     ],
     "version": "0.0.1",
     "updated": "2017-02-10"
@@ -59,25 +73,55 @@
       "addToNav": true,
       "defaultNav": true
     },
-    { "type": "page", "name": "Devices", "component": "DeviceListCtrl", "role": "Viewer", "addToNav": true},
-    { "type": "page", "name": "Device Details", "component": "DeviceDetailsCtrl", "role": "Viewer",  "addToNav": false},
-    { "type": "page", "name": "Device Config", "component": "DeviceConfigCtrl", "role": "Editor", "addToNav": false},
-    { "type": "page", "name": "Alarm Config", "component": "AlarmConfigCtrl", "role": "Editor", "addToNav": false},
-    { "type": "page", "name": "Alarm List", "component": "AlarmListCtrl", "role": "Viewer", "addToNav": true},
-    { "type": "page", "name": "Advanced Analysis", "component" : "AnalysisCtrl", "role": "Viewer", "addToNav": true},
     {
-      "type": "dashboard",
-      "name": "Alarm Events",
-      "path": "dashboards/events.json",
+      "type": "page",
+      "name": "Devices",
+      "component": "DeviceListCtrl",
+      "role": "Viewer",
+      "addToNav": true
+    },
+    {
+      "type": "page",
+      "name": "Device Details",
+      "component": "DeviceDetailsCtrl",
+      "role": "Viewer",
       "addToNav": false
     },
     {
-      "type": "panel",
-      "name": "Worldping Device List"
+      "type": "page",
+      "name": "Device Config",
+      "component": "DeviceConfigCtrl",
+      "role": "Editor",
+      "addToNav": false
+    },
+    {
+      "type": "page",
+      "name": "Alarm Config",
+      "component": "AlarmConfigCtrl",
+      "role": "Editor",
+      "addToNav": false
+    },
+    {
+      "type": "page",
+      "name": "Alarm List",
+      "component": "AlarmListCtrl",
+      "role": "Viewer",
+      "addToNav": true
+    },
+    {
+      "type": "page",
+      "name": "Advanced Analysis",
+      "component": "AnalysisCtrl",
+      "role": "Viewer",
+      "addToNav": true
     },
     {
       "type": "panel",
-      "name": "Worldping Device Nav"
+      "name": "FlexSCADA Device List"
+    },
+    {
+      "type": "panel",
+      "name": "FlexSCADA Data Editorv"
     }
   ],
 

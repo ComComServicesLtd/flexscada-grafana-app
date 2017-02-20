@@ -10,62 +10,49 @@ class DeviceDetailsCtrl {
     this.$location = $location;
     this.$q = $q;
 
+    this.refreshEnabled = false;
+
     this.pageReady = false;
     this.device = null;
+    this.deviceID = 0;
 
     if ($location.search().device) {
-      this.getDevice($location.search().device);
+      this.deviceID = $location.search().device;
+      this.getDevice();
     } else {
       this.alertSrv.set("no device id provided.", "", 'error', 10000);
     }
 
   }
 
-  getDevice(id) {
+  getDevice() {
     var self = this;
 
-    self.backendSrv.get('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + id).then(function(resp) {
+
+    self.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/config/' + self.deviceID).then(function(resp) {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to get device.", resp.meta.msg, 'error', 10000);
         return self.$q.reject(resp.meta.msg);
       }
       self.device = resp.body;
-      var getProbes = false;
-      _.forEach(self.device.checks, function(check) {
-        if (check.route.type === 'byTags') {
-          getProbes = true;
+      self.pageReady = true;
+    });
+  }
+  setReg(reg, val) {
+    var self = this;
+    return this.backendSrv.post('api/plugin-proxy/flexscada-app/api/v2/device/' + self.device.uid + '/setreg', {
+        register: reg,
+        value: val
+      })
+      .then((resp) => {
+        if (resp.meta.code !== 200) {
+          self.alertSrv.set("failed to set relay.", resp.meta.message, 'error', 10000);
+          return self.$q.reject(resp.meta.message);
         }
       });
-      if (getProbes) {
-        self.getProbes().then(() => {
-          self.pageReady = true;
-        });
-      } else {
-        self.pageReady = true;
-      }
-    });
   }
 
-  getProbes() {
-    var self = this;
-    return self.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/probes').then(function(resp) {
-      if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to get probes.", resp.meta.msg, 'error', 10000);
-        return self.$q.reject(resp.meta.msg);
-      }
-      self.probes = resp.body;
-    });
-  }
 
-  getMonitorByTypeName(name) {
-    var check;
-    _.forEach(this.device.checks, function(c) {
-      if (c.type.toLowerCase() === name.toLowerCase()) {
-        check = c;
-      }
-    });
-    return check;
-  }
 
   monitorStateTxt(type) {
     var mon = this.getMonitorByTypeName(type);
@@ -99,6 +86,32 @@ class DeviceDetailsCtrl {
     }
     var states = ["online", "warn", "critical"];
     return states[mon.state];
+  }
+
+
+  round(i) {
+    return Math.round(i * 100000) / 100000;
+  }
+
+  getTimeAgo(epoch) {
+    var duration = new Date().getTime() - new Date(epoch * 1000).getTime();
+    if (duration < 10000) {
+      return "a few seconds ago";
+    }
+    if (duration < 60000) {
+      var secs = Math.floor(duration / 1000);
+      return secs + " seconds ago";
+    }
+    if (duration < 3600000) {
+      var mins = Math.floor(duration / 1000 / 60);
+      return mins + " minutes ago";
+    }
+    if (duration < 86400000) {
+      var hours = Math.floor(duration / 1000 / 60 / 60);
+      return hours + " hours ago";
+    }
+    var days = Math.floor(duration / 1000 / 60 / 60 / 24);
+    return days + " days ago";
   }
 
   stateChangeStr(type) {
@@ -185,45 +198,63 @@ class DeviceDetailsCtrl {
     }
   }
 
-  gotoEventDashboard(device, type) {
-    this.$location.url("/dashboard/db/flexscada-events").search({
-      "var-probe": "All",
-      "var-device": device.slug,
-      "var-monitor_type": type.toLowerCase()
+
+  editFeedData(feed) {
+
+    var allTags = this.device.tags.concat(feed.tags);
+
+    allTags.push("uid=" + this.device.uid);
+
+    var query = "";
+
+     allTags.forEach(function(tag) {
+
+      var tag_value = tag.split('=');
+      var key = tag_value[0];
+      var value = tag_value[1];
+
+      query += '"' + key + '" = \'' + value + '\' AND ';
+    });
+
+    this.$location.url("/dashboard/db/flexscada-data-edit").search({
+      "var-query": query,
+      "var-label": this.device.name + " " + feed.label,
+      "tags": allTags
     });
   }
 
-  getNotificationEmails(checkType) {
-    var mon = this.getMonitorByTypeName(checkType);
-    if (!mon || mon.healthSettings.notifications.addresses === "") {
-      return [];
-    }
-    var addresses = mon.healthSettings.notifications.addresses.split(',');
-    var list = [];
-    addresses.forEach(function(addr) {
-      list.push(addr.trim());
-    });
-    return list;
-  }
 
-  getNotificationEmailsAsString(checkType) {
-    var emails = this.getNotificationEmails(checkType);
-    if (emails.length < 1) {
-      return "No recipients specified";
-    }
-    var list = [];
-    emails.forEach(function(email) {
-      // if the email in the format `display name <email@address>`
-      // then just show the display name.
-      var res = email.match(/\"?(.+)\"?\s*<.*@.*>/);
-      if (res && res.length === 2) {
-        list.push(res[1]);
-      } else {
-        list.push(email);
-      }
-    });
-    return list.join(", ");
+getNotificationEmails(checkType) {
+  var mon = this.getMonitorByTypeName(checkType);
+  if (!mon || mon.healthSettings.notifications.addresses === "") {
+    return [];
   }
+  var addresses = mon.healthSettings.notifications.addresses.split(',');
+  var list = [];
+  addresses.forEach(function(addr) {
+    list.push(addr.trim());
+  });
+  return list;
+}
+
+getNotificationEmailsAsString(checkType) {
+  var emails = this.getNotificationEmails(checkType);
+  if (emails.length < 1) {
+    return "No recipients specified";
+  }
+  var list = [];
+  emails.forEach(function(email) {
+    // if the email in the format `display name <email@address>`
+    // then just show the display name.
+    var res = email.match(/\"?(.+)\"?\s*<.*@.*>/);
+    if (res && res.length === 2) {
+      list.push(res[1]);
+    } else {
+      list.push(email);
+    }
+  });
+  return list.join(", ");
+}
 }
 
 DeviceDetailsCtrl.templateUrl = 'public/plugins/flexscada-app/components/device/partials/device_details.html';

@@ -3,7 +3,7 @@
 System.register(['lodash', 'angular'], function (_export, _context) {
   "use strict";
 
-  var _, angular, _createClass, _defaultCheck, DeviceConfigCtrl;
+  var _, angular, _createClass, DeviceConfigCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -35,21 +35,6 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           return Constructor;
         };
       }();
-
-      _defaultCheck = {
-        settings: {},
-        healthSettings: {
-          notifications: {},
-          num_collectors: 3,
-          steps: 3
-        },
-        route: {
-          type: "byIds",
-          config: {
-            "ids": []
-          }
-        }
-      };
 
       _export('DeviceConfigCtrl', DeviceConfigCtrl = function () {
         /** @ngInject */
@@ -140,6 +125,18 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             if (!this.config.uid) {
               return;
             }
+
+            var qtype = new RegExp("Q[0-9]*$");
+            var ctype = new RegExp("C[0-9]*$");
+
+            if (this.config.uid.match(qtype)) {
+              this.config.type = 1;
+            } else if (this.config.uid.match(ctype)) {
+              this.config.type = 2;
+            } else {
+              this.alertSrv.set("Invalid UID", "UID should look like 'Q1535235511'", 'error', 5000);
+              return;
+            }
             this.deviceStatus = 1;
           }
         }, {
@@ -159,7 +156,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           key: 'removeDevice',
           value: function removeDevice() {
             var self = this;
-            return this.backendSrv.delete('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + this.config.uid).then(function (resp) {
+            return this.backendSrv.delete('api/plugin-proxy/flexscada-app/api/v2/config/' + this.config.uid).then(function (resp) {
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to delete device.", resp.meta.message, 'error', 10000);
                 return self.$q.reject(resp.meta.message);
@@ -176,7 +173,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             this.config.userid = this.$rootScope.contextSrv.user.id;
 
             var self = this;
-            return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + this.config.uid + (this.deviceStatus === 1 ? '/?create=true' : ''), this.config).then(function (resp) {
+            return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/v2/config/' + this.config.uid + (this.deviceStatus === 1 ? '/?create=true' : ''), this.config).then(function (resp) {
               self.$window.console.log(resp);
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to update device.", resp.meta.message, 'error', 10000);
@@ -191,7 +188,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             var _this2 = this;
 
             var self = this;
-            return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + uid).then(function (resp) {
+            return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/config/' + uid).then(function (resp) {
               self.$window.console.log(resp);
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to update device.", resp.meta.message, 'error', 10000);
@@ -200,6 +197,27 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               self.config = resp.body;
               _this2.deviceStatus = 2;
             });
+          }
+        }, {
+          key: 'addFeed',
+          value: function addFeed() {
+            if (!this.config.feeds) {
+              this.config.feeds = [];
+            }
+            this.config.feeds.push({});
+          }
+        }, {
+          key: 'addRelay',
+          value: function addRelay() {
+            if (!this.config.relays) {
+              this.config.relays = [];
+            }
+            this.config.relays.push({});
+          }
+        }, {
+          key: 'deleteItem',
+          value: function deleteItem(_array, id) {
+            _array.splice(id, 1);
           }
         }, {
           key: 'gotoDashboard',

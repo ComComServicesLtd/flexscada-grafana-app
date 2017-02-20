@@ -12,7 +12,7 @@
 
 
 <div ng-if="ctrl.deviceStatus == 2" class="page-header">
-  <h1>{{ctrl.config.name}}<a ng-click="ctrl.gotoDashboard()"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to device summary </br>dashboard for this device'"></i></a></h1>
+  <h1>{{ctrl.config.name}}<!--<a ng-click="ctrl.gotoDashboard()"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to device summary </br>dashboard for this device'"></i></a>--></h1>
   <div class="page-header-tabs">
     <a class="btn btn-link" href="plugins/flexscada-app/page/devices"><i class="fa fa-mail-reply" aria-hidden="true"></i>&nbsp;Back to device list</a>
     <ul class="gf-tabs">
@@ -40,7 +40,7 @@
   <div class="gf-form-inline">
     <div class="gf-form gf-form--right-margin">
       <label class="gf-form-label width-9">UID</label>
-      <input class="gf-form-input max-width-15" type="numeric" ng-model="ctrl.config.uid" required="" placeholder="123542322112">
+      <input class="gf-form-input max-width-15" type="numeric" ng-model="ctrl.config.uid" required="" placeholder="Q1535235511">
     </div>
     <!-- Unsubmitted state -->
     <div class="gf-form">
@@ -52,15 +52,20 @@
 </div>
 
 <div ng-if="ctrl.deviceStatus > 0">
-  <div class="gf-form-inline">
     <div class="gf-form gf-form--right-margin">
       <label class="gf-form-label width-9">Device Name</label>
       <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.config.name" ng-class="{ 'fs-text-box-success' : ctrl.discovered, 'fs-font-shrinker' : ctrl.config.name > 10 }" placeholder="6X9 Pump">
     </div>
-  </div>
+    <div ng-if="ctrl.config.type == 1" class="gf-form gf-form--right-margin">
+      <label class="gf-form-label width-9">Password</label>
+      <input class="gf-form-input max-width-15" type="password" ng-model="ctrl.config.password"  placeholder="">
+      <info-popover>This is the local password used to log into your device, if you do not have a password on your device you may leave this blank however for using the devices onboard relays a password is required</info-popover>
+    </div>
+
   <div class="gf-form">
     <span class="gf-form-label width-6">Tags:</span>
-    <bootstrap-tagsinput ng-model="ctrl.config.tags" tagclass="label fs-label-tag" placeholder="Add tags"></bootstrap-tagsinput>
+    <bootstrap-tagsinput ng-if="ctrl.config.type == 1" influxtags ng-model="ctrl.config.tags" tagclass="label fs-label-tag" placeholder="Add tags"></bootstrap-tagsinput>
+    <bootstrap-tagsinput ng-if="ctrl.config.type == 2" ng-model="ctrl.config.tags" tagclass="label fs-label-tag" placeholder="Add tags"></bootstrap-tagsinput>
     <info-popover>Device Tags is an optional feature that is useful for device sorting and categorization. As an example if this device is critcal to an operation you might add the tag 'critical'</info-popover>
   </div>
   <div class="gf-form-inline max-width-37">
@@ -80,10 +85,10 @@
     <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.config.desc"></textarea>
     <info-popover>Describe where the devices is located, what equiptment is monitored, how the unit is powered and any other relevant pieces of information about this installation.</info-popover>
   </div>
-  <hr>
-  <div ng-include src="'public/plugins/flexscada-app/components/device/partials/vibrationSensorForm.html'"></div>
-  <hr>
-  <div ng-include src="'public/plugins/flexscada-app/components/device/partials/ds18b20SensorForm.html'"></div>
+
+  <div ng-if="ctrl.config.type == 2" ng-include src="'public/plugins/flexscada-app/components/device/partials/cdevice_config.html'"></div>
+  <div ng-if="ctrl.config.type == 1" ng-include src="'public/plugins/flexscada-app/components/device/partials/qdevice_config.html'"></div>
+
 </div>
 
 <div ng-show="ctrl.deviceStatus == 2" ng-include src="'public/plugins/flexscada-app/components/device/partials/destroyForm.html'"></div>
@@ -93,7 +98,4 @@
   <button type="submit" ng-if="ctrl.deviceStatus == 2" class="btn btn-success" ng-click="ctrl.saveDevice()">Save</button>
 
   <a class="btn btn-link" ng-click="ctrl.cancel();">Cancel</a>
-</div>
-
-
 </div>

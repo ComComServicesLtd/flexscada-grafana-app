@@ -170,7 +170,7 @@ class AlarmConfigCtrl {
 
   removeAlarm() {
     var self = this;
-    return this.backendSrv.delete('api/plugin-proxy/flexscada-app/api/vibration/v1/alarm/' + this.config.id).then((resp) => {
+    return this.backendSrv.delete('api/plugin-proxy/flexscada-app/api/v2/alarm/' + this.config.id).then((resp) => {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to delete alarm.", resp.meta.message, 'error', 10000);
         return self.$q.reject(resp.meta.message);
@@ -190,7 +190,7 @@ class AlarmConfigCtrl {
 
     var self = this;
     return this.backendSrv.put
-    ('api/plugin-proxy/flexscada-app/api/vibration/v1/alarm/'
+    ('api/plugin-proxy/flexscada-app/api/v2/alarm/'
      + this.config.id + ((this.deviceStatus === 1) ? '/?create=true' : ''),
      this.config).then((resp) => {
       self.$window.console.log(resp);
@@ -204,7 +204,7 @@ class AlarmConfigCtrl {
 
   loadAlarm(uid) {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/vibration/v1/alarm/' + uid).then((resp) => {
+    return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/alarm/' + uid).then((resp) => {
       self.$window.console.log(resp);
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to update device.", resp.meta.message, 'error', 10000);

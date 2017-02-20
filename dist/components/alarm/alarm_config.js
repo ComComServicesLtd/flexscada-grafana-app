@@ -204,7 +204,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           key: 'removeAlarm',
           value: function removeAlarm() {
             var self = this;
-            return this.backendSrv.delete('api/plugin-proxy/flexscada-app/api/vibration/v1/alarm/' + this.config.id).then(function (resp) {
+            return this.backendSrv.delete('api/plugin-proxy/flexscada-app/api/v2/alarm/' + this.config.id).then(function (resp) {
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to delete alarm.", resp.meta.message, 'error', 10000);
                 return self.$q.reject(resp.meta.message);
@@ -226,7 +226,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             this.config.userid = this.$rootScope.contextSrv.user.id;
 
             var self = this;
-            return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/vibration/v1/alarm/' + this.config.id + (this.deviceStatus === 1 ? '/?create=true' : ''), this.config).then(function (resp) {
+            return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/v2/alarm/' + this.config.id + (this.deviceStatus === 1 ? '/?create=true' : ''), this.config).then(function (resp) {
               self.$window.console.log(resp);
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to update alarm.", resp.meta.message, 'error', 10000);
@@ -241,7 +241,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             var _this3 = this;
 
             var self = this;
-            return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/vibration/v1/alarm/' + uid).then(function (resp) {
+            return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/alarm/' + uid).then(function (resp) {
               self.$window.console.log(resp);
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to update device.", resp.meta.message, 'error', 10000);

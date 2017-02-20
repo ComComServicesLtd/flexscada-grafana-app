@@ -25,47 +25,38 @@ class FlexscadaConfigCtrl {
   }
 
   reset() {
+
+    if( confirm("Are you sure? Resetting will erase everything")){
     this.appModel.jsonData.apiKeySet = false;
     this.validKey = false;
     this.org = null;
-  }
+}
+
+}
+
 
   validateKey() {
-    var self = this;
-
+  var self = this;
+  var p = this.backendSrv.get('/api/plugin-proxy/flexscada-app/api/v2/account');
+  p.then((resp) => {
+    if (resp.meta.code !== 200) {
+      self.alertSrv.set("failed to validate account key", resp.msg, 'error', 10000);
+      return self.$q.reject(resp.msg);
+    }
     self.validKey = true;
+  }, (resp) => {
+    if (self.appModel.enabled) {
+      self.alertSrv.set("failed to verify account key", resp.msg, 'error', 10000);
+      self.appModel.enabled = false;
+      self.appModel.jsonData.apiKeySet = false;
+      self.appModel.secureJsonData.apiKey = "";
+      self.errorMsg = "invalid key";
+      self.validKey = false;
+    }
+  });
+  return p;
+}
 
-    /*
-    self.alertSrv.set("failed to verify apiKey", resp.statusText, 'error', 10000);
-    self.appModel.enabled = false;
-    self.appModel.jsonData.apiKeySet = false;
-    self.appModel.secureJsonData.apiKey = "";
-    self.errorMsg = "invalid apiKey";
-    self.validKey = false;
-    */
-
-  }
-
-  getOrgDetails() {
-    return;
-    var self = this;
-    var p = this.backendSrv.get('api/plugin-proxy/flexscada-app/api/grafana-net/profile/org');
-    p.then((resp) => {
-      self.org = resp;
-
-      const millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 100000) / 10;
-      if (millionChecksPerMonth > 1000) {
-        self.org.strChecksPerMonth = Math.ceil(millionChecksPerMonth / 1000) + ' Billion';
-      } else if (millionChecksPerMonth > 0) {
-        self.org.strChecksPerMonth = millionChecksPerMonth + ' Million';
-      } else {
-        self.org.strChecksPerMonth = 'N/A';
-      }
-    }, (resp) => {
-      self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
-    });
-    return p;
-  }
 
   preUpdate() {
     var model = this.appModel;
@@ -75,9 +66,9 @@ class FlexscadaConfigCtrl {
 
     if (!model.jsonData.apiKeySet && !model.secureJsonData.apiKey) {
       model.enabled = false;
-      this.errorMsg = "apiKey not set";
+      this.errorMsg = "account key not set";
       this.validKey = false;
-      return this.$q.reject("apiKey not set.");
+      return this.$q.reject("account key not set.");
     }
     model.jsonData.apiKeySet = true;
     return this.initDatasource();
@@ -112,21 +103,31 @@ class FlexscadaConfigCtrl {
     //check for existing datasource.
     var p = self.backendSrv.get('/api/datasources');
     p.then(function(results) {
-      var foundFlexscada = false;
+      var foundCxDB = false;
+      var foundQxDB = false;
       _.forEach(results, function(ds) {
-        if (foundFlexscada) {
-          return;
+
+
+        if (ds.name === "Flexscada-Site-Monitoring") {
+          foundQxDB = true;
         }
-        if (ds.name === "flexscada") {
-          foundFlexscada = true;
+
+        if (ds.name === "Flexscada-Condition-Monitoring") {
+          foundCxDB = true;
         }
+
+
       });
 
       var promises = [];
-      if (!foundFlexscada) {
+      var orgid = self.appEditCtrl.$rootScope.contextSrv.user.orgId;
+      var dbname = "FSORG" + orgid;
+
+
+      if (!foundCxDB) {
         // create datasource.
-        var flexscada = {
-          name: 'flexscada',
+        var flexsCx = {
+          name: 'Flexscada-Condition-Monitoring',
           type: 'flexscada-datasource',
           url: 'api/plugin-proxy/flexscada-app',
           access: 'direct',
@@ -134,8 +135,30 @@ class FlexscadaConfigCtrl {
             APIVersion: "v1"
           }
         };
-        promises.push(self.backendSrv.post('/api/datasources', flexscada));
+        promises.push(self.backendSrv.post('/api/datasources', flexsCx));
       }
+
+      if (!foundQxDB) {
+
+
+        // create datasource.
+        var flexsQx = {
+          name: 'Flexscada-Site-Monitoring',
+          type: 'influxdb',
+          url: 'http://flexscada.com:9086',
+          password: self.appModel.secureJsonData.apiKey,
+          user: dbname,
+          database:dbname,
+          access: 'proxy',
+          jsonData: { }
+        };
+
+
+        promises.push(self.backendSrv.post('/api/datasources', flexsQx));
+      }
+
+
+
       return self.$q.all(promises);
     });
     return p;

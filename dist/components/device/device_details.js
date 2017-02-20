@@ -52,11 +52,15 @@ System.register(["lodash"], function (_export, _context) {
           this.$location = $location;
           this.$q = $q;
 
+          this.refreshEnabled = false;
+
           this.pageReady = false;
           this.device = null;
+          this.deviceID = 0;
 
           if ($location.search().device) {
-            this.getDevice($location.search().device);
+            this.deviceID = $location.search().device;
+            this.getDevice();
           } else {
             this.alertSrv.set("no device id provided.", "", 'error', 10000);
           }
@@ -64,52 +68,31 @@ System.register(["lodash"], function (_export, _context) {
 
         _createClass(DeviceDetailsCtrl, [{
           key: "getDevice",
-          value: function getDevice(id) {
+          value: function getDevice() {
             var self = this;
 
-            self.backendSrv.get('api/plugin-proxy/flexscada-app/api/vibration/v1/config/' + id).then(function (resp) {
+            self.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/config/' + self.deviceID).then(function (resp) {
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to get device.", resp.meta.msg, 'error', 10000);
                 return self.$q.reject(resp.meta.msg);
               }
               self.device = resp.body;
-              var getProbes = false;
-              _.forEach(self.device.checks, function (check) {
-                if (check.route.type === 'byTags') {
-                  getProbes = true;
-                }
-              });
-              if (getProbes) {
-                self.getProbes().then(function () {
-                  self.pageReady = true;
-                });
-              } else {
-                self.pageReady = true;
-              }
+              self.pageReady = true;
             });
           }
         }, {
-          key: "getProbes",
-          value: function getProbes() {
+          key: "setReg",
+          value: function setReg(reg, val) {
             var self = this;
-            return self.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/probes').then(function (resp) {
+            return this.backendSrv.post('api/plugin-proxy/flexscada-app/api/v2/device/' + self.device.uid + '/setreg', {
+              register: reg,
+              value: val
+            }).then(function (resp) {
               if (resp.meta.code !== 200) {
-                self.alertSrv.set("failed to get probes.", resp.meta.msg, 'error', 10000);
-                return self.$q.reject(resp.meta.msg);
-              }
-              self.probes = resp.body;
-            });
-          }
-        }, {
-          key: "getMonitorByTypeName",
-          value: function getMonitorByTypeName(name) {
-            var check;
-            _.forEach(this.device.checks, function (c) {
-              if (c.type.toLowerCase() === name.toLowerCase()) {
-                check = c;
+                self.alertSrv.set("failed to set relay.", resp.meta.message, 'error', 10000);
+                return self.$q.reject(resp.meta.message);
               }
             });
-            return check;
           }
         }, {
           key: "monitorStateTxt",
@@ -146,6 +129,33 @@ System.register(["lodash"], function (_export, _context) {
             }
             var states = ["online", "warn", "critical"];
             return states[mon.state];
+          }
+        }, {
+          key: "round",
+          value: function round(i) {
+            return Math.round(i * 100000) / 100000;
+          }
+        }, {
+          key: "getTimeAgo",
+          value: function getTimeAgo(epoch) {
+            var duration = new Date().getTime() - new Date(epoch * 1000).getTime();
+            if (duration < 10000) {
+              return "a few seconds ago";
+            }
+            if (duration < 60000) {
+              var secs = Math.floor(duration / 1000);
+              return secs + " seconds ago";
+            }
+            if (duration < 3600000) {
+              var mins = Math.floor(duration / 1000 / 60);
+              return mins + " minutes ago";
+            }
+            if (duration < 86400000) {
+              var hours = Math.floor(duration / 1000 / 60 / 60);
+              return hours + " hours ago";
+            }
+            var days = Math.floor(duration / 1000 / 60 / 60 / 24);
+            return days + " days ago";
           }
         }, {
           key: "stateChangeStr",
@@ -236,12 +246,28 @@ System.register(["lodash"], function (_export, _context) {
             }
           }
         }, {
-          key: "gotoEventDashboard",
-          value: function gotoEventDashboard(device, type) {
-            this.$location.url("/dashboard/db/flexscada-events").search({
-              "var-probe": "All",
-              "var-device": device.slug,
-              "var-monitor_type": type.toLowerCase()
+          key: "editFeedData",
+          value: function editFeedData(feed) {
+
+            var allTags = this.device.tags.concat(feed.tags);
+
+            allTags.push("uid=" + this.device.uid);
+
+            var query = "";
+
+            allTags.forEach(function (tag) {
+
+              var tag_value = tag.split('=');
+              var key = tag_value[0];
+              var value = tag_value[1];
+
+              query += '"' + key + '" = \'' + value + '\' AND ';
+            });
+
+            this.$location.url("/dashboard/db/flexscada-data-edit").search({
+              "var-query": query,
+              "var-label": this.device.name + " " + feed.label,
+              "tags": allTags
             });
           }
         }, {

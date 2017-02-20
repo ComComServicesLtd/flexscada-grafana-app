@@ -15,27 +15,23 @@
 </div>
 
 <div ng-if="ctrl.pageReady">
-	<div ng-if="ctrl.devices.length === 0" class="fs-empty-device-list">
+	<div ng-if="!ctrl.devices.length > 0" class="fs-empty-device-list">
 		<div style="text-align: center; padding-top: 90px; min-height: 220px; min-width: 400px;  margin: 0 auto;">
 			<i ng-class="icon" class="icon-gf icon-gf-device no-devices"></i>
-			<p ng-if="ctrl.isOrgEditor">Looks like you don’t have any devices yet.<br>
-				<a class="highlight-word" href="plugins/flexscada-app/page/device-config">Add a new device</a> or
-				<a class="highlight-word" href="dashboard/db/flexscada-device-summary?var-device=~google_com_demo">view live demo data.</a>
+			<p ng-if="ctrl.isOrgEditor">Looks like you don’t have any devices added yet.<br>
+				<a class="highlight-word" href="plugins/flexscada-app/page/device-config">Add a new device</a>
 			</p>
-			<p ng-if="!ctrl.isOrgEditor">Your org does not have any devices.<br>In the meantime,
-				<a class="highlight-word" href="dashboard/db/flexscada-device-summary?var-device=~google_com_demo">view some live demo data.</a>
+			<p ng-if="!ctrl.isOrgEditor">Your org does not have any devices.<br>You must be an admin to add new devices,
 			</p>
 		</div>
 		<a href="#" ng-click="ctrl.showDeviceDesc = !ctrl.showDeviceDesc">
-			<span ng-hide="ctrl.showDeviceDesc">What's an device?</span>
+			<span ng-hide="ctrl.showDeviceDesc">What's a device?</span>
 			<span><i class="fa fa-caret-right fs-box-accordian-control" ng-hide="ctrl.showDeviceDesc"></i></span>
-			<span ng-show="ctrl.showDeviceDesc">What's an device?</span>
-			<span><i class="fa fa-caret-down" ng-show="ctrl.showDeviceDesc"></i></span>
 		</a>
 		<div class="fs-app-devicedesc-box" ng-class="{ 'fs-app-devicedesc-open': ctrl.showDeviceDesc }">
 			<div class="fs-collapse-blurb-box">
-				<p class="fs-helper-blurb">In worldPing, an device is anything you want to monitor.</p>
-				<p class="fs-helper-blurb">When you enter the fully qualified domain name of your device, we will automatically detect what is available to monitor (eg. PING, HTTP, HTTPS) and suggest a customizable set of defaults unique to your device.</p>
+				<p class="fs-helper-blurb">In FlexSCADA, a device represents one of our physical devices. </p>
+				<p class="fs-helper-blurb">By adding your device to our system you'll be able to view historical trends, send commands and more!</p>
 			</div>
 		</div>
 	</div>
@@ -50,7 +46,7 @@
 		<div class="fs-list-showing-header">
 			<div class="fs-list-status">
 				<span class="small">Showing {{(ctrl.devices | filterByTag:ctrl.filter.tag).length}}</span>
-				<span class="small"> of <span class="fs-list-links" ng-click="setTagFilter('')">{{ctrl.devices.length}} total</a></span>
+				<span class="small"> of <a class="fs-list-links" ng-click="setTagFilter('')">{{ctrl.devices.length}} total</a></span>
 			</div>
 		</div>
 	</div>
@@ -59,17 +55,17 @@
 <section ng-if="ctrl.devices.length > 0" class="card-section card-list-layout-list" layout-mode>
 	<ol class="card-list">
 		<li class="card-item-wrapper" ng-repeat="device in ctrl.devices | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
-			<div class="card-item pointer" ng-click="ctrl.gotoDashboard(device, $event)">
+			<div class="card-item pointer" ng-click="ctrl.gotoDeviceDetails(device,$event)">
 				<div class="card-item-header card-item-header--fs-icons card-item-header-action">
 					<fs-device-health device="device" ctrl="ctrl"></fs-device-health>
-					<a style="margin-left: 15px; vertical-align: sub;" href="plugins/flexscada-app/page/device-details?device={{device.uid}}">
-						<i ng-class="icon" class="icon-gf icon-gf-settings" bs-tooltip="'Device<br>Details & Config'"></i>
+					<a style="margin-left: 15px; vertical-align: sub;" href="#"   ng-click="ctrl.gotoDeviceConfig(device,$event)">
+						<i ng-class="icon" class="icon-gf icon-gf-settings" bs-tooltip="'Device<br>Device Configuration'"></i>
 					</a>
 				</div>
 				<div class="card-item-body">
 					<div class="card-item-details">
 						<div class="card-item-name">
-							<a href="dashboard/db/flexscada-device-summary?&var-device={{device.slug}}&var-probe=All">
+							<a href="#"  ng-click="ctrl.gotoDeviceDetails(device,$event)">
 								{{device.name}}
 							</a>
 							<span ng-repeat="tag in device.tags" tag-color-from-name="tag" class="label label-tag">

@@ -52,14 +52,8 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
             'tag': ''
           };
           this.sort_field = 'name';
-          this.devices = {};
+          this.devices = [];
           this.refresh();
-          this.devicestate = {
-            "0": 0,
-            "1": 0,
-            "2": 0,
-            "-1": 0
-          };
         }
 
         _createClass(DeviceListCtrl, [{
@@ -87,7 +81,7 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
           key: 'getdevices',
           value: function getdevices() {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/flexscada-app/api/vibration/v1/org/1/devices').then(function (resp) {
+            this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/devices').then(function (resp) {
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to get device list.", resp.meta.msg, 'error', 10000);
                 return self.$q.reject(resp.meta.msg);
@@ -97,51 +91,14 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
             });
           }
         }, {
-          key: 'monitorStateTxt',
-          value: function monitorStateTxt(device, type) {
-
-            var state = 0;
-
-            if (type === "battery") {
-              state = 0;
-            } else if (type === "link") {
-              state = 0;
-            } else if (type === "sensors") {
-              state = 0;
-            }
-
-            var states = ["online", "warn", "critical"];
-            return states[state];
+          key: 'gotoDeviceConfig',
+          value: function gotoDeviceConfig(device) {
+            this.$location.url('plugins/flexscada-app/page/device-config?device=' + device.uid);
           }
         }, {
-          key: 'monitorStateStr',
-          value: function monitorStateStr(device, type) {
-
-            if (type === "battery") {
-              return "Battery at 90% charge level";
-            } else if (type === "link") {
-              return "14% Signal";
-            } else if (type === "sensors") {
-              return "4 of 4 Registered sensors online";
-            }
-
-            return "Unknown Metric";
-          }
-        }, {
-          key: 'gotoDashboard',
-          value: function gotoDashboard(device, evt) {
-            var clickTargetIsLinkOrHasLinkParents = $(evt.target).closest('a').length > 0;
-            if (clickTargetIsLinkOrHasLinkParents === false) {
-              this.$location.path("/dashboard/db/flexscada-device-summary").search({
-                "var-collector": "All",
-                "var-device": device.slug
-              });
-            }
-          }
-        }, {
-          key: 'gotoDeviceURL',
-          value: function gotoDeviceURL(device) {
-            this.$location.url('plugins/flexscada-app/page/device-details?device=' + device.id);
+          key: 'gotoDeviceDetails',
+          value: function gotoDeviceDetails(device) {
+            this.$location.url('plugins/flexscada-app/page/device-details?device=' + device.uid);
           }
         }]);
 
