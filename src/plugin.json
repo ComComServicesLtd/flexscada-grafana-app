@@ -74,6 +74,13 @@
       "defaultNav": true
     },
     {
+      "type": "dashboard",
+      "name": "FlexSCADA Data Edit",
+      "path": "dashboards/flexscada-data-edit.json",
+      "addToNav": false,
+      "defaultNav": true
+    },
+    {
       "type": "page",
       "name": "Devices",
       "component": "DeviceListCtrl",
@@ -106,14 +113,14 @@
       "name": "Alarm List",
       "component": "AlarmListCtrl",
       "role": "Viewer",
-      "addToNav": true
+      "addToNav": false
     },
     {
       "type": "page",
       "name": "Advanced Analysis",
       "component": "AnalysisCtrl",
       "role": "Viewer",
-      "addToNav": true
+      "addToNav": false
     },
     {
       "type": "panel",

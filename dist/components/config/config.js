@@ -81,6 +81,7 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
                 return self.$q.reject(resp.msg);
               }
               self.validKey = true;
+              self.account = resp.body;
             }, function (resp) {
               if (self.appModel.enabled) {
                 self.alertSrv.set("failed to verify account key", resp.msg, 'error', 10000);
@@ -158,8 +159,6 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
               });
 
               var promises = [];
-              var orgid = self.appEditCtrl.$rootScope.contextSrv.user.orgId;
-              var dbname = "FSORG" + orgid;
 
               if (!foundCxDB) {
                 // create datasource.
@@ -182,9 +181,10 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
                   name: 'Flexscada-Site-Monitoring',
                   type: 'influxdb',
                   url: 'http://flexscada.com:9086',
-                  password: self.appModel.secureJsonData.apiKey,
-                  user: dbname,
-                  database: dbname,
+                  isDefault: true,
+                  password: self.account.influxdb.password,
+                  user: self.account.influxdb.user,
+                  database: self.account.influxdb.database,
                   access: 'proxy',
                   jsonData: {}
                 };

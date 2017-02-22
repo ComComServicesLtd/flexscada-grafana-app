@@ -138,6 +138,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               return;
             }
             this.deviceStatus = 1;
+            this.config.uid.replace(/[^0-9]/g, ''); // We only want the uid number
           }
         }, {
           key: 'addDs18b20',
