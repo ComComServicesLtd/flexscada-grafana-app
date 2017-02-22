@@ -1,0 +1,32 @@
+
+
+<div ng-if="!ctrl.devices.length > 0" class="fs-empty-device-list">
+  <h4>No Annotations</h4>
+  <p>Try viewing a larger area or adding a new annotation below</p>
+</div>
+
+<section ng-if="ctrl.annotations.length > 0" class="card-section card-list-layout-list" layout-mode>
+	<ol class="card-list">
+		<li class="card-item-wrapper" ng-repeat="annotation in ctrl.annotations">
+			<div class="card-item pointer">
+				<div class="card-item-header card-item-header--fs-icons card-item-header-action">
+					<fs-device-health device="device" ctrl="ctrl"></fs-device-health>
+					<a style="margin-left: 15px; vertical-align: sub;" href="#"   ng-click="ctrl.deleteAnnotation(annotation)">
+						<i ng-class="icon" class="icon-gf fa fa-times" bs-tooltip="'Remove Annotation'"></i>
+					</a>
+				</div>
+				<div class="card-item-body">
+					<div class="card-item-details">
+						<div class="card-item-name">
+								{{annotation.title}} - {{ctrl.getTimeAgo(ctrl.device.lastupdate)}}
+							<span ng-repeat="tag in annotation.tags" tag-color-from-name="tag" class="label label-tag">
+								{{tag}}
+							</span>
+						</div>
+            <p>{{annotation.text}}</p>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ol>
+</section>

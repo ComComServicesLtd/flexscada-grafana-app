@@ -1,0 +1,68 @@
+<hr>
+<div class="gf-form-group">
+  <h3 class="page-headering">Device Feeds</h3>
+  <hr>
+
+  <div ng-hide="ctrl.config.feeds[0]">
+    <p>No Feeds Defined...
+      <info-popover>Click the add button below to create a new feed</info-popover>
+    </p>
+  </div>
+
+  <div ng-repeat="(feedid,feed) in ctrl.config.feeds" class="gf-form-group gf-form-group--header">
+    <div class="gf-form-inline">
+      <div class="gf-form">
+        <input class="gf-form-input max-width-16" type="text" ng-model="feed.label" placeholder="Label">
+        <input class="gf-form-input max-width-8" type="text" fcsa-number="{ prepend: 'R', max: 128, min: 0 }" ng-model="feed.register" placeholder="Register #">
+      </div>
+      <div class="gf-form">
+        <label class="gf-form-label width-4">Tags</label>
+        <bootstrap-tagsinput influxtags ng-model="feed.tags" tagclass="label fs-label-tag" placeholder="New Tag"></bootstrap-tagsinput>
+      </div>
+      <div class="gf-form">
+        <button type="submit" class="btn btn-danger" ng-click="ctrl.deleteItem(ctrl.config.feeds,feedid)"><i class="fa fa-times"></i></button>
+      </div>
+
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-success" ng-click="ctrl.addFeed()">New Feed</button>
+  <info-popover>Creates a new blank feed</info-popover>
+</div>
+
+
+
+
+
+
+<br>
+<hr>
+<div ng-if="ctrl.config.password.length > 0" class="gf-form-group">
+  <h3 class="page-headering">Device Relays</h3>
+  <hr>
+
+  <div ng-hide="ctrl.config.relays[0]">
+    <p>No Relays Configured...
+      <info-popover>Click the add button below to configure a new relay</info-popover>
+    </p>
+  </div>
+
+  <div ng-repeat="(relayid,relay) in ctrl.config.relays" class="gf-form-group gf-form-group--header">
+    <div class="gf-form-inline">
+      <div class="gf-form">
+        <input class="gf-form-input max-width-16" type="text" ng-model="relay.label" placeholder="Label">
+        <input class="gf-form-input max-width-8" type="text" fcsa-number="{ prepend: 'R', max: 128, min: 0 }" ng-model="relay.register" placeholder="Register #">
+      </div>
+      <div class="gf-form">
+        <button type="submit" class="btn btn-danger" ng-click="ctrl.deleteItem(ctrl.config.relays,relayid)"><i class="fa fa-times"></i></button>
+      </div>
+
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-success" ng-click="ctrl.addRelay()">New Relay</button>
+  <info-popover>Creates a new blank relay</info-popover>
+
+
+</div>
+<br>
