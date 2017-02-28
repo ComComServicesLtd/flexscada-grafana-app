@@ -15,7 +15,7 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "gnetId": null,
   "graphTooltip": 0,
   "hideControls": true,
@@ -27,7 +27,7 @@
       "tags": [],
       "title": "Device List",
       "type": "link",
-      "url": "/plugins/flexscada-app/page/devices"
+      "url": "/visualization/plugins/flexscada-app/page/devices"
     },
     {
       "icon": "info",
@@ -234,8 +234,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "\"site\" = 'botani' AND \"sensor\" = 'current' AND \"label\" = 'solar' AND \"uid\" = '2711958068' AND ",
-          "value": "\"site\" = 'botani' AND \"sensor\" = 'current' AND \"label\" = 'solar' AND \"uid\" = '2711958068' AND "
+          "text": "",
+          "value": ""
         },
         "hide": 0,
         "includeAll": false,
@@ -245,8 +245,8 @@
         "options": [
           {
             "selected": false,
-            "text": "sensor=voltage",
-            "value": "sensor=voltage"
+            "text": "",
+            "value": ""
           }
         ],
         "query": "sensor=voltage",
@@ -255,8 +255,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "Test Device Solar Current",
-          "value": "Test Device Solar Current"
+          "text": "",
+          "value": ""
         },
         "hide": 0,
         "includeAll": false,
@@ -276,8 +276,8 @@
     ]
   },
   "time": {
-    "from": "2017-02-20T15:31:34.366Z",
-    "to": "2017-02-21T08:20:33.322Z"
+    "from": "now-24h",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -306,5 +306,5 @@
   },
   "timezone": "browser",
   "title": "Flexscada Data Edit",
-  "version": 32
+  "version": 0
 }

@@ -160,20 +160,6 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
 
               var promises = [];
 
-              if (!foundCxDB) {
-                // create datasource.
-                var flexsCx = {
-                  name: 'Flexscada-Condition-Monitoring',
-                  type: 'flexscada-datasource',
-                  url: 'api/plugin-proxy/flexscada-app',
-                  access: 'direct',
-                  jsonData: {
-                    APIVersion: "v1"
-                  }
-                };
-                promises.push(self.backendSrv.post('/api/datasources', flexsCx));
-              }
-
               if (!foundQxDB) {
 
                 // create datasource.
@@ -190,6 +176,20 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
                 };
 
                 promises.push(self.backendSrv.post('/api/datasources', flexsQx));
+              }
+
+              if (!foundCxDB) {
+                // create datasource.
+                var flexsCx = {
+                  name: 'Flexscada-Condition-Monitoring',
+                  type: 'flexscada-datasource',
+                  url: 'api/plugin-proxy/flexscada-app',
+                  access: 'direct',
+                  jsonData: {
+                    APIVersion: "v1"
+                  }
+                };
+                promises.push(self.backendSrv.post('/api/datasources', flexsCx));
               }
 
               return self.$q.all(promises);

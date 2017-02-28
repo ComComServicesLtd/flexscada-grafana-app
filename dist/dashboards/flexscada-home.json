@@ -2,10 +2,10 @@
   "annotations": {
     "list": []
   },
-  "editable": true,
+  "editable": false,
   "gnetId": null,
   "graphTooltip": 0,
-  "hideControls": false,
+  "hideControls": true,
   "id": null,
   "links": [
     {
@@ -14,7 +14,7 @@
       "title": "Manage Devices",
       "tooltip": "",
       "type": "link",
-      "url": "/plugins/flexscada-app/page/devices"
+      "url": "/visualization/plugins/flexscada-app/page/devices"
     },
     {
       "icon": "bolt",
@@ -22,7 +22,7 @@
       "tags": [],
       "title": "Manage Alarms",
       "type": "link",
-      "url": "/alerting/list"
+      "url": "/visualization/alerting/list"
     },
     {
       "icon": "info",
@@ -38,7 +38,7 @@
       "height": "100px",
       "panels": [
         {
-          "content": "<img height=\"60px\" src=\"/public/plugins/flexscada-app/img/flexsq4_light.png\"></img>",
+          "content": "<img height=\"60px\" src=\"/visualization/public/plugins/flexscada-app/img/flexscada_light.png\"></img>",
           "id": 1,
           "links": [],
           "mode": "html",
@@ -147,5 +147,5 @@
   },
   "timezone": "browser",
   "title": "Flexscada Home",
-  "version": 1
+  "version": 0
 }
