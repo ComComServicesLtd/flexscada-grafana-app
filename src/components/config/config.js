@@ -26,37 +26,37 @@ class FlexscadaConfigCtrl {
 
   reset() {
 
-    if( confirm("Are you sure? Resetting will erase everything")){
-    this.appModel.jsonData.apiKeySet = false;
-    this.validKey = false;
-    this.org = null;
-}
+    if (confirm("Are you sure? Resetting will erase everything")) {
+      this.appModel.jsonData.apiKeySet = false;
+      this.validKey = false;
+      this.org = null;
+    }
 
-}
+  }
 
 
   validateKey() {
-  var self = this;
-  var p = this.backendSrv.get('/api/plugin-proxy/flexscada-app/api/v2/account');
-  p.then((resp) => {
-    if (resp.meta.code !== 200) {
-      self.alertSrv.set("failed to validate account key", resp.msg, 'error', 10000);
-      return self.$q.reject(resp.msg);
-    }
-    self.validKey = true;
-    self.account = resp.body;
-  }, (resp) => {
-    if (self.appModel.enabled) {
-      self.alertSrv.set("failed to verify account key", resp.msg, 'error', 10000);
-      self.appModel.enabled = false;
-      self.appModel.jsonData.apiKeySet = false;
-      self.appModel.secureJsonData.apiKey = "";
-      self.errorMsg = "invalid key";
-      self.validKey = false;
-    }
-  });
-  return p;
-}
+    var self = this;
+    var p = this.backendSrv.get('/api/plugin-proxy/flexscada-app/api/v2/account');
+    p.then((resp) => {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to validate account key", resp.msg, 'error', 10000);
+        return self.$q.reject(resp.msg);
+      }
+      self.validKey = true;
+      self.account = resp.body;
+    }, (resp) => {
+      if (self.appModel.enabled) {
+        self.alertSrv.set("failed to verify account key", resp.msg, 'error', 10000);
+        self.appModel.enabled = false;
+        self.appModel.jsonData.apiKeySet = false;
+        self.appModel.secureJsonData.apiKey = "";
+        self.errorMsg = "invalid key";
+        self.validKey = false;
+      }
+    });
+    return p;
+  }
 
 
   preUpdate() {
@@ -122,6 +122,26 @@ class FlexscadaConfigCtrl {
 
       var promises = [];
 
+      if (!foundQxDB) {
+
+
+        // create datasource.
+        var flexsQx = {
+          name: 'Flexscada-Site-Monitoring',
+          type: 'influxdb',
+          url: 'http://flexscada.com:9086',
+          isDefault: true,
+          password: self.account.influxdb.password,
+          user: self.account.influxdb.user,
+          database: self.account.influxdb.database,
+          access: 'proxy',
+          jsonData: {}
+        };
+
+
+        promises.push(self.backendSrv.post('/api/datasources', flexsQx));
+      }
+
       if (!foundCxDB) {
         // create datasource.
         var flexsCx = {
@@ -134,26 +154,6 @@ class FlexscadaConfigCtrl {
           }
         };
         promises.push(self.backendSrv.post('/api/datasources', flexsCx));
-      }
-
-      if (!foundQxDB) {
-
-
-        // create datasource.
-        var flexsQx = {
-          name: 'Flexscada-Site-Monitoring',
-          type: 'influxdb',
-          url: 'http://flexscada.com:9086',
-          isDefault:true,
-          password: self.account.influxdb.password,
-          user: self.account.influxdb.user,
-          database:self.account.influxdb.database,
-          access: 'proxy',
-          jsonData: { }
-        };
-
-
-        promises.push(self.backendSrv.post('/api/datasources', flexsQx));
       }
 
 
