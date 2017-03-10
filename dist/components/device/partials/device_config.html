@@ -52,6 +52,10 @@
 </div>
 
 <div ng-if="ctrl.deviceStatus > 0">
+ <div class="gf-form gf-form--right-margin">
+      <label class="gf-form-label width-9">UID</label>
+      <input class="gf-form-input max-width-15" disabled="true" type="text" ng-model="ctrl.config.uid" placeholder="">
+    </div>
     <div class="gf-form gf-form--right-margin">
       <label class="gf-form-label width-9">Device Name</label>
       <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.config.name" ng-class="{ 'fs-text-box-success' : ctrl.discovered, 'fs-font-shrinker' : ctrl.config.name > 10 }" placeholder="6X9 Pump">

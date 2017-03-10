@@ -78,7 +78,7 @@
       "name": "FlexSCADA Data Edit",
       "path": "dashboards/flexscada-data-edit.json",
       "addToNav": false,
-      "defaultNav": true
+      "defaultNav": false
     },
     {
       "type": "page",

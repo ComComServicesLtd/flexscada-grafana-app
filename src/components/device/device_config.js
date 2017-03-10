@@ -21,6 +21,8 @@ class DeviceConfigCtrl {
     this.config = {};
     this.config.ds18b20 = {};
     this.config.channels = {};
+    this.config.relays = [];
+    this.config.feeds = [];
     this.deviceStatus = 0; // 0 = new, stage 1, 1 = new, adding information stage, 2 = exiting
 
     this.ignoreChanges = false;
