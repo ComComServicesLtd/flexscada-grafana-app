@@ -2,9 +2,9 @@ import {ConfigCtrl} from './components/config/config';
 import {DeviceListCtrl} from './components/device/device_list';
 import {DeviceDetailsCtrl} from './components/device/device_details';
 import {DeviceConfigCtrl} from './components/device/device_config';
-import {AlarmConfigCtrl} from './components/alarm/alarm_config';
-import {AlarmListCtrl} from './components/alarm/alarm_list';
-import {AnalysisCtrl} from './components/analysis/analysis';
+import {TemplateConfigCtrl} from './components/template/template_config';
+import {TemplateListCtrl} from './components/template/template_list';
+//import {AnalysisCtrl} from './components/analysis/analysis';
 import {loadPluginCss} from 'app/plugins/sdk';
 import './filters/all';
 import './directives/all';
@@ -18,8 +18,8 @@ export {
   DeviceListCtrl,
   DeviceDetailsCtrl,
   DeviceConfigCtrl,
-  AlarmConfigCtrl,
-  AlarmListCtrl,
-  AnalysisCtrl,
+  TemplateConfigCtrl,
+  TemplateListCtrl,
+//  AnalysisCtrl,
   ConfigCtrl
 };

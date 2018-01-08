@@ -115,6 +115,14 @@ module.exports = function(grunt) {
   //  'jscs',
     ]);
 
+    grunt.registerTask('dev', [
+      'sass',
+      'copy:src_to_dist',
+      "copy:externals",
+      'copy:pluginDef',
+        'jscs'
+      ]);
+
   grunt.registerTask('default', [
     'clean',
     'sass',

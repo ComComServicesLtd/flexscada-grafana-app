@@ -7,12 +7,12 @@
 
 		<ul class="gf-tabs">
 			<li class="gf-tabs-item">
-				<a class="gf-tabs-link active" href="plugins/flexscada-app/page/device-details?device={{ctrl.device.uid}}">
+				<a class="gf-tabs-link active" href="plugins/flexscada-app/page/device-details?device={{ctrl.deviceID}}">
 					Status
 				</a>
 			</li>
 			<li class="gf-tabs-item" ng-if="ctrl.isOrgEditor">
-				<a class="gf-tabs-link" href="plugins/flexscada-app/page/device-config?device={{ctrl.device.uid}}">
+				<a class="gf-tabs-link" href="plugins/flexscada-app/page/device-config?device={{ctrl.deviceID}}">
 					Configuration
 				</a>
 			</li>
@@ -21,5 +21,5 @@
 </div>
 
 
-<div ng-if="ctrl.device.type == 2" ng-include src="'public/plugins/flexscada-app/components/device/partials/cdevice_details.html'"></div>
-<div ng-if="ctrl.device.type == 1" ng-include src="'public/plugins/flexscada-app/components/device/partials/qdevice_details.html'"></div>
+<div ng-if="ctrl.deviceType == 2" ng-include src="'public/plugins/flexscada-app/components/device/partials/cdevice_details.html'"></div>
+<div ng-if="ctrl.deviceType == 1" ng-include src="'public/plugins/flexscada-app/components/device/partials/qdevice_details.html'"></div>

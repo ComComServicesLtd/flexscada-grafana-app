@@ -3,7 +3,7 @@
 System.register(['lodash', 'jquery'], function (_export, _context) {
   "use strict";
 
-  var _, $, _createClass, DeviceListCtrl;
+  var _, $, _createClass, TemplateListCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -36,11 +36,11 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
         };
       }();
 
-      _export('DeviceListCtrl', DeviceListCtrl = function () {
+      _export('TemplateListCtrl', TemplateListCtrl = function () {
 
         /** @ngInject */
-        function DeviceListCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
-          _classCallCheck(this, DeviceListCtrl);
+        function TemplateListCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
+          _classCallCheck(this, TemplateListCtrl);
 
           this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
           this.backendSrv = backendSrv;
@@ -52,21 +52,21 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
             'tag': ''
           };
           this.sort_field = 'name';
-          this.devices = [];
+          this.templates = [];
           this.refresh();
         }
 
-        _createClass(DeviceListCtrl, [{
+        _createClass(TemplateListCtrl, [{
           key: 'refresh',
           value: function refresh() {
-            this.getdevices();
+            this.getTemplates();
           }
         }, {
-          key: 'deviceTags',
-          value: function deviceTags() {
+          key: 'getTags',
+          value: function getTags() {
             var map = {};
-            _.forEach(this.devices, function (device) {
-              _.forEach(device.tags, function (tag) {
+            _.forEach(this.templates, function (config) {
+              _.forEach(config.tags, function (tag) {
                 map[tag] = true;
               });
             });
@@ -78,53 +78,40 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
             this.filter.tag = tag;
           }
         }, {
-          key: 'getdevices',
-          value: function getdevices() {
+          key: 'getTemplates',
+          value: function getTemplates() {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/devices').then(function (resp) {
+            this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/templates').then(function (resp) {
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to get device list.", resp.meta.msg, 'error', 10000);
                 return self.$q.reject(resp.meta.msg);
               }
-              self.devices = resp.body;
+              self.templates = resp.body;
               self.pageReady = true;
             });
           }
         }, {
-          key: 'gotoDeviceConfig',
-          value: function gotoDeviceConfig(device) {
-            this.$location.url('plugins/flexscada-app/page/device-config?device=' + device.id);
+          key: 'gotoTemplateConfig',
+          value: function gotoTemplateConfig(template) {
+            this.$location.url('plugins/flexscada-app/page/template-config?template=' + template.id);
           }
         }, {
-          key: 'gotoDeviceDetails',
-          value: function gotoDeviceDetails(device) {
-            var deviceType = 1;
+          key: 'gotoTemplateDetails',
+          value: function gotoTemplateDetails(template) {
 
-            if (device.hasOwnProperty('active_detection')) {
-              deviceType = 2;
-            }
-
-            if (deviceType == 1) {
-
-              this.$location.url('plugins/flexscada-app/page/device-details?device=' + device.id);
-            }
-
-            if (deviceType == 2) {
-
-              this.$location.url("/dashboard/db/flexsc2").search({
-                "var-Uid": device.id,
-                "var-Device": device.name
-              });
-            }
+            this.$location.url("/dashboard/db/flexsc2").search({
+              "var-Tid": template.id,
+              "var-Template": template.name
+            });
           }
         }]);
 
-        return DeviceListCtrl;
+        return TemplateListCtrl;
       }());
 
-      DeviceListCtrl.templateUrl = 'public/plugins/flexscada-app/components/device/partials/device_list.html';
+      TemplateListCtrl.templateUrl = 'public/plugins/flexscada-app/components/template/partials/template_list.html';
 
-      _export('DeviceListCtrl', DeviceListCtrl);
+      _export('TemplateListCtrl', TemplateListCtrl);
     }
   };
 });

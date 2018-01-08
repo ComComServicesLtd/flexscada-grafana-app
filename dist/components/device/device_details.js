@@ -57,6 +57,7 @@ System.register(["lodash"], function (_export, _context) {
           this.pageReady = false;
           this.device = null;
           this.deviceID = 0;
+          this.deviceType = 0;
 
           if ($location.search().device) {
             this.deviceID = $location.search().device;
@@ -71,12 +72,19 @@ System.register(["lodash"], function (_export, _context) {
           value: function getDevice() {
             var self = this;
 
-            self.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/config/' + self.deviceID).then(function (resp) {
+            self.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/devices/' + self.deviceID).then(function (resp) {
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to get device.", resp.meta.msg, 'error', 10000);
                 return self.$q.reject(resp.meta.msg);
               }
               self.device = resp.body;
+
+              if (self.device.hasOwnProperty('active_detection')) {
+                self.deviceType = 2;
+              } else {
+                self.deviceType = 1;
+              }
+
               self.pageReady = true;
             });
           }
@@ -84,7 +92,7 @@ System.register(["lodash"], function (_export, _context) {
           key: "setReg",
           value: function setReg(reg, val) {
             var self = this;
-            return this.backendSrv.post('api/plugin-proxy/flexscada-app/api/v2/device/' + self.device.uid + '/setreg', {
+            return this.backendSrv.post('api/plugin-proxy/flexscada-app/api/v2/device/' + self.deviceID + '/setreg', {
               register: reg,
               value: val
             }).then(function (resp) {
@@ -251,7 +259,7 @@ System.register(["lodash"], function (_export, _context) {
 
             var allTags = this.device.tags.concat(feed.tags);
 
-            allTags.push("uid=" + this.device.uid);
+            allTags.push("uid=" + this.deviceID);
 
             var query = "";
 

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import $ from 'jquery';
 
-class DeviceListCtrl {
+class TemplateListCtrl {
 
   /** @ngInject */
   constructor($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
@@ -15,19 +15,19 @@ class DeviceListCtrl {
       'tag': ''
     };
     this.sort_field = 'name';
-    this.devices = [];
+    this.templates = [];
     this.refresh();
 
   }
 
   refresh() {
-    this.getdevices();
+    this.getTemplates();
   }
 
-  deviceTags() {
+  getTags() {
     var map = {};
-    _.forEach(this.devices, function(device) {
-      _.forEach(device.tags, function(tag) {
+    _.forEach(this.templates, function(config) {
+      _.forEach(config.tags, function(tag) {
         map[tag] = true;
       });
     });
@@ -38,55 +38,36 @@ class DeviceListCtrl {
     this.filter.tag = tag;
   }
 
-  getdevices() {
+  getTemplates() {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/devices').then(function(resp) {
+    this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/templates').then(function(resp) {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to get device list.", resp.meta.msg, 'error', 10000);
         return self.$q.reject(resp.meta.msg);
       }
-      self.devices = resp.body;
+      self.templates = resp.body;
       self.pageReady = true;
     });
   }
 
 
-
-  gotoDeviceConfig(device) {
-    this.$location.url('plugins/flexscada-app/page/device-config?device=' + device.id);
+  gotoTemplateConfig(template) {
+    this.$location.url('plugins/flexscada-app/page/template-config?template=' + template.id);
   }
 
-  gotoDeviceDetails(device) {
-    var deviceType = 1;
 
-    if (device.hasOwnProperty('active_detection')) {
-      deviceType = 2;
-    }
-
-    if (deviceType == 1) {
-
-      this.$location.url('plugins/flexscada-app/page/device-details?device=' + device.id);
-    }
-
-
-    if (deviceType == 2) {
+  gotoTemplateDetails(template) {
 
       this.$location.url("/dashboard/db/flexsc2").search({
-        "var-Uid": device.id,
-        "var-Device": device.name
+        "var-Tid": template.id,
+        "var-Template": template.name
       });
-
-    }
-
-
-
-
 
   }
 
 }
 
-DeviceListCtrl.templateUrl = 'public/plugins/flexscada-app/components/device/partials/device_list.html';
+TemplateListCtrl.templateUrl = 'public/plugins/flexscada-app/components/template/partials/template_list.html';
 export {
-  DeviceListCtrl
+  TemplateListCtrl
 };

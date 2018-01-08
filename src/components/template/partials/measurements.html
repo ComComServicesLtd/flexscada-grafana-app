@@ -1,0 +1,90 @@
+<div class="gf-form-group" id="measurements">
+<br>
+<br>
+      <h3 class="page-headering">Measurements</h3>
+<hr>
+
+<div  ng-hide="ctrl.config.measurements[0]">
+<p>No Measurements Defined...<info-popover>Add a new measurement from the button below</info-popover></p>
+</div>
+
+
+<div ng-repeat="measurement in ctrl.config.measurements" class="gf-form-group gf-form-group--header" id="measurementList">
+  <div class="fs-config-box--hit-area" ng-click="ctrl.toggleEditMeasurement($index)">
+    <div class="playlist-column-header section-header-flex-container">
+      <h5 class="page-headering" ng-show="true">{{measurement.label}}</h5>
+      <div>
+          <a href="#">
+          <!-- Monitoring -->
+
+          <span class="freqMsg">{{measurement.frequency}}&nbsp;<span class="badge">{{(measurement.useCPM == 1) ? 'CPM' : 'HZ' }}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;±{{measurement.width_bins * ctrl.config.fft_bin_size}}hz / {{measurement.width_bins}}bins </span>
+          <span class="highlight-word"> Configure</span>
+          <span><i class="fa fa-caret-down" ng-show="ctrl.showMeasurement == $index"></i></span>
+          <span><i class="fa fa-caret-right fs-box-accordian-control" ng-hide="ctrl.showMeasurement == $index"></i></span>
+              </a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="fs-config-box fs-page-box" ng-class="{ 'cond-open': ctrl.showMeasurement == $index }">
+
+
+        <div class="gf-form">
+          <h5 class="inline-header">&nbsp;Edit Measurement</h5>
+        </div>
+        <div class="device-config-left-margin">
+          <div class="gf-form-group">
+
+          <div class="gf-form">
+           <label class="gf-form-label width-5">Label</label>
+          <input class="gf-form-input max-width-15" type="text" ng-model="measurement.label"  placeholder="Inner Race Defect">
+        </div>
+
+
+        <div class="gf-form">
+         <label class="gf-form-label width-7">Frequency</label>
+        <input class="gf-form-input max-width-15" type="text" ng-model="measurement.frequency"  placeholder="200hz">
+        <div class="gf-form-select-wrapper">
+          <select class="gf-form-input gf-size-auto" ng-model="measurement.useCPM" ng-options="f.value as f.label for f in ctrl.measurementUnits"></select>
+        </div>
+          <info-popover>Target Frequency in HZ for measurement. Math expressions can be used, the following variables are available:  HZ, RPM, BPFO, BPFI, BTF, BSF, ROLLER_SIZE,ROLLER_COUNT,PITCH,pi can be used</info-popover>
+       </div>
+
+       <div class="gf-form">
+        <label class="gf-form-label width-5">Spread</label>
+        <input class="gf-form-input max-width-6" type="number" ng-model="measurement.width_bins" placeholder="2">
+        <label class="gf-form-label width-5">Bins</label>
+        <info-popover>Number of bins to include in the calculation of amplitude, Min, Max and Average amplitude will be logged</info-popover>
+      </div>
+
+
+
+      <!-- <div class="gf-form">
+        <span class="gf-form-label width-7">Aggregation</span>
+        <div class="gf-form-select-wrapper">
+          <select class="gf-form-input gf-size-auto" ng-change="ctrl.typeChanged()" ng-model="measurement.aggregation" ng-options="f.value as f.label for f in ctrl.measurementAggregationOptions"></select>
+        </div>
+          <info-popover>This setting determins how multiple bins are aggregated, the `Peak` option will result in an output matching the bin with the highest amplitude while the `Average` option will output an averge of all the bins specified.</info-popover>
+      </div> -->
+
+        <div class="gf-form gf-form--v-stretch">
+          <label class="gf-form-label width-5">Notes</label>
+          <textarea class="gf-form-input max-width-30" type="textarea" ng-model="measurement.notes"></textarea>
+          <info-popover>Describe how this rule is to be used, etc.</info-popover>
+        </div>
+            <hr>
+            <button type="submit" class="btn btn-warning" ng-click="ctrl.deleteMeasurement($index)">Remove</button> <button type="submit" class="pull-right btn btn-secondary"  ng-click="ctrl.showMeasurement = -1">Done</button>
+          </div>
+        </div>
+
+
+
+  </div>
+</div>
+
+
+<button type="submit" class="btn btn-success" ng-click="ctrl.addMeasurement()">Add Measurement</button>
+
+
+  </div>

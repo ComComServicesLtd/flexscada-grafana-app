@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['./components/config/config', './components/device/device_list', './components/device/device_details', './components/device/device_config', './components/alarm/alarm_config', './components/alarm/alarm_list', './components/analysis/analysis', 'app/plugins/sdk', './filters/all', './directives/all'], function (_export, _context) {
+System.register(['./components/config/config', './components/device/device_list', './components/device/device_details', './components/device/device_config', './components/template/template_config', './components/template/template_list', 'app/plugins/sdk', './filters/all', './directives/all'], function (_export, _context) {
   "use strict";
 
-  var ConfigCtrl, DeviceListCtrl, DeviceDetailsCtrl, DeviceConfigCtrl, AlarmConfigCtrl, AlarmListCtrl, AnalysisCtrl, loadPluginCss;
+  var ConfigCtrl, DeviceListCtrl, DeviceDetailsCtrl, DeviceConfigCtrl, TemplateConfigCtrl, TemplateListCtrl, loadPluginCss;
   return {
     setters: [function (_componentsConfigConfig) {
       ConfigCtrl = _componentsConfigConfig.ConfigCtrl;
@@ -13,12 +13,10 @@ System.register(['./components/config/config', './components/device/device_list'
       DeviceDetailsCtrl = _componentsDeviceDevice_details.DeviceDetailsCtrl;
     }, function (_componentsDeviceDevice_config) {
       DeviceConfigCtrl = _componentsDeviceDevice_config.DeviceConfigCtrl;
-    }, function (_componentsAlarmAlarm_config) {
-      AlarmConfigCtrl = _componentsAlarmAlarm_config.AlarmConfigCtrl;
-    }, function (_componentsAlarmAlarm_list) {
-      AlarmListCtrl = _componentsAlarmAlarm_list.AlarmListCtrl;
-    }, function (_componentsAnalysisAnalysis) {
-      AnalysisCtrl = _componentsAnalysisAnalysis.AnalysisCtrl;
+    }, function (_componentsTemplateTemplate_config) {
+      TemplateConfigCtrl = _componentsTemplateTemplate_config.TemplateConfigCtrl;
+    }, function (_componentsTemplateTemplate_list) {
+      TemplateListCtrl = _componentsTemplateTemplate_list.TemplateListCtrl;
     }, function (_appPluginsSdk) {
       loadPluginCss = _appPluginsSdk.loadPluginCss;
     }, function (_filtersAll) {}, function (_directivesAll) {}],
@@ -28,6 +26,7 @@ System.register(['./components/config/config', './components/device/device_list'
         dark: 'plugins/flexscada-app/css/flexscada.dark.css',
         light: 'plugins/flexscada-app/css/flexscada.light.css'
       });
+      //import {AnalysisCtrl} from './components/analysis/analysis';
 
       _export('DeviceListCtrl', DeviceListCtrl);
 
@@ -35,11 +34,9 @@ System.register(['./components/config/config', './components/device/device_list'
 
       _export('DeviceConfigCtrl', DeviceConfigCtrl);
 
-      _export('AlarmConfigCtrl', AlarmConfigCtrl);
+      _export('TemplateConfigCtrl', TemplateConfigCtrl);
 
-      _export('AlarmListCtrl', AlarmListCtrl);
-
-      _export('AnalysisCtrl', AnalysisCtrl);
+      _export('TemplateListCtrl', TemplateListCtrl);
 
       _export('ConfigCtrl', ConfigCtrl);
     }

@@ -52,17 +52,16 @@
   -webkit-transition: max-height 500ms;
 
   &.channel-open {
-    max-height: 300px;
-    height:300px;
+    min-height: 400px;
     padding-bottom: 50px;
   }
 
   &.temp-open {
-    max-height: 300px;
+    min-height: 300px;
     height:300px;
     padding-bottom: 50px;
   }
-  
+
     &.cond-open {
     max-height: 300px;
     height:300px;

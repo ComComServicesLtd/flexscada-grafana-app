@@ -11,18 +11,18 @@
 </div>
 
 
-<div ng-if="ctrl.deviceStatus == 2" class="page-header">
+<div ng-if="ctrl.deviceStatus == 2 && ctrl.deviceType == 1" class="page-header">
   <h1>{{ctrl.config.name}}<!--<a ng-click="ctrl.gotoDashboard()"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to device summary </br>dashboard for this device'"></i></a>--></h1>
   <div class="page-header-tabs">
     <a class="btn btn-link" href="plugins/flexscada-app/page/devices"><i class="fa fa-mail-reply" aria-hidden="true"></i>&nbsp;Back to device list</a>
     <ul class="gf-tabs">
       <li class="gf-tabs-item">
-        <a class="gf-tabs-link" href="plugins/flexscada-app/page/device-details?device={{ctrl.config.uid}}">
+        <a class="gf-tabs-link" href="plugins/flexscada-app/page/device-details?device={{ctrl.deviceID}}">
             Status
           </a>
       </li>
       <li class="gf-tabs-item">
-        <a class="gf-tabs-link active" href="plugins/flexscada-app/page/device-config?device={{ctrl.config.uid}}">
+        <a class="gf-tabs-link active" href="plugins/flexscada-app/page/device-config?device={{ctrl.deviceID}}">
             Configuration
           </a>
       </li>
@@ -40,7 +40,7 @@
   <div class="gf-form-inline">
     <div class="gf-form gf-form--right-margin">
       <label class="gf-form-label width-9">UID</label>
-      <input class="gf-form-input max-width-15" type="numeric" ng-model="ctrl.config.uid" required="" placeholder="Q1535235511">
+      <input class="gf-form-input max-width-15" type="numeric" ng-model="ctrl.deviceID" required="" placeholder="Q1535235511">
     </div>
     <!-- Unsubmitted state -->
     <div class="gf-form">
@@ -54,7 +54,7 @@
 <div ng-if="ctrl.deviceStatus > 0">
  <div class="gf-form gf-form--right-margin">
       <label class="gf-form-label width-9">UID</label>
-      <input class="gf-form-input max-width-15" disabled="true" type="text" ng-model="ctrl.config.uid" placeholder="">
+      <input class="gf-form-input max-width-15" disabled="true" type="text" ng-model="ctrl.deviceID" placeholder="">
     </div>
     <div class="gf-form gf-form--right-margin">
       <label class="gf-form-label width-9">Device Name</label>
@@ -68,8 +68,8 @@
 
   <div class="gf-form">
     <span class="gf-form-label width-6">Tags:</span>
-    <bootstrap-tagsinput ng-if="ctrl.config.type == 1" influxtags ng-model="ctrl.config.tags" tagclass="label fs-label-tag" placeholder="Add tags"></bootstrap-tagsinput>
-    <bootstrap-tagsinput ng-if="ctrl.config.type == 2" ng-model="ctrl.config.tags" tagclass="label fs-label-tag" placeholder="Add tags"></bootstrap-tagsinput>
+    <bootstrap-tagsinput influxtags ng-model="ctrl.config.tags" tagclass="label fs-label-tag" placeholder="Add tags"></bootstrap-tagsinput>
+    <!-- <bootstrap-tagsinput ng-if="ctrl.deviceType == 2" influxtags ng-model="ctrl.config.tags" tagclass="label fs-label-tag" placeholder="Add tags"></bootstrap-tagsinput> -->
     <info-popover>Device Tags is an optional feature that is useful for device sorting and categorization. As an example if this device is critcal to an operation you might add the tag 'critical'</info-popover>
   </div>
   <div class="gf-form-inline max-width-37">
@@ -81,7 +81,7 @@
       <label class="gf-form-label width-4">Long</label>
       <input class="gf-form-input max-width-8" type="number" ng-model="ctrl.config.lng">
     </div>
-    <info-popover>Device Coordinates are optional but highly reccomended as it allows the device to be visualized on a map and located by service personalle</info-popover>
+    <info-popover>Device Coordinates are optional but highly reccomended as it allows the device to be visualized on a map and located by service personal</info-popover>
   </div>
 
   <div class="gf-form gf-form--v-stretch">
@@ -90,8 +90,8 @@
     <info-popover>Describe where the devices is located, what equiptment is monitored, how the unit is powered and any other relevant pieces of information about this installation.</info-popover>
   </div>
 
-  <div ng-if="ctrl.config.type == 2" ng-include src="'public/plugins/flexscada-app/components/device/partials/cdevice_config.html'"></div>
-  <div ng-if="ctrl.config.type == 1" ng-include src="'public/plugins/flexscada-app/components/device/partials/qdevice_config.html'"></div>
+  <div ng-if="ctrl.deviceType == 2" ng-include src="'public/plugins/flexscada-app/components/device/partials/cdevice_config.html'"></div>
+  <div ng-if="ctrl.deviceType == 1" ng-include src="'public/plugins/flexscada-app/components/device/partials/qdevice_config.html'"></div>
 
 </div>
 

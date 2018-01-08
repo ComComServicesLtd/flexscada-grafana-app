@@ -15,6 +15,7 @@ class DeviceDetailsCtrl {
     this.pageReady = false;
     this.device = null;
     this.deviceID = 0;
+    this.deviceType = 0;
 
     if ($location.search().device) {
       this.deviceID = $location.search().device;
@@ -29,18 +30,27 @@ class DeviceDetailsCtrl {
     var self = this;
 
 
-    self.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/config/' + self.deviceID).then(function(resp) {
+    self.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/devices/' + self.deviceID).then(function(resp) {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to get device.", resp.meta.msg, 'error', 10000);
         return self.$q.reject(resp.meta.msg);
       }
       self.device = resp.body;
+
+      if (self.device.hasOwnProperty('active_detection')) {
+        self.deviceType = 2;
+      } else {
+        self.deviceType = 1;
+      }
+
+
+
       self.pageReady = true;
     });
   }
   setReg(reg, val) {
     var self = this;
-    return this.backendSrv.post('api/plugin-proxy/flexscada-app/api/v2/device/' + self.device.uid + '/setreg', {
+    return this.backendSrv.post('api/plugin-proxy/flexscada-app/api/v2/device/' + self.deviceID + '/setreg', {
         register: reg,
         value: val
       })
@@ -203,11 +213,11 @@ class DeviceDetailsCtrl {
 
     var allTags = this.device.tags.concat(feed.tags);
 
-    allTags.push("uid=" + this.device.uid);
+    allTags.push("uid=" + this.deviceID);
 
     var query = "";
 
-     allTags.forEach(function(tag) {
+    allTags.forEach(function(tag) {
 
       var tag_value = tag.split('=');
       var key = tag_value[0];
@@ -224,37 +234,37 @@ class DeviceDetailsCtrl {
   }
 
 
-getNotificationEmails(checkType) {
-  var mon = this.getMonitorByTypeName(checkType);
-  if (!mon || mon.healthSettings.notifications.addresses === "") {
-    return [];
-  }
-  var addresses = mon.healthSettings.notifications.addresses.split(',');
-  var list = [];
-  addresses.forEach(function(addr) {
-    list.push(addr.trim());
-  });
-  return list;
-}
-
-getNotificationEmailsAsString(checkType) {
-  var emails = this.getNotificationEmails(checkType);
-  if (emails.length < 1) {
-    return "No recipients specified";
-  }
-  var list = [];
-  emails.forEach(function(email) {
-    // if the email in the format `display name <email@address>`
-    // then just show the display name.
-    var res = email.match(/\"?(.+)\"?\s*<.*@.*>/);
-    if (res && res.length === 2) {
-      list.push(res[1]);
-    } else {
-      list.push(email);
+  getNotificationEmails(checkType) {
+    var mon = this.getMonitorByTypeName(checkType);
+    if (!mon || mon.healthSettings.notifications.addresses === "") {
+      return [];
     }
-  });
-  return list.join(", ");
-}
+    var addresses = mon.healthSettings.notifications.addresses.split(',');
+    var list = [];
+    addresses.forEach(function(addr) {
+      list.push(addr.trim());
+    });
+    return list;
+  }
+
+  getNotificationEmailsAsString(checkType) {
+    var emails = this.getNotificationEmails(checkType);
+    if (emails.length < 1) {
+      return "No recipients specified";
+    }
+    var list = [];
+    emails.forEach(function(email) {
+      // if the email in the format `display name <email@address>`
+      // then just show the display name.
+      var res = email.match(/\"?(.+)\"?\s*<.*@.*>/);
+      if (res && res.length === 2) {
+        list.push(res[1]);
+      } else {
+        list.push(email);
+      }
+    });
+    return list.join(", ");
+  }
 }
 
 DeviceDetailsCtrl.templateUrl = 'public/plugins/flexscada-app/components/device/partials/device_details.html';

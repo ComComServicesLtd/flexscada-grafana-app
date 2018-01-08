@@ -61,7 +61,7 @@
         "path": "img/remote-site-monitoring-dashboard.png"
       }
     ],
-    "version": "0.0.1",
+    "version": "0.0.2",
     "updated": "2017-02-10"
   },
 
@@ -103,17 +103,17 @@
     },
     {
       "type": "page",
-      "name": "Alarm Config",
-      "component": "AlarmConfigCtrl",
+      "name": "Template Config",
+      "component": "TemplateConfigCtrl",
       "role": "Editor",
       "addToNav": false
     },
     {
       "type": "page",
-      "name": "Alarm List",
-      "component": "AlarmListCtrl",
+      "name": "Templates",
+      "component": "TemplateListCtrl",
       "role": "Viewer",
-      "addToNav": false
+      "addToNav": true
     },
     {
       "type": "page",
