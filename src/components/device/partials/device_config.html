@@ -40,7 +40,7 @@
   <div class="gf-form-inline">
     <div class="gf-form gf-form--right-margin">
       <label class="gf-form-label width-9">UID</label>
-      <input class="gf-form-input max-width-15" type="numeric" ng-model="ctrl.deviceID" required="" placeholder="Q1535235511">
+      <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.deviceID" required="" placeholder="Q1535235511">
     </div>
     <!-- Unsubmitted state -->
     <div class="gf-form">
@@ -60,7 +60,7 @@
       <label class="gf-form-label width-9">Device Name</label>
       <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.config.name" ng-class="{ 'fs-text-box-success' : ctrl.discovered, 'fs-font-shrinker' : ctrl.config.name > 10 }" placeholder="6X9 Pump">
     </div>
-    <div ng-if="ctrl.config.type == 1" class="gf-form gf-form--right-margin">
+    <div ng-if="ctrl.deviceType == 1" class="gf-form gf-form--right-margin">
       <label class="gf-form-label width-9">Password</label>
       <input class="gf-form-input max-width-15" type="password" ng-model="ctrl.config.password"  placeholder="">
       <info-popover>This is the local password used to log into your device, if you do not have a password on your device you may leave this blank however for using the devices onboard relays a password is required</info-popover>

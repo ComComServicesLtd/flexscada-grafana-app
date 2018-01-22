@@ -63,7 +63,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           this.config.tags = [];
           this.deviceStatus = 0; // 0 = new, stage 1, 1 = new, adding information stage, 2 = exiting
           this.deviceType = 0; // 1 = Q4, 2 = C2
-          this.deviceID = 0;
+          this.deviceID = '';
           this.ignoreChanges = false;
 
           this.rpmOptions = [{
@@ -157,7 +157,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             this.deviceStatus = 0;
           }
 
-          self.getTemplates();
+          //    self.getTemplates();
 
           self.pageReady = true;
 
@@ -212,24 +212,25 @@ System.register(['lodash', 'angular'], function (_export, _context) {
         }, {
           key: 'addDevice',
           value: function addDevice() {
-            if (!this.config.uid) {
+
+            if (!this.deviceID) {
               return;
             }
 
             var qtype = new RegExp("Q[0-9]*$");
             var ctype = new RegExp("C[0-9]*$");
 
-            if (this.config.uid.match(qtype)) {
-              this.config.type = 1;
-            } else if (this.config.uid.match(ctype)) {
-              this.config.type = 2;
+            if (this.deviceID.match(qtype)) {
+              this.deviceType = 1;
+            } else if (this.deviceID.match(ctype)) {
+              this.deviceType = 2;
             } else {
               this.alertSrv.set("Invalid UID", "UID should look like 'Q1535235511'", 'error', 5000);
               return;
             }
             this.deviceStatus = 1;
             //this.config.uid.replace(/\D/g,'');// We only want the uid number
-            this.config.uid = this.config.uid.substring(1); // We only want the uid number
+            this.deviceID = this.deviceID.substring(1); // We only want the uid number
           }
         }, {
           key: 'addDs18b20',
