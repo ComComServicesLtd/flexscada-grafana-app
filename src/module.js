@@ -5,6 +5,7 @@ import {DeviceConfigCtrl} from './components/device/device_config';
 import {TemplateConfigCtrl} from './components/template/template_config';
 import {TemplateListCtrl} from './components/template/template_list';
 //import {AnalysisCtrl} from './components/analysis/analysis';
+import {NewDeviceCtrl} from './components/device/new_device';
 import {loadPluginCss} from 'app/plugins/sdk';
 import './filters/all';
 import './directives/all';
@@ -20,6 +21,7 @@ export {
   DeviceConfigCtrl,
   TemplateConfigCtrl,
   TemplateListCtrl,
+  NewDeviceCtrl,
 //  AnalysisCtrl,
   ConfigCtrl
 };

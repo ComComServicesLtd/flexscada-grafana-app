@@ -23,14 +23,16 @@
       </li>
       <li class="gf-tabs-item">
         <a class="gf-tabs-link active" href="plugins/flexscada-app/page/device-config?device={{ctrl.deviceID}}">
-            Configuration
+            Configurations
           </a>
       </li>
     </ul>
   </div>
 </div>
 
-
+<br>
+<br>
+<br>
 
 
 <!-- New device -->
@@ -39,8 +41,19 @@
 
   <div class="gf-form-inline">
     <div class="gf-form gf-form--right-margin">
-      <label class="gf-form-label width-9">UID</label>
-      <input class="gf-form-input max-width-15" type="numeric" ng-model="ctrl.deviceID" required="" placeholder="Q1535235511">
+      <label class="gf-form-label width-4">Type</label>
+     <select class="gf-form-input gf-size-auto" ng-model="ctrl.deviceType" ng-options="f.value as f.label for f in ctrl.deviceTypes"></select>
+
+      <label class="gf-form-label width-4">UID</label>
+      <input class="gf-form-input max-width-15" type="numeric" ng-model="ctrl.deviceID" required="" placeholder="1535235511">
+
+
+      <label class="gf-form-label width-8">Password</label>
+      <input class="gf-form-input max-width-15" type="password" ng-model="ctrl.newPassword" required="">
+
+
+
+
     </div>
     <!-- Unsubmitted state -->
     <div class="gf-form">
@@ -92,6 +105,7 @@
 
   <div ng-if="ctrl.deviceType == 2" ng-include src="'public/plugins/flexscada-app/components/device/partials/cdevice_config.html'"></div>
   <div ng-if="ctrl.deviceType == 1" ng-include src="'public/plugins/flexscada-app/components/device/partials/qdevice_config.html'"></div>
+  <div ng-if="ctrl.deviceType == 3" ng-include src="'public/plugins/flexscada-app/components/device/partials/q5device_config.html'"></div>
 
 </div>
 

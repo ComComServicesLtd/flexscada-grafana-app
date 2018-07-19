@@ -37,13 +37,13 @@ class DeviceDetailsCtrl {
       }
       self.device = resp.body;
 
-      if (self.device.hasOwnProperty('active_detection')) {
-        self.deviceType = 2;
-      } else {
-        self.deviceType = 1;
-      }
-
-
+      if( self.device.hasOwnProperty('active_detection')){
+              self.deviceType = 2;
+            } else if( self.device.hasOwnProperty('script')){
+            self.deviceType = 3;
+            } else {
+              self.deviceType = 1;
+            }
 
       self.pageReady = true;
     });
@@ -57,6 +57,20 @@ class DeviceDetailsCtrl {
       .then((resp) => {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to set relay.", resp.meta.message, 'error', 10000);
+          return self.$q.reject(resp.meta.message);
+        }
+      });
+  }
+
+  setRelayQ5(ch, val) {
+    var self = this;
+    return this.backendSrv.post('api/plugin-proxy/flexscada-app/api/v2/device/' + self.deviceID + '/queue_command', {
+        channel: ch,
+        value: val
+      })
+      .then((resp) => {
+        if (resp.meta.code !== 200) {
+          self.alertSrv.set("failed to queue command.", resp.meta.message, 'error', 10000);
           return self.$q.reject(resp.meta.message);
         }
       });

@@ -81,6 +81,8 @@ System.register(["lodash"], function (_export, _context) {
 
               if (self.device.hasOwnProperty('active_detection')) {
                 self.deviceType = 2;
+              } else if (self.device.hasOwnProperty('script')) {
+                self.deviceType = 3;
               } else {
                 self.deviceType = 1;
               }
@@ -98,6 +100,20 @@ System.register(["lodash"], function (_export, _context) {
             }).then(function (resp) {
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to set relay.", resp.meta.message, 'error', 10000);
+                return self.$q.reject(resp.meta.message);
+              }
+            });
+          }
+        }, {
+          key: "setRelayQ5",
+          value: function setRelayQ5(ch, val) {
+            var self = this;
+            return this.backendSrv.post('api/plugin-proxy/flexscada-app/api/v2/device/' + self.deviceID + '/queue_command', {
+              channel: ch,
+              value: val
+            }).then(function (resp) {
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to queue command.", resp.meta.message, 'error', 10000);
                 return self.$q.reject(resp.meta.message);
               }
             });

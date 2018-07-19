@@ -267,7 +267,14 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               this.config.measurements = [];
             }
 
-            var index = this.config.measurements.push({ label: "New Measurement, Click to edit" }) - 1;
+            var index = this.config.measurements.push({
+              "frequency": "0",
+              "label": "New Measurement, Click to edit",
+              "notes": "",
+              "width_bins": 2,
+              "useCPM": false
+            }) - 1;
+
             this.showMeasurement = index;
           }
         }, {

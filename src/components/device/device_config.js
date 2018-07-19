@@ -142,14 +142,38 @@ class DeviceConfigCtrl {
       }
     ];
 
+    this.deviceTypes = [
+      {
+        value: 3,
+        label: 'Flexs Q5'
+      },
+      {
+        value: 1,
+        label: 'Flexs Q4'
+      },
+      {
+        value: 2,
+        label: 'Flexs C2'
+      }
+    ];
 
 
 
     $window.console.log($location.search());
+
+
     if ("device" in $location.search()) {
+      this.deviceID = $location.search().device;
+
+      if ("new" in $location.search()) {
+        this.config.uid = this.deviceID;
+        this.deviceStatus = 1;
+        this.deviceType = $location.search().type;
+    } else {
       this.deviceStatus = 2;
-      this.deviceID = $location.search().device
       this.loadDevice();
+    }
+
     } else {
       this.deviceStatus = 0;
     }
@@ -210,25 +234,15 @@ class DeviceConfigCtrl {
   }
 
   addDevice() {
-    if (!this.config.uid) {
-      return;
-    }
 
+if(this.deviceID.length < 4){
+    this.alertSrv.set("Invalid UID", "UID should look like '1535235511'", 'error', 5000);
+    return;
+  }
 
-    var qtype = new RegExp("Q[0-9]*$");
-    var ctype = new RegExp("C[0-9]*$");
+  this.config.uid = this.deviceID;
+  this.deviceStatus = 1;
 
-    if (this.config.uid.match(qtype)) {
-      this.config.type = 1;
-    } else if (this.config.uid.match(ctype)) {
-      this.config.type = 2;
-    } else {
-      this.alertSrv.set("Invalid UID", "UID should look like 'Q1535235511'", 'error', 5000);
-      return;
-    }
-    this.deviceStatus = 1;
-    //this.config.uid.replace(/\D/g,'');// We only want the uid number
-    this.config.uid = this.config.uid.substring(1); // We only want the uid number
   }
 
 
@@ -261,7 +275,7 @@ class DeviceConfigCtrl {
   //  this.config.orgid = this.$rootScope.contextSrv.user.orgId;
   //  this.config.userid = this.$rootScope.contextSrv.user.id;
 
-    if(  this.deviceType == 2 ) { // If Flexs C2, Increment version number
+    if(  this.deviceType > 1 ) { // If Flexs C2 or Flexs Q5, Increment version number
       this.config.version = this.config.version + 1;
     }
 
@@ -290,6 +304,8 @@ class DeviceConfigCtrl {
 
 if( self.config.hasOwnProperty('active_detection')){
         self.deviceType = 2;
+      } else if( self.config.hasOwnProperty('script')){
+      self.deviceType = 3;
       }
       else {
         self.deviceType = 1;

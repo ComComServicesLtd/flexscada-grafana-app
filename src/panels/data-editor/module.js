@@ -171,10 +171,12 @@ if(!self.dashboard || !self.dashboard.time || !self.dashboard.time.from || !(sel
     var start = self.dashboard.time.from.unix();
     var end = self.dashboard.time.to.unix();
 
-    self.alertSrv.showConfirmModal({
-      title: "Confirm Deletion",
-      text: "Are you sure you want to delete all of the data points shown on the graph?",
-      confirmText: "DESTROY",
+   self.scope.$root.appEvent('confirm-modal', {
+      title: 'Confirm Deletion',
+      text: 'Are you sure you want to delete all of the data displayed above?',
+      text2: 'Delete all the data points in value',
+      icon: 'fa-trash',
+      confirmText: "Destroy",
       altActionText: "Archive",
       onAltAction: function(){
 
@@ -202,16 +204,20 @@ if(!self.dashboard || !self.dashboard.time || !self.dashboard.time.from || !(sel
   deleteAnotationRange() {
     var self = this;
 
-    self.alertSrv.showConfirmModal({
-      title: "Confirm Deletion",
-      text: "Are you sure you want to delete all of the annotations shown on the graph?",
-      text2: "This data CANNOT be recovered.",
-      confirmText: "Delete",
-      yesText: "Delete",
+
+
+   self.scope.$root.appEvent('confirm-modal', {
+      title: 'Confirm Deletion',
+      text: 'Are you sure you want to delete this data?',
+      text2: 'Delete all the annotations in view',
+      icon: 'fa-trash',
+      confirmText: "Destroy",
+      yesText: "Destroy",
       onConfirm: function() {
         self.influxDeleteRange("annotations");
       }
     });
+
   }
 
   uploadTable() {

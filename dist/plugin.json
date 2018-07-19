@@ -24,19 +24,26 @@
         "name": "Authorization",
         "content": "Bearer {{.SecureJsonData.apiKey}}"
       }]
+    },
+    {
+      "path": "public_api/*",
+      "method": "POST,GET",
+      "url": "http://127.0.0.1:7001/api",
+      "reqSignedIn": false,
+      "reqRole": "Viewer"
     }
   ],
 
 
   "info": {
-    "description": "This plugin transforms grafana into a world class situational monitoring toolkit, Using our revolutionary vibration monitoring devices this plugin allows you to quickly visualize dangerous trends.  With our Flexs Q4 remote site monitoring device this plugin allows you to log and visualize metrics from remote power systems.",
+    "description": "This plugin transforms grafana into a world class situational monitoring toolkit, Using our revolutionary vibration monitoring devices this plugin allows you to quickly visualize dangerous trends.  With our Flexs series remote site monitoring devices this plugin allows you to log and visualize metrics from remote power systems.",
     "author": {
-      "name": "Com Com Services LTD",
+      "name": "FlexSCADA a division of Com Com Services LTD",
       "url": "https://flexscada.com"
     },
-    "keywords": ["flexscada", "pulsation", "Flexs Q4"],
+    "keywords": ["flexscada", "pulsation", "Flexs Q4", "Flexs Q5"],
     "logos": {
-      "small": "img/flexscada.png",
+      "small": "img/flexscada_small.png",
       "large": "img/flexscada.png"
     },
     "links": [{
@@ -98,6 +105,13 @@
       "type": "page",
       "name": "Device Config",
       "component": "DeviceConfigCtrl",
+      "role": "Editor",
+      "addToNav": false
+    },
+    {
+      "type": "page",
+      "name": "Add Device",
+      "component": "NewDeviceCtrl",
       "role": "Editor",
       "addToNav": false
     },

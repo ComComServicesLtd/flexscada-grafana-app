@@ -59,7 +59,7 @@
   margin-right: auto;
   left: 0;
   right: 0;
-  color: #7B7B7B;
+  color: #8e8e8e;
   text-transform: uppercase;
   font-weight: 400; }
 
@@ -367,7 +367,7 @@
   .device-alerting-status.not-enabled,
   .device-alerting-status.not-enabled a {
     display: inline-block;
-    color: #7B7B7B;
+    color: #8e8e8e;
     font-weight: normal; }
     .device-alerting-status.not-enabled:hover,
     .device-alerting-status.not-enabled a:hover {
@@ -379,7 +379,7 @@
       margin-bottom: 2px; } }
 
 .device-alerting-recipients {
-  color: #7B7B7B; }
+  color: #8e8e8e; }
 
 @media (min-width: 675px) {
   .device-alerting-status,
@@ -484,8 +484,8 @@
   cursor: wait; }
 
 .device-config--checks-exceeded {
-  font-size: 0.875rem;
-  color: #CC3900; }
+  font-size: 12px;
+  color: #d44a3a; }
 
 .fs-spin-dot {
   background-image: url("/public/plugins/flexscada-app/img/flexscada_dot.svg");
@@ -576,7 +576,7 @@
   font-style: italic; }
 
 .fs-collapse:hover {
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .fs-collapse + input {
   opacity: 0; }
@@ -638,11 +638,11 @@
   color: #666766; }
 
 .pipe-separator {
-  color: #7B7B7B; }
+  color: #8e8e8e; }
 
 .fs-nav-hr {
   margin-left: -10px;
-  border-bottom: solid 1px #292929; }
+  border-bottom: solid 1px #141414; }
 
 .fs-nav-icon {
   font-size: 24px;
@@ -655,9 +655,9 @@
   vertical-align: sub; }
 
 .fs-nav--background {
-  background-color: #1f1d1d;
+  background-color: #212124;
   margin-left: -10px;
-  border: solid 1px #292929; }
+  border: solid 1px #141414; }
 
 .fs-nav-no-endpoints {
   display: flex;
@@ -666,7 +666,7 @@
   margin: 10px 0; }
 
 .fs-nav-header--message {
-  color: #7B7B7B;
+  color: #8e8e8e;
   margin-right: 10px; }
 
 .fs-nav-header--button {
@@ -685,7 +685,7 @@ RAINTANK DASHBOARD STYLES
 
 p.fs-dashboard-copy {
   font-size: 14px;
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .fs-dash-flex-container {
   display: flex;
@@ -701,8 +701,8 @@ p.fs-dashboard-copy {
   text-align: center;
   min-height: 220px;
   margin: 0 100px 25px 80px;
-  background: #221f1f;
-  border: solid 1px #292929;
+  background: #232327;
+  border: solid 1px #141414;
   padding: 5px 30px; }
   .fs-panel-CTA-flex-container .fs-CTA-flex-copy {
     flex-grow: 2; }
@@ -719,7 +719,7 @@ p.fs-dashboard-copy {
   margin-top: 15px; }
 
 .fs-dash--warning {
-  background-color: rgba(204, 57, 0, 0.5);
+  background-color: rgba(212, 74, 58, 0.5);
   margin-bottom: 10px;
   margin-left: 5px;
   padding-left: 10px; }
@@ -733,17 +733,17 @@ p.fs-dashboard-copy {
 
 p.fs-helper-blurb {
   font-size: 14px;
-  color: #D8D9DA;
+  color: #d8d9da;
   min-height: 35px; }
 
 p.fs-dashboard-blurb {
   font-size: 14px;
-  color: #D8D9DA;
+  color: #d8d9da;
   margin: 0; }
 
 a.fs-dashboard-blurb {
   font-size: 14px;
-  color: #D8D9DA;
+  color: #d8d9da;
   margin: 0; }
 
 a.fs-dashboard-blurb:hover {
@@ -759,7 +759,7 @@ a.fs-dashboard-blurb:hover {
   vertical-align: sub; }
 
 .fs-dashboard-icons-upcoming {
-  color: #7B7B7B;
+  color: #8e8e8e;
   text-decoration: none;
   font-size: 20px;
   vertical-align: sub; }
@@ -774,11 +774,11 @@ a.fs-dashboard-blurb:hover {
   margin: 10px 0; }
 
 .fs-blurb-success {
-  color: #7B7B7B;
+  color: #8e8e8e;
   text-decoration: line-through; }
 
 a.fs-blurb-upcoming {
-  color: #7B7B7B; }
+  color: #8e8e8e; }
 
 .fs-dashboard-icons-container {
   width: 30px;
@@ -794,7 +794,7 @@ a.fs-blurb-upcoming {
 .fs-dashboard-icons-subcopy {
   display: block;
   font-size: 12px;
-  color: #D8D9DA;
+  color: #d8d9da;
   margin: 0; }
 
 .variable-value-dropdown.collector-dropdown {
@@ -972,7 +972,7 @@ ul.fs-modal-ul {
 .fs-box-header {
   padding: 10px;
   font-size: 16px;
-  border-bottom: 1px solid #141414;
+  border-bottom: 1px solid #171819;
   overflow: hidden; }
   .fs-box-header .tabs {
     float: left; }
@@ -1006,9 +1006,9 @@ ul.fs-modal-ul {
   position: relative;
   display: block;
   padding: 10px 15px;
-  border-bottom: 1px solid #141414; }
+  border-bottom: 1px solid #171819; }
   .currentStatus .dashboard-icon {
-    color: #D8D9DA;
+    color: #d8d9da;
     margin-left: 20px; }
 
 .currentStatus:last-child,
@@ -1117,7 +1117,7 @@ raintank TYPE
 .checkType, .eventType {
   font-size: 16px;
   font-weight: 600;
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .status {
   font-size: 1rem;
@@ -1129,7 +1129,7 @@ raintank TYPE
   font-size: 1rem; }
 
 .checkTime {
-  color: #7B7B7B;
+  color: #8e8e8e;
   font-size: 1rem; }
 
 .no-devices {
@@ -1144,7 +1144,7 @@ raintank TYPE
   font-weight: 600; }
 
 .frequency {
-  color: #D8D9DA;
+  color: #d8d9da;
   font-size: 1rem; }
 
 .statusMsg, .freqMsg {
@@ -1152,7 +1152,7 @@ raintank TYPE
   font-weight: 400; }
 
 .supplemental-copy {
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .online {
   color: #10a345;
@@ -1160,22 +1160,22 @@ raintank TYPE
   text-transform: uppercase; }
 
 .offline {
-  color: #7B7B7B;
+  color: #8e8e8e;
   font-weight: 600;
   text-transform: uppercase; }
 
 .warn {
-  color: #F79520;
+  color: #f79520;
   font-weight: 600;
   text-transform: uppercase; }
 
 .disabled, .none {
-  color: #7B7B7B;
+  color: #8e8e8e;
   font-weight: 400; }
   .disabled:hover, .none:hover {
     color: #fff; }
   .disabled a, .none a {
-    color: #7B7B7B;
+    color: #8e8e8e;
     font-weight: 400; }
 
 .critical {
@@ -1184,7 +1184,7 @@ raintank TYPE
   text-transform: uppercase; }
 
 .nodata {
-  color: #7B7B7B;
+  color: #8e8e8e;
   font-weight: 600;
   text-transform: uppercase; }
 
@@ -1236,10 +1236,10 @@ raintank POSITIONING
   box-shadow: 0 0 1px fade(#10a345, 90%); }
 
 .fs-event-warning {
-  color: #F79520;
-  background-color: fade(#F79520, 30%);
-  border-color: fade(#F79520, 50%);
-  box-shadow: 0 0 1px fade(#F79520, 90%); }
+  color: #f79520;
+  background-color: fade(#f79520, 30%);
+  border-color: fade(#f79520, 50%);
+  box-shadow: 0 0 1px fade(#f79520, 90%); }
 
 .fs-event-error {
   color: #ed2e18;
@@ -1251,7 +1251,7 @@ raintank POSITIONING
   transition: all 0.1s ease 0s;
   vertical-align: sub;
   font-size: 20px;
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .dashboard-icon:hover {
   color: #bec0c1; }
@@ -1269,7 +1269,7 @@ raintank POSITIONING
 
 .fs-list-status, .fs-list-status-up, .fs-list-status-up:link, .fs-list-status-up:visited, .fs-list-status-warning, .fs-list-status-warning:link, .fs-list-status-warning:visited, .fs-list-status-down, .fs-list-status-down:link, .fs-list-status-down:visited, .fs-list-status-disabled, .fs-list-status-disabled:link, .fs-list-status-disabled:visited {
   font-size: 1rem;
-  color: #7B7B7B;
+  color: #8e8e8e;
   text-transform: uppercase;
   text-decoration: none; }
 
@@ -1287,11 +1287,11 @@ raintank POSITIONING
 .fs-list-status-warning {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #F79520; }
+  color: #f79520; }
   .fs-list-status-warning:link, .fs-list-status-warning:visited {
     font-size: 20px;
     font-weight: 600;
-    color: #F79520; }
+    color: #f79520; }
     .fs-list-status-warning:link:hover, .fs-list-status-warning:visited:hover {
       color: #f9ac51; }
 
@@ -1309,16 +1309,16 @@ raintank POSITIONING
 .fs-list-status-disabled {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #D8D9DA; }
+  color: #d8d9da; }
   .fs-list-status-disabled:link, .fs-list-status-disabled:visited {
     font-size: 20px;
     font-weight: 600;
-    color: #D8D9DA; }
+    color: #d8d9da; }
     .fs-list-status-disabled:link:hover, .fs-list-status-disabled:visited:hover {
       color: #f2f3f3; }
 
 .fs-list-links {
-  color: #7B7B7B;
+  color: #8e8e8e;
   font-weight: 600;
   text-transform: uppercase;
   text-decoration: none;
@@ -1332,9 +1332,9 @@ raintank POSITIONING
 
 .fs-list {
   margin: 1px;
-  background-color: #141414;
+  background-color: #171819;
   position: relative;
-  border: solid 1px #292929;
+  border: solid 1px #141414;
   border-radius: 2px;
   line-height: normal;
   padding: 3px 0; }
@@ -1350,7 +1350,7 @@ raintank POSITIONING
 .fs-list-header {
   overflow: visible;
   padding: 10px 5px;
-  background-color: #141414; }
+  background-color: #171819; }
   .fs-list-header .tabs {
     float: left; }
   .fs-list-header .nav {
@@ -1377,7 +1377,7 @@ raintank POSITIONING
   vertical-align: middle;
   overflow: auto;
   font-size: 1rem;
-  background-color: #333333; }
+  background-color: #09090b; }
 
 .fs-collector-select > .variable-value-link {
   padding: 0 10px 0 0; }
@@ -1388,12 +1388,12 @@ raintank POSITIONING
   font-size: .85em; }
 
 .fs-list-collector-status-offline {
-  color: #D8D9DA;
+  color: #d8d9da;
   font-weight: 700;
   font-size: .85em; }
 
 .fs-list-collector-since {
-  color: #D8D9DA;
+  color: #d8d9da;
   font-weight: 400;
   font-size: .85em; }
 
@@ -1408,7 +1408,7 @@ raintank POSITIONING
   color: #13B2D4; }
 
 .fs-advanced-options:hover {
-  color: #D8D9DA; }
+  color: #d8d9da; }
 
 .fs-advanced-options + input {
   display: none; }
@@ -1434,12 +1434,12 @@ raintank POSITIONING
 
 .fs-radio-jumbo-label {
   position: relative;
-  color: #D8D9DA;
+  color: #d8d9da;
   font-size: 40px;
   font-weight: 600; }
 
 .fs-radio-jumbo-sub-label {
-  color: #D8D9DA;
+  color: #d8d9da;
   font-weight: 400;
   display: block;
   margin-top: 5px; }
@@ -1447,7 +1447,7 @@ raintank POSITIONING
 .fs-radio-custom + *:before {
   content: '';
   background: transparent;
-  border: 2px solid #7B7B7B;
+  border: 2px solid #8e8e8e;
   display: inline-block;
   vertical-align: middle;
   width: 10px;
@@ -1462,7 +1462,7 @@ raintank POSITIONING
 
 .fs-radio-custom:checked + *:before {
   background: #13B2D4;
-  box-shadow: inset 0px 0px 0px 3px #141414; }
+  box-shadow: inset 0px 0px 0px 3px #171819; }
 
 .fs-hide {
   position: absolute !important;
@@ -1473,7 +1473,7 @@ raintank POSITIONING
   margin-right: 1rem; }
 
 .fs-exclamation-probe--container {
-  background: linear-gradient(135deg, #2f2f2f, #262626);
+  background: linear-gradient(135deg, #2f2f32, #262628);
   padding: 15px;
   max-width: 555px; }
 

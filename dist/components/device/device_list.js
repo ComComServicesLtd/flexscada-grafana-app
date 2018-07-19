@@ -102,6 +102,8 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
 
             if (device.hasOwnProperty('active_detection')) {
               deviceType = 2;
+            } else if (device.hasOwnProperty('script')) {
+              deviceType = 3;
             }
 
             if (deviceType == 1) {
@@ -110,8 +112,18 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
             }
 
             if (deviceType == 2) {
+              // Flexs C2
 
               this.$location.url("/dashboard/db/flexsc2").search({
+                "var-Uid": device.id,
+                "var-Device": device.name
+              });
+            }
+
+            if (deviceType == 3) {
+              // Flexs Q5
+
+              this.$location.url("/dashboard/db/flexsQ5").search({
                 "var-Uid": device.id,
                 "var-Device": device.name
               });

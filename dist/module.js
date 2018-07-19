@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['./components/config/config', './components/device/device_list', './components/device/device_details', './components/device/device_config', './components/template/template_config', './components/template/template_list', 'app/plugins/sdk', './filters/all', './directives/all'], function (_export, _context) {
+System.register(['./components/config/config', './components/device/device_list', './components/device/device_details', './components/device/device_config', './components/template/template_config', './components/template/template_list', './components/device/new_device', 'app/plugins/sdk', './filters/all', './directives/all'], function (_export, _context) {
   "use strict";
 
-  var ConfigCtrl, DeviceListCtrl, DeviceDetailsCtrl, DeviceConfigCtrl, TemplateConfigCtrl, TemplateListCtrl, loadPluginCss;
+  var ConfigCtrl, DeviceListCtrl, DeviceDetailsCtrl, DeviceConfigCtrl, TemplateConfigCtrl, TemplateListCtrl, NewDeviceCtrl, loadPluginCss;
   return {
     setters: [function (_componentsConfigConfig) {
       ConfigCtrl = _componentsConfigConfig.ConfigCtrl;
@@ -17,16 +17,17 @@ System.register(['./components/config/config', './components/device/device_list'
       TemplateConfigCtrl = _componentsTemplateTemplate_config.TemplateConfigCtrl;
     }, function (_componentsTemplateTemplate_list) {
       TemplateListCtrl = _componentsTemplateTemplate_list.TemplateListCtrl;
+    }, function (_componentsDeviceNew_device) {
+      NewDeviceCtrl = _componentsDeviceNew_device.NewDeviceCtrl;
     }, function (_appPluginsSdk) {
       loadPluginCss = _appPluginsSdk.loadPluginCss;
     }, function (_filtersAll) {}, function (_directivesAll) {}],
     execute: function () {
-
+      //import {AnalysisCtrl} from './components/analysis/analysis';
       loadPluginCss({
         dark: 'plugins/flexscada-app/css/flexscada.dark.css',
         light: 'plugins/flexscada-app/css/flexscada.light.css'
       });
-      //import {AnalysisCtrl} from './components/analysis/analysis';
 
       _export('DeviceListCtrl', DeviceListCtrl);
 
@@ -37,6 +38,8 @@ System.register(['./components/config/config', './components/device/device_list'
       _export('TemplateConfigCtrl', TemplateConfigCtrl);
 
       _export('TemplateListCtrl', TemplateListCtrl);
+
+      _export('NewDeviceCtrl', NewDeviceCtrl);
 
       _export('ConfigCtrl', ConfigCtrl);
     }
