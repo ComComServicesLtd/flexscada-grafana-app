@@ -63,7 +63,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           this.config.tags = [];
           this.deviceStatus = 0; // 0 = new, stage 1, 1 = new, adding information stage, 2 = exiting
           this.deviceType = 0; // 1 = Q4, 2 = C2
-          this.deviceID = 0;
+          this.deviceID = '';
           this.ignoreChanges = false;
 
           this.rpmOptions = [{
@@ -176,7 +176,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             this.deviceStatus = 0;
           }
 
-          self.getTemplates();
+          //    self.getTemplates();
 
           self.pageReady = true;
 
