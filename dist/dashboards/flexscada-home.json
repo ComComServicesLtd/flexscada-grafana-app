@@ -35,28 +35,6 @@
   "rows": [
     {
       "collapse": false,
-      "height": "100px",
-      "panels": [
-        {
-          "content": "<img height=\"60px\" src=\"/visualization/public/plugins/flexscada-app/img/flexscada_light.png\"></img>",
-          "id": 1,
-          "links": [],
-          "mode": "html",
-          "span": 12,
-          "title": "",
-          "transparent": true,
-          "type": "text"
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
       "height": "800px",
       "panels": [
         {

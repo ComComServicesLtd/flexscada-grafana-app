@@ -3,7 +3,7 @@
 System.register(['lodash', 'app/plugins/sdk', '../../external/handsontable.full.js', 'jquery', 'moment', 'app/core/utils/datemath', 'app/core/core'], function (_export, _context) {
   "use strict";
 
-  var _, PanelCtrl, loadPluginCss, Handsontable, $, moment, dateMath, appEvents, coreModule, _createClass, DataEditorCtrl;
+  var _, PanelCtrl, loadPluginCss, Handsontable, $, moment, dateMath, appEvents, coreModule, _createClass, Q4DataEditorCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -77,14 +77,14 @@ System.register(['lodash', 'app/plugins/sdk', '../../external/handsontable.full.
         light: 'plugins/flexscada-app/external/handsontable-light.full.css'
       });
 
-      _export('PanelCtrl', DataEditorCtrl = function (_PanelCtrl) {
-        _inherits(DataEditorCtrl, _PanelCtrl);
+      _export('PanelCtrl', Q4DataEditorCtrl = function (_PanelCtrl) {
+        _inherits(Q4DataEditorCtrl, _PanelCtrl);
 
         /** @ngInject */
-        function DataEditorCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
-          _classCallCheck(this, DataEditorCtrl);
+        function Q4DataEditorCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
+          _classCallCheck(this, Q4DataEditorCtrl);
 
-          var _this = _possibleConstructorReturn(this, (DataEditorCtrl.__proto__ || Object.getPrototypeOf(DataEditorCtrl)).call(this, $scope, $injector));
+          var _this = _possibleConstructorReturn(this, (Q4DataEditorCtrl.__proto__ || Object.getPrototypeOf(Q4DataEditorCtrl)).call(this, $scope, $injector));
 
           _this.backendSrv = backendSrv;
           _this.alertSrv = alertSrv;
@@ -124,7 +124,7 @@ System.register(['lodash', 'app/plugins/sdk', '../../external/handsontable.full.
           return _this;
         }
 
-        _createClass(DataEditorCtrl, [{
+        _createClass(Q4DataEditorCtrl, [{
           key: 'onInitEditMode',
           value: function onInitEditMode() {
             //  this.addEditorTab('Options', 'public/app/plugins/panel/text/editor.html');
@@ -389,7 +389,7 @@ System.register(['lodash', 'app/plugins/sdk', '../../external/handsontable.full.
           }
         }]);
 
-        return DataEditorCtrl;
+        return Q4DataEditorCtrl;
       }(PanelCtrl));
 
       /* Get DATA FROM influxdb
@@ -417,9 +417,9 @@ System.register(['lodash', 'app/plugins/sdk', '../../external/handsontable.full.
       });
       */
 
-      DataEditorCtrl.templateUrl = 'public/plugins/flexscada-app/panels/data-editor/module.html';
+      Q4DataEditorCtrl.templateUrl = 'public/plugins/flexscada-app/panels/q4-data-editor/module.html';
 
-      _export('PanelCtrl', DataEditorCtrl);
+      _export('PanelCtrl', Q4DataEditorCtrl);
     }
   };
 });

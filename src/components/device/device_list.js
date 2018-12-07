@@ -82,7 +82,7 @@ class DeviceListCtrl {
 
     if (deviceType == 3) { // Flexs Q5
 
-      this.$location.url("/dashboard/db/flexsQ5").search({
+      this.$location.url("/dashboard/db/device-overview").search({
         "var-Uid": device.id,
         "var-Device": device.name
       });

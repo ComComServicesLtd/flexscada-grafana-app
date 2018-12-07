@@ -14,10 +14,13 @@ class DeviceConfigCtrl {
     this.$window = $window;
     this.$rootScope = $rootScope;
 
+    this.key = {};
+    this.key.status = {};
+
     $window.scope = $scope;
     $window.rootscope = $rootScope;
 
-
+    this.configJson = "";
 
     this.pageReady = false;
     this.config = {};
@@ -275,6 +278,23 @@ if(this.deviceID.length < 4){
   //  this.config.orgid = this.$rootScope.contextSrv.user.orgId;
   //  this.config.userid = this.$rootScope.contextSrv.user.id;
 
+if(this.deviceType == 3) { // Flexs Q5
+
+  try {
+    let configData = JSON.parse(this.configJson);
+    let version = configData.version;
+    if (version <= 0) {
+      throw new Error("Invalid Json")
+    } else {
+      this.config = configData;
+    }
+
+  } catch (e) {
+    self.alertSrv.set("Syntax Error", "Check the config file for errors and try again", 'error', 10000);
+    return self.$q.reject(resp.meta.msg);
+  }
+}
+
     if(  this.deviceType > 1 ) { // If Flexs C2 or Flexs Q5, Increment version number
       this.config.version = this.config.version + 1;
     }
@@ -290,6 +310,43 @@ if(this.deviceID.length < 4){
       this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
     });
   }
+  getTimeAgo(epoch) {
+    var duration = new Date().getTime() - new Date(epoch * 1000).getTime();
+    if (duration < 10000) {
+      return "a few seconds ago";
+    }
+    if (duration < 60000) {
+      var secs = Math.floor(duration / 1000);
+      return secs + " seconds ago";
+    }
+    if (duration < 3600000) {
+      var mins = Math.floor(duration / 1000 / 60);
+      return mins + " minutes ago";
+    }
+    if (duration < 86400000) {
+      var hours = Math.floor(duration / 1000 / 60 / 60);
+      return hours + " hours ago";
+    }
+    var days = Math.floor(duration / 1000 / 60 / 60 / 24);
+    return days + " days ago";
+  }
+
+  loadKey() {
+    var self = this;
+    return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/keys/' + this.deviceID).then((resp) => {
+
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to download device key.", resp.meta.msg, 'error', 10000);
+        this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
+        return self.$q.reject(resp.meta.msg);
+      }
+
+      self.key = resp.body;
+        self.$window.console.log(resp);
+
+    });
+  }
+
 
   loadDevice() {
     var self = this;
@@ -301,11 +358,17 @@ if(this.deviceID.length < 4){
         return self.$q.reject(resp.meta.msg);
       }
       self.config = resp.body;
+      self.configJson = JSON.stringify(self.config, null, 2);
+
 
 if( self.config.hasOwnProperty('active_detection')){
         self.deviceType = 2;
       } else if( self.config.hasOwnProperty('script')){
       self.deviceType = 3;
+
+
+self.loadKey();
+
       }
       else {
         self.deviceType = 1;
@@ -349,6 +412,19 @@ if( self.config.hasOwnProperty('active_detection')){
       this.config.relays = [];
     }
     this.config.relays.push({});
+  }
+
+  openDataEditor() {
+    if (this.deviceType == 3) { // Flexs Q5
+
+      this.$location.url("/dashboard/db/flexs-q5-data-editor").search({
+        "var-uid": this.deviceID,
+        "var-device": "All",
+        "var-label": "All",
+        "var-measurement": "inputs"
+      });
+
+    }
   }
 
 

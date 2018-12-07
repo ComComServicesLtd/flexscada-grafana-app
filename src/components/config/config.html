@@ -1,8 +1,25 @@
-<form name="editForm">
+<div ng-if="ctrl.backendSrv.contextSrv.isGrafanaAdmin && ctrl.appModel.jsonData.apiKeySet && ctrl.validKey">
+
+<p> It appears that you are logged in using the Grafana Admin user account.<br>
+	The FlexSCADA app cannot be used on the admin account however it can be used to setup grafana accounts with the FlexSCADA App Enabled. (Client Accounts)
+	<br>
+</p>
+<br>
+
+	<i class="icon-gf icon-gf-check fs-icon-success"></i> Flexscada is ready. <strong>Next up: </strong><a target="_blank" href="../../api/plugin-proxy/flexscada-app/api/v2/files/CloudSignup/dist/spa-mat/index.html" class="external-link">Create a client account</a>
+
+</div>
+
+
+<form  ng-if="!(ctrl.backendSrv.contextSrv.isGrafanaAdmin && ctrl.appModel.jsonData.apiKeySet && ctrl.validKey)" name="editForm">
 	<div class="gf-form-group">
 
-		<p>If you did not receive your account key please <a href="https://flexscada.com/contact-us/">contact us</a>.</p>
-		<div class="gf-form">
+		<p ng-if="ctrl.backendSrv.contextSrv.isGrafanaAdmin">
+			Since you are logged in as the admin user this would be the inital account key with the `"admin":true` attribute set in the devices.json database file.
+</p>
+
+		<p  ng-if="!ctrl.backendSrv.contextSrv.isGrafanaAdmin">If you did not receive your account key please <a href="https://flexscada.com/contact-us/">contact us</a>.</p>
+  <div class="gf-form">
 			<label class="gf-form-label width-12">Account Key</label>
 			<input type="password" class="gf-form-input max-width-24" ng-model="ctrl.appModel.secureJsonData.apiKey" ng-if="!ctrl.appModel.jsonData.apiKeySet" required>
 			<input type="text" class="gf-form-input max-width-12" disabled="disabled" value="complete" ng-if="ctrl.appModel.jsonData.apiKeySet">
@@ -13,7 +30,7 @@
 	</div>
 
 	<div ng-if="ctrl.appModel.jsonData.apiKeySet && ctrl.validKey" class="fs-enabled-box">
-		<i class="icon-gf icon-gf-check fs-icon-success"></i> Flexscada is enabled. <strong>Next up: </strong><a href="/flexscada-app/page/device-config" class="external-link">Add a new device</a>
+		<i class="icon-gf icon-gf-check fs-icon-success"></i> Flexscada is enabled. <strong>Next up: </strong><a href="./page/add-device" class="external-link">Add a new device</a>
 	</div>
 	<div ng-if="!ctrl.validKey && ctrl.errorMsg">
 		<div class="alert alefs-error">

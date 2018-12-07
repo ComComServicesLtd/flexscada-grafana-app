@@ -173,7 +173,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
           key: 'getdevices',
           value: function getdevices() {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/devices').then(function (resp) {
+            this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/devices').then(function (resp) {
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to get device list.", resp.meta.msg, 'error', 10000);
                 return self.$q.reject(resp.meta.msg);
@@ -185,12 +185,41 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
         }, {
           key: 'gotoDeviceConfig',
           value: function gotoDeviceConfig(device) {
-            this.$location.url('plugins/flexscada-app/page/device-config?device=' + device.uid);
+            this.$location.url('plugins/flexscada-app/page/device-config?device=' + device.id);
           }
         }, {
           key: 'gotoDeviceDetails',
           value: function gotoDeviceDetails(device) {
-            this.$location.url('plugins/flexscada-app/page/device-details?device=' + device.uid);
+            var deviceType = 1;
+
+            if (device.hasOwnProperty('active_detection')) {
+              deviceType = 2;
+            } else if (device.hasOwnProperty('script')) {
+              deviceType = 3;
+            }
+
+            if (deviceType == 1) {
+
+              this.$location.url('plugins/flexscada-app/page/device-details?device=' + device.id);
+            }
+
+            if (deviceType == 2) {
+              // Flexs C2
+
+              this.$location.url("/dashboard/db/flexsc2").search({
+                "var-Uid": device.id,
+                "var-Device": device.name
+              });
+            }
+
+            if (deviceType == 3) {
+              // Flexs Q5
+
+              this.$location.url("/dashboard/db/device-overview").search({
+                "var-Uid": device.id,
+                "var-Device": device.name
+              });
+            }
           }
         }]);
 

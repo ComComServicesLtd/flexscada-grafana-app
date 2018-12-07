@@ -41,7 +41,6 @@
 
   <div class="gf-form-inline">
     <div class="gf-form gf-form--right-margin">
-<<<<<<< HEAD
       <label class="gf-form-label width-4">Type</label>
      <select class="gf-form-input gf-size-auto" ng-model="ctrl.deviceType" ng-options="f.value as f.label for f in ctrl.deviceTypes"></select>
 
@@ -53,12 +52,6 @@
       <input class="gf-form-input max-width-15" type="password" ng-model="ctrl.newPassword" required="">
 
 
-
-
-=======
-      <label class="gf-form-label width-9">UID</label>
-      <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.deviceID" required="" placeholder="Q1535235511">
->>>>>>> 82f22be2e3b823e427e4bff00023cd26530e04e3
     </div>
     <!-- Unsubmitted state -->
     <div class="gf-form">
@@ -69,7 +62,7 @@
 
 </div>
 
-<div ng-if="ctrl.deviceStatus > 0">
+<div ng-if="ctrl.deviceStatus > 0 && ctrl.deviceType < 3">
  <div class="gf-form gf-form--right-margin">
       <label class="gf-form-label width-9">UID</label>
       <input class="gf-form-input max-width-15" disabled="true" type="text" ng-model="ctrl.deviceID" placeholder="">
@@ -110,15 +103,20 @@
 
   <div ng-if="ctrl.deviceType == 2" ng-include src="'public/plugins/flexscada-app/components/device/partials/cdevice_config.html'"></div>
   <div ng-if="ctrl.deviceType == 1" ng-include src="'public/plugins/flexscada-app/components/device/partials/qdevice_config.html'"></div>
-  <div ng-if="ctrl.deviceType == 3" ng-include src="'public/plugins/flexscada-app/components/device/partials/q5device_config.html'"></div>
 
 </div>
+<div ng-if="ctrl.deviceType == 3" ng-include src="'public/plugins/flexscada-app/components/device/partials/q5device_config.html'"></div>
 
 <div ng-show="ctrl.deviceStatus == 2" ng-include src="'public/plugins/flexscada-app/components/device/partials/destroyForm.html'"></div>
+
 
 <div ng-show="ctrl.deviceStatus > 0" class="pull-right">
   <button type="submit" ng-if="ctrl.deviceStatus == 1" class="btn btn-success" ng-click="ctrl.saveDevice()">Add</button>
   <button type="submit" ng-if="ctrl.deviceStatus == 2" class="btn btn-success" ng-click="ctrl.saveDevice()">Save</button>
 
   <a class="btn btn-link" ng-click="ctrl.cancel();">Cancel</a>
+</div>
+<br>
+<div ng-if="ctrl.deviceType == 3 && ctrl.deviceStatus == 2">
+  <p>Saved changes will be applied to the device next time it syncs with the cloud.</p>
 </div>

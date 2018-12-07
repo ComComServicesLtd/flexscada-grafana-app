@@ -4,8 +4,18 @@
   "id": "flexscada-app",
 
   "routes": [{
+      "path": "admin/*",
+      "method": "GET,PUT,DELETE,POST",
+      "url": "http://127.0.0.1:7001/admin",
+      "reqSignedIn": true,
+      "reqRole": "Admin",
+      "headers": [{
+        "name": "Authorization",
+        "content": "Bearer {{.SecureJsonData.apiKey}}"
+      }]
+    },{
       "path": "api/*",
-      "method": "PUT,DELETE",
+      "method": "PUT,DELETE,POST",
       "url": "http://127.0.0.1:7001/api",
       "reqSignedIn": true,
       "reqRole": "Editor",
@@ -16,7 +26,7 @@
     },
     {
       "path": "api/*",
-      "method": "POST,GET",
+      "method": "GET",
       "url": "http://127.0.0.1:7001/api",
       "reqSignedIn": true,
       "reqRole": "Viewer",
@@ -88,6 +98,34 @@
       "defaultNav": false
     },
     {
+      "type": "dashboard",
+      "name": "Flexs Q5 Data Edit",
+      "path": "dashboards/q5dataedit.json",
+      "addToNav": false,
+      "defaultNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Flexs Q5 Device Overview",
+      "path": "dashboards/device-overview.json",
+      "addToNav": false,
+      "defaultNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Flexs Q5 Analog Inputs",
+      "path": "dashboards/analog-inputs.json",
+      "addToNav": false,
+      "defaultNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Flexs Q5 Power Metrics",
+      "path": "dashboards/power-metrics.json",
+      "addToNav": false,
+      "defaultNav": false
+    },
+    {
       "type": "page",
       "name": "Devices",
       "component": "DeviceListCtrl",
@@ -127,7 +165,7 @@
       "name": "Templates",
       "component": "TemplateListCtrl",
       "role": "Viewer",
-      "addToNav": true
+      "addToNav": false
     },
     {
       "type": "page",
@@ -142,7 +180,11 @@
     },
     {
       "type": "panel",
-      "name": "FlexSCADA Data Editorv"
+      "name": "FlexSCADA Data Editor"
+    },
+    {
+      "type": "panel",
+      "name": "Flexs Q5 Data Editor"
     }
   ],
 

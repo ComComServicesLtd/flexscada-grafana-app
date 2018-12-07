@@ -21,7 +21,7 @@ loadPluginCss({
 
 
 
-class DataEditorCtrl extends PanelCtrl {
+class Q4DataEditorCtrl extends PanelCtrl {
 
   /** @ngInject */
   constructor($scope, $injector, $location, $q, backendSrv, alertSrv) {
@@ -371,8 +371,8 @@ _.forEach(results[0].series[0].values, function(row) {
 });
 */
 
-DataEditorCtrl.templateUrl = 'public/plugins/flexscada-app/panels/data-editor/module.html';
+Q4DataEditorCtrl.templateUrl = 'public/plugins/flexscada-app/panels/q4-data-editor/module.html';
 
 export {
-  DataEditorCtrl as PanelCtrl
+  Q4DataEditorCtrl as PanelCtrl
 };
