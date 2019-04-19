@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1555701247541,
+  "iteration": 1555701247542,
   "links": [
     {
       "icon": "external link",
@@ -392,7 +392,7 @@
           "link": true,
           "linkTargetBlank": true,
           "linkTooltip": "View details for ${__cell_3}",
-          "linkUrl": "/visualization/d/An54Lipik/flexs-q5-input-details?var-Device=${__cell_2}&var-label=${__cell_3}",
+          "linkUrl": "/visualization/dashboard/db/analog-inputs?var-Device=${__cell_2}&var-label=${__cell_3}",
           "mappingType": 1,
           "pattern": "label",
           "thresholds": [],
@@ -1879,5 +1879,5 @@
   },
   "timezone": "",
   "title": "Device Overview",
-  "version": 17
+  "version": 18
 }
