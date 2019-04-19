@@ -21,6 +21,7 @@ class DeviceConfigCtrl {
     $window.rootscope = $rootScope;
 
     this.configJson = "";
+    this.commandJson = "";
 
     this.pageReady = false;
     this.config = {};
@@ -34,7 +35,7 @@ class DeviceConfigCtrl {
     this.deviceType = 0; // 1 = Q4, 2 = C2
     this.deviceID = '';
     this.ignoreChanges = false;
-
+    this.showCommandQueue = false;
 
 
 
@@ -273,6 +274,118 @@ if(this.deviceID.length < 4){
     });
   }
 
+
+  loadKey() {
+    var self = this;
+    return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/keys/' + this.deviceID).then((resp) => {
+
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to download device key.", resp.meta.msg, 'error', 10000);
+        this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
+        return self.$q.reject(resp.meta.msg);
+      }
+
+      self.key = resp.body;
+      self.commandJson = JSON.stringify(self.key.pendingCommands, null, 2);
+
+      self.$window.console.log(resp);
+
+
+
+          if ("cmd" in self.$location.search())
+            self.pushCommand( self.$location.search().cmd);
+
+              self.$window.console.log( self.$location.search());
+
+
+
+    });
+  }
+
+
+  pushCommand(command){
+
+    console.log(command);
+
+
+
+let self = this;
+  self.showCommandQueue = true;
+
+    let pendingCommands = [];
+    let lastPendingCommandID = 0;
+
+
+// Read json text from editor into pendingCommands object
+if(self.commandJson && self.commandJson.length){
+      try {
+        pendingCommands = JSON.parse(self.commandJson);
+      } catch (e) {
+        this.alertSrv.set("Syntax Error", "Check the command queue for errors and try again", 'error', 10000);
+        return this.$q.reject(resp.meta.msg);
+      }
+
+// If pending commands, get the last ID, otherwise reset the object
+      if(pendingCommands.length)
+          lastPendingCommandID = pendingCommands[pendingCommands.length-1].id;
+          else
+          pendingCommands = [];
+
+
+    }
+
+
+
+
+
+    let cmd = JSON.parse(command);
+    cmd.id = lastPendingCommandID + 1;
+
+    pendingCommands.push(cmd); // Append our command to the end of the queue
+    self.commandJson = JSON.stringify(pendingCommands, null, 2);
+
+    self.alertSrv.set("Command added to queue", "Save changes to apply", 'success', 10000);
+  }
+
+  saveCommandQueue() {
+
+  var self = this;
+
+
+
+  let commandData = [];
+
+  try {
+    commandData = JSON.parse(this.commandJson);
+  } catch (e) {
+    self.alertSrv.set("Syntax Error", "Check the command queue for errors and try again", 'error', 10000);
+    return self.$q.reject(resp.meta.msg);
+  }
+
+  for(var i = 0; i < commandData.length; i++) {
+      var obj = commandData[i];
+      if(!obj.id){
+        self.alertSrv.set("Syntax Error", "One or more commands in the queue does not have an ID associated with it, please make sure each command has a valid numerical `id` object.", 'error', 10000);
+        return self.$q.reject(resp.meta.msg);
+      }
+  }
+
+
+
+    this.key.pendingCommands = commandData;
+
+
+    return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/v2/db/keys/' + this.deviceID, this.key).then((resp) => {
+      self.$window.console.log(resp);
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to update command queue.", resp.meta.msg, 'error', 10000);
+        return self.$q.reject(resp.meta.msg);
+      }
+      this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
+    });
+  }
+
+
   saveDevice() {
 
   //  this.config.orgid = this.$rootScope.contextSrv.user.orgId;
@@ -331,21 +444,8 @@ if(this.deviceType == 3) { // Flexs Q5
     return days + " days ago";
   }
 
-  loadKey() {
-    var self = this;
-    return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/keys/' + this.deviceID).then((resp) => {
 
-      if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to download device key.", resp.meta.msg, 'error', 10000);
-        this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
-        return self.$q.reject(resp.meta.msg);
-      }
 
-      self.key = resp.body;
-        self.$window.console.log(resp);
-
-    });
-  }
 
 
   loadDevice() {

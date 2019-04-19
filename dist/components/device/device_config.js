@@ -57,6 +57,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           $window.rootscope = $rootScope;
 
           this.configJson = "";
+          this.commandJson = "";
 
           this.pageReady = false;
           this.config = {};
@@ -70,6 +71,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           this.deviceType = 0; // 1 = Q4, 2 = C2
           this.deviceID = '';
           this.ignoreChanges = false;
+          this.showCommandQueue = false;
 
           this.rpmOptions = [{
             value: true,
@@ -271,9 +273,101 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             });
           }
         }, {
+          key: 'loadKey',
+          value: function loadKey() {
+            var _this = this;
+
+            var self = this;
+            return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/keys/' + this.deviceID).then(function (resp) {
+
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to download device key.", resp.meta.msg, 'error', 10000);
+                _this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
+                return self.$q.reject(resp.meta.msg);
+              }
+
+              self.key = resp.body;
+              self.commandJson = JSON.stringify(self.key.pendingCommands, null, 2);
+
+              self.$window.console.log(resp);
+
+              if ("cmd" in self.$location.search()) self.pushCommand(self.$location.search().cmd);
+
+              self.$window.console.log(self.$location.search());
+            });
+          }
+        }, {
+          key: 'pushCommand',
+          value: function pushCommand(command) {
+
+            console.log(command);
+
+            var self = this;
+            self.showCommandQueue = true;
+
+            var pendingCommands = [];
+            var lastPendingCommandID = 0;
+
+            // Read json text from editor into pendingCommands object
+            if (self.commandJson && self.commandJson.length) {
+              try {
+                pendingCommands = JSON.parse(self.commandJson);
+              } catch (e) {
+                this.alertSrv.set("Syntax Error", "Check the command queue for errors and try again", 'error', 10000);
+                return this.$q.reject(resp.meta.msg);
+              }
+
+              // If pending commands, get the last ID, otherwise reset the object
+              if (pendingCommands.length) lastPendingCommandID = pendingCommands[pendingCommands.length - 1].id;else pendingCommands = [];
+            }
+
+            var cmd = JSON.parse(command);
+            cmd.id = lastPendingCommandID + 1;
+
+            pendingCommands.push(cmd); // Append our command to the end of the queue
+            self.commandJson = JSON.stringify(pendingCommands, null, 2);
+
+            self.alertSrv.set("Command added to queue", "Save changes to apply", 'success', 10000);
+          }
+        }, {
+          key: 'saveCommandQueue',
+          value: function saveCommandQueue() {
+            var _this2 = this;
+
+            var self = this;
+
+            var commandData = [];
+
+            try {
+              commandData = JSON.parse(this.commandJson);
+            } catch (e) {
+              self.alertSrv.set("Syntax Error", "Check the command queue for errors and try again", 'error', 10000);
+              return self.$q.reject(resp.meta.msg);
+            }
+
+            for (var i = 0; i < commandData.length; i++) {
+              var obj = commandData[i];
+              if (!obj.id) {
+                self.alertSrv.set("Syntax Error", "One or more commands in the queue does not have an ID associated with it, please make sure each command has a valid numerical `id` object.", 'error', 10000);
+                return self.$q.reject(resp.meta.msg);
+              }
+            }
+
+            this.key.pendingCommands = commandData;
+
+            return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/v2/db/keys/' + this.deviceID, this.key).then(function (resp) {
+              self.$window.console.log(resp);
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to update command queue.", resp.meta.msg, 'error', 10000);
+                return self.$q.reject(resp.meta.msg);
+              }
+              _this2.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
+            });
+          }
+        }, {
           key: 'saveDevice',
           value: function saveDevice() {
-            var _this = this;
+            var _this3 = this;
 
             //  this.config.orgid = this.$rootScope.contextSrv.user.orgId;
             //  this.config.userid = this.$rootScope.contextSrv.user.id;
@@ -307,8 +401,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                 self.alertSrv.set("failed to update device.", resp.meta.msg, 'error', 10000);
                 return self.$q.reject(resp.meta.msg);
               }
-              _this.deviceStatus = 2;
-              _this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
+              _this3.deviceStatus = 2;
+              _this3.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
             });
           }
         }, {
@@ -334,34 +428,16 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             return days + " days ago";
           }
         }, {
-          key: 'loadKey',
-          value: function loadKey() {
-            var _this2 = this;
-
-            var self = this;
-            return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/keys/' + this.deviceID).then(function (resp) {
-
-              if (resp.meta.code !== 200) {
-                self.alertSrv.set("failed to download device key.", resp.meta.msg, 'error', 10000);
-                _this2.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
-                return self.$q.reject(resp.meta.msg);
-              }
-
-              self.key = resp.body;
-              self.$window.console.log(resp);
-            });
-          }
-        }, {
           key: 'loadDevice',
           value: function loadDevice() {
-            var _this3 = this;
+            var _this4 = this;
 
             var self = this;
             return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/devices/' + this.deviceID).then(function (resp) {
               self.$window.console.log(resp);
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to update device.", resp.meta.msg, 'error', 10000);
-                _this3.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
+                _this4.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
                 return self.$q.reject(resp.meta.msg);
               }
               self.config = resp.body;
@@ -377,7 +453,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                 self.deviceType = 1;
               }
 
-              _this3.deviceStatus = 2;
+              _this4.deviceStatus = 2;
             });
           }
         }, {

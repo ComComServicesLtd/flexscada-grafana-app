@@ -112,9 +112,9 @@
 
 <div ng-show="ctrl.deviceStatus > 0" class="pull-right">
   <button type="submit" ng-if="ctrl.deviceStatus == 1" class="btn btn-success" ng-click="ctrl.saveDevice()">Add</button>
-  <button type="submit" ng-if="ctrl.deviceStatus == 2" class="btn btn-success" ng-click="ctrl.saveDevice()">Save</button>
+  <button type="submit" ng-if="ctrl.deviceType != 3 && ctrl.deviceStatus == 2" class="btn btn-success" ng-click="ctrl.saveDevice()">Save</button>
 
-  <a class="btn btn-link" ng-click="ctrl.cancel();">Cancel</a>
+  <a class="btn btn-link" ng-click="ctrl.cancel();">Close</a>
 </div>
 <br>
 <div ng-if="ctrl.deviceType == 3 && ctrl.deviceStatus == 2">

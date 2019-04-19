@@ -12,11 +12,11 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1543901680413,
+  "iteration": 1555701247541,
   "links": [
     {
       "icon": "external link",
@@ -763,7 +763,7 @@
           "link": true,
           "linkTargetBlank": true,
           "linkTooltip": "Toggle ${__cell_3} (CH${__cell_1})",
-          "linkUrl": "/api/plugin-proxy/flexscada-app/api/v2/q5/relay/${__cell_1}/toggle",
+          "linkUrl": "../../plugins/flexscada-app/page/device-config?device=${__cell_4}&cmd=%7B%22cmd%22%3A%22set_relay%22%2C%22ch%22%3A${__cell_1}%2C%22state%22%3A${__cell_11}%7D",
           "mappingType": 1,
           "pattern": "STATE",
           "thresholds": [
@@ -795,13 +795,45 @@
           "link": true,
           "linkTargetBlank": true,
           "linkTooltip": "Reset ${__cell_3} (CH${__cell_1})",
-          "linkUrl": "/api/plugin-proxy/flexscada-app/api/v2/q5/relay/${__cell_1}/reset",
+          "linkUrl": "https://flexscada.com/visualization/plugins/flexscada-app/page/device-config?device=${__cell_4}&cmd=%7B%22cmd%22%3A%22reset_relay%22%2C%22ch%22%3A${__cell_1}%7D",
           "mappingType": 1,
           "pattern": "FUSE|HVD|LVD",
           "thresholds": [
             "1"
           ],
           "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "uid",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "state_inverted",
+          "thresholds": [],
+          "type": "hidden",
           "unit": "short"
         },
         {
@@ -837,6 +869,12 @@
             {
               "params": [
                 "label"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "uid"
               ],
               "type": "tag"
             }
@@ -951,6 +989,30 @@
               {
                 "params": [
                   "LVD"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "state"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "*-1+1"
+                ],
+                "type": "math"
+              },
+              {
+                "params": [
+                  "state_inverted"
                 ],
                 "type": "alias"
               }
@@ -1762,9 +1824,10 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
-          "text": "Flexs Q5",
-          "value": "Flexs Q5"
+          "tags": [],
+          "text": "No Device Selected",
+          "value": [
+          ]
         },
         "datasource": "Flexscada-Site-Monitoring",
         "hide": 0,
@@ -1816,5 +1879,5 @@
   },
   "timezone": "",
   "title": "Device Overview",
-  "version": 0
+  "version": 17
 }
