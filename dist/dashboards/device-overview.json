@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1555701247542,
+  "iteration": 1555701247543,
   "links": [
     {
       "icon": "external link",
@@ -763,7 +763,7 @@
           "link": true,
           "linkTargetBlank": true,
           "linkTooltip": "Toggle ${__cell_3} (CH${__cell_1})",
-          "linkUrl": "../../plugins/flexscada-app/page/device-config?device=${__cell_4}&cmd=%7B%22cmd%22%3A%22set_relay%22%2C%22ch%22%3A${__cell_1}%2C%22state%22%3A${__cell_11}%7D",
+          "linkUrl": "../plugins/flexscada-app/page/device-config?device=${__cell_4}&cmd=%7B%22cmd%22%3A%22set_relay%22%2C%22ch%22%3A${__cell_1}%2C%22state%22%3A${__cell_11}%7D",
           "mappingType": 1,
           "pattern": "STATE",
           "thresholds": [
@@ -1879,5 +1879,5 @@
   },
   "timezone": "",
   "title": "Device Overview",
-  "version": 18
+  "version": 19
 }
