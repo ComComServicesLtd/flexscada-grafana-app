@@ -4,9 +4,49 @@
 	The FlexSCADA app cannot be used on the admin account however it can be used to setup grafana accounts with the FlexSCADA App Enabled. (Client Accounts)
 	<br>
 </p>
-<br>
 
-	<i class="icon-gf icon-gf-check fs-icon-success"></i> Flexscada is ready. <strong>Next up: </strong><a target="_blank" href="https://flexscada.com/visualization/api/plugin-proxy/flexscada-app/api/v2/files/CloudSignup/dist/spa-mat/index.html#/home" class="external-link">Create a client account</a>
+
+<br>
+<h3> Create Client Account </h3>
+
+
+<div class="gf-form">
+		<label class="gf-form-label width-12">Username</label>
+		<input type="text" class="gf-form-input max-width-24" ng-model="ctrl.newClientAccount.username" required>
+	</div>
+
+
+	<div class="gf-form">
+		<label class="gf-form-label width-12">Password</label>
+		<input type="text" class="gf-form-input max-width-24" ng-model="ctrl.newClientAccount.password" required>
+	</div>
+
+	<div class="gf-form">
+		<label class="gf-form-label width-12">Email</label>
+		<input type="text" class="gf-form-input max-width-24" ng-model="ctrl.newClientAccount.email" required>
+	</div>
+
+		<div class="gf-form">
+			<label class="gf-form-label width-12">Phone</label>
+			<input type="text" class="gf-form-input max-width-24" ng-model="ctrl.newClientAccount.phone" required>
+		</div>
+
+	<div class="gf-form">
+		<label class="gf-form-label width-12">Notes</label>
+		<input type="textarea" rows="8" cols="80" class="gf-form-input max-width-24" ng-model="ctrl.newClientAccount.notes">
+	</div>
+
+	<div class="gf-form">
+		<a class="btn btn-success" href="#" ng-click="ctrl.createUser()"">Create</a>
+	</div>
+
+	<div ng-if="ctrl.errorMsg">
+		<div class="alert alefs-error">
+			<div>{{ctrl.errorMsg}}</div>
+		</div>
+	</div>
+
+<br>
 
 </div>
 

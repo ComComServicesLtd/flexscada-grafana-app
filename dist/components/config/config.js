@@ -44,6 +44,16 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
           this.backendSrv = backendSrv;
           this.alertSrv = alertSrv;
           this.validKey = false;
+          this.errorMsg = "";
+
+          this.newClientAccount = {
+            username: "",
+            password: "",
+            notes: "",
+            phone: "",
+            email: ""
+          };
+
           this.quotas = {};
           this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
           this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
@@ -69,6 +79,25 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
               this.validKey = false;
               this.org = null;
             }
+          }
+        }, {
+          key: 'createUser',
+          value: function createUser() {
+
+            var self = this;
+            var p = this.backendSrv.put('/api/plugin-proxy/flexscada-app/admin/api/v2/account', this.newClientAccount);
+            p.then(function (resp) {
+              if (resp.meta.code == 200) {
+
+                self.alertSrv.set("Success", "Account Created Successfully", 'success', 10000);
+                self.errorMsg = "";
+              } else {
+                self.alertSrv.set("failed to create account", resp.meta.msg, 'error', 10000);
+                self.errorMsg = resp.meta.msg;
+                return self.$q.reject(resp.meta.msg);
+              }
+            });
+            return p;
           }
         }, {
           key: 'validateKey',
