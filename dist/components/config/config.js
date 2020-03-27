@@ -44,6 +44,7 @@ System.register(['./config.html!text', 'app/core/core', 'lodash'], function (_ex
 
           this.$q = $q;
           this.$q = $q;
+          this.$scope = $scope;
           this.backendSrv = backendSrv;
           this.contextSrv = contextSrv;
           this.datasourceSrv = datasourceSrv;
@@ -117,6 +118,7 @@ System.register(['./config.html!text', 'app/core/core', 'lodash'], function (_ex
               }
               self.validKey = true;
               self.account = resp.body;
+              self.$scope.$apply();
             }, function (resp) {
               if (self.appModel.enabled) {
                 //self.alertSrv.set("failed to verify account key", resp.msg, 'error', 10000);

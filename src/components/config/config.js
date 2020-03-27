@@ -7,6 +7,7 @@ class FlexscadaConfigCtrl {
   constructor($scope, $injector, $q, backendSrv, alertSrv, contextSrv, datasourceSrv) {
     this.$q = $q;
     this.$q = $q;
+    this.$scope = $scope;
     this.backendSrv = backendSrv;
     this.contextSrv = contextSrv;
     this.datasourceSrv = datasourceSrv;
@@ -81,6 +82,7 @@ createUser(){
       }
       self.validKey = true;
       self.account = resp.body;
+      self.$scope.$apply();
     }, (resp) => {
       if (self.appModel.enabled) {
         //self.alertSrv.set("failed to verify account key", resp.msg, 'error', 10000);
