@@ -19,8 +19,10 @@ import {
 class Q5DataEditorCtrl extends MetricsPanelCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $q, backendSrv, alertSrv) {
+  constructor($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
     super($scope, $injector);
+
+    this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
     this.backendSrv = backendSrv;
     this.alertSrv = alertSrv;
     this.$location = $location;
@@ -28,7 +30,6 @@ class Q5DataEditorCtrl extends MetricsPanelCtrl {
     this.window = window;
     this.scope = $scope;
 
-    this.isOrgEditor = this.backendSrv.contextSrv.hasRole('Editor') ||  this.backendSrv.contextSrv.hasRole('Admin');
 
 
     //  this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
@@ -118,7 +119,8 @@ if(this.isOrgEditor){
       }
     });
   } else {
-    self.alertSrv.set("failed to delete dataset", "You do not have adequate permissions to perform this action.", 'error', 10000);
+        //self.alertSrv.set("failed to delete dataset", "You do not have adequate permissions to perform this action.", 'error', 10000);
+        appEvents.emit('alert-error', ['failed to delete dataset', "You do not have adequate permissions to perform this action."]);
   }
 
 

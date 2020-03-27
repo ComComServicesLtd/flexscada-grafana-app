@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { appEvents} from 'app/core/core';
 
 class DeviceDetailsCtrl {
 
@@ -21,7 +22,8 @@ class DeviceDetailsCtrl {
       this.deviceID = $location.search().device;
       this.getDevice();
     } else {
-      this.alertSrv.set("no device id provided.", "", 'error', 10000);
+    //  this.alertSrv.set("no device id provided.", "", 'error', 10000);
+      appEvents.emit('alert-error', ['No device id provided', '']);
     }
 
   }
@@ -32,7 +34,8 @@ class DeviceDetailsCtrl {
 
     self.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/devices/' + self.deviceID).then(function(resp) {
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to get device.", resp.meta.msg, 'error', 10000);
+      //  self.alertSrv.set("failed to get device.", resp.meta.msg, 'error', 10000);
+        appEvents.emit('alert-error', ['failed to load device details.', resp.meta.msg]);
         return self.$q.reject(resp.meta.msg);
       }
       self.device = resp.body;
@@ -56,8 +59,9 @@ class DeviceDetailsCtrl {
       })
       .then((resp) => {
         if (resp.meta.code !== 200) {
-          self.alertSrv.set("failed to set relay.", resp.meta.message, 'error', 10000);
-          return self.$q.reject(resp.meta.message);
+        //  self.alertSrv.set("failed to set relay.", resp.meta.message, 'error', 10000);
+          appEvents.emit('alert-error', ['failed to set relay.', resp.meta.msg]);
+          return self.$q.reject(resp.meta.msg);
         }
       });
   }
@@ -70,8 +74,9 @@ class DeviceDetailsCtrl {
       })
       .then((resp) => {
         if (resp.meta.code !== 200) {
-          self.alertSrv.set("failed to queue command.", resp.meta.message, 'error', 10000);
-          return self.$q.reject(resp.meta.message);
+        //  self.alertSrv.set("failed to queue command.", resp.meta.message, 'error', 10000);
+          appEvents.emit('alert-error', ['failed to queue command.', resp.meta.msg]);
+          return self.$q.reject(resp.meta.msg);
         }
       });
   }

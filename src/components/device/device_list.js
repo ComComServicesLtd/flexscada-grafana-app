@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import $ from 'jquery';
+import { appEvents} from 'app/core/core';
 
 class DeviceListCtrl {
 
@@ -18,9 +19,11 @@ class DeviceListCtrl {
     this.devices = [];
     this.refresh();
 
+    this.$scope = $scope;
   }
 
   refresh() {
+
     this.getdevices();
   }
 
@@ -42,11 +45,16 @@ class DeviceListCtrl {
     var self = this;
     this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/devices').then(function(resp) {
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to get device list.", resp.meta.msg, 'error', 10000);
+        //self.alertSrv.set("failed to get device list.", resp.meta.msg, 'error', 10000);
+        appEvents.emit('alert-error', ['Failed to get device list', resp.meta.msg]);
         return self.$q.reject(resp.meta.msg);
       }
+    //  debugger;
       self.devices = resp.body;
       self.pageReady = true;
+      self.$scope.$apply();
+    //  self.alertSrv.set("Sucessfully loaded device list.", "", 'success', 10000);
+    //  appEvents.emit('alert-success', ['Sucessfully loaded device list', '']);
     });
   }
 

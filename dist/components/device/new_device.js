@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['lodash', 'angular'], function (_export, _context) {
+System.register(['lodash', 'angular', 'app/core/core'], function (_export, _context) {
   "use strict";
 
-  var _, angular, _createClass, NewDeviceCtrl;
+  var _, angular, appEvents, _createClass, NewDeviceCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -16,6 +16,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
       _ = _lodash.default;
     }, function (_angular) {
       angular = _angular.default;
+    }, function (_appCoreCore) {
+      appEvents = _appCoreCore.appEvents;
     }],
     execute: function () {
       _createClass = function () {
@@ -81,7 +83,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             debugger;
 
             if (this.uid.length < 4) {
-              this.alertSrv.set("Invalid UID", "UID should look like '1535235511'", 'error', 5000);
+              //  this.alertSrv.set("Invalid UID", "UID should look like '1535235511'", 'error', 5000);
+              appEvents.emit('alert-error', ['Invalid UID', "UID should look like '1535235511'"]);
               return;
             }
 
@@ -101,10 +104,12 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               return this.backendSrv.post('api/plugin-proxy/flexscada-app/api/v2/adopt/' + self.uid, { password: self.password }).then(function (resp) {
                 self.$window.console.log(resp);
                 if (resp.meta.code !== 200) {
-                  self.alertSrv.set("failed to adopt device.", resp.meta.msg, 'error', 10000);
+                  //  self.alertSrv.set("failed to adopt device.", resp.meta.msg, 'error', 10000);
+                  appEvents.emit('alert-error', ['Failed to adopt device.', resp.meta.msg]);
                   return self.$q.reject(resp.meta.msg);
                 }
-                self.alertSrv.set("Success", resp.meta.msg, 'success', 10000);
+                //self.alertSrv.set("Success", resp.meta.msg, 'success', 10000);
+                appEvents.emit('alert-success', [resp.meta.msg, '']);
                 _this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
               });
             }

@@ -100,19 +100,18 @@ System.register(['lodash', 'app/plugins/sdk', 'jquery', 'moment', 'app/core/util
         _inherits(Q5DataEditorCtrl, _MetricsPanelCtrl);
 
         /** @ngInject */
-        function Q5DataEditorCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
+        function Q5DataEditorCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
           _classCallCheck(this, Q5DataEditorCtrl);
 
           var _this = _possibleConstructorReturn(this, (Q5DataEditorCtrl.__proto__ || Object.getPrototypeOf(Q5DataEditorCtrl)).call(this, $scope, $injector));
 
+          _this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
           _this.backendSrv = backendSrv;
           _this.alertSrv = alertSrv;
           _this.$location = $location;
           _this.$q = $q;
           _this.window = window;
           _this.scope = $scope;
-
-          _this.isOrgEditor = _this.backendSrv.contextSrv.hasRole('Editor') || _this.backendSrv.contextSrv.hasRole('Admin');
 
           //  this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
           _this.events.on('refresh', _this.onRefresh.bind(_this));
@@ -198,7 +197,8 @@ System.register(['lodash', 'app/plugins/sdk', 'jquery', 'moment', 'app/core/util
                 }
               });
             } else {
-              self.alertSrv.set("failed to delete dataset", "You do not have adequate permissions to perform this action.", 'error', 10000);
+              //self.alertSrv.set("failed to delete dataset", "You do not have adequate permissions to perform this action.", 'error', 10000);
+              appEvents.emit('alert-error', ['failed to delete dataset', "You do not have adequate permissions to perform this action."]);
             }
           }
         }]);

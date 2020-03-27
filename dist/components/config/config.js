@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['./config.html!text', 'lodash'], function (_export, _context) {
+System.register(['./config.html!text', 'app/core/core', 'lodash'], function (_export, _context) {
   "use strict";
 
-  var configTemplate, _, _createClass, FlexscadaConfigCtrl;
+  var configTemplate, appEvents, _, _createClass, FlexscadaConfigCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -14,6 +14,8 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
   return {
     setters: [function (_configHtmlText) {
       configTemplate = _configHtmlText.default;
+    }, function (_appCoreCore) {
+      appEvents = _appCoreCore.appEvents;
     }, function (_lodash) {
       _ = _lodash.default;
     }],
@@ -37,11 +39,14 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
       }();
 
       _export('ConfigCtrl', FlexscadaConfigCtrl = function () {
-        function FlexscadaConfigCtrl($scope, $injector, $q, backendSrv, alertSrv) {
+        function FlexscadaConfigCtrl($scope, $injector, $q, backendSrv, alertSrv, contextSrv, datasourceSrv) {
           _classCallCheck(this, FlexscadaConfigCtrl);
 
           this.$q = $q;
+          this.$q = $q;
           this.backendSrv = backendSrv;
+          this.contextSrv = contextSrv;
+          this.datasourceSrv = datasourceSrv;
           this.alertSrv = alertSrv;
           this.validKey = false;
           this.errorMsg = "";
@@ -88,11 +93,11 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
             var p = this.backendSrv.put('/api/plugin-proxy/flexscada-app/admin/api/v2/account', this.newClientAccount);
             p.then(function (resp) {
               if (resp.meta.code == 200) {
-
-                self.alertSrv.set("Success", "Account Created Successfully", 'success', 10000);
+                appEvents.emit('alert-success', ['Account Created Successfully', '']);
                 self.errorMsg = "";
               } else {
-                self.alertSrv.set("failed to create account", resp.meta.msg, 'error', 10000);
+                //  self.alertSrv.set("failed to create account", resp.meta.msg, 'error', 10000);
+                appEvents.emit('alert-error', ['Failed to create account', resp.meta.msg]);
                 self.errorMsg = resp.meta.msg;
                 return self.$q.reject(resp.meta.msg);
               }
@@ -106,14 +111,16 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
             var p = this.backendSrv.get('/api/plugin-proxy/flexscada-app/api/v2/account');
             p.then(function (resp) {
               if (resp.meta.code !== 200) {
-                self.alertSrv.set("failed to validate account key", resp.msg, 'error', 10000);
+                //self.alertSrv.set("failed to validate account key", resp.msg, 'error', 10000);
+                appEvents.emit('alert-error', ['Failed to validate account key', resp.msg]);
                 return self.$q.reject(resp.msg);
               }
               self.validKey = true;
               self.account = resp.body;
             }, function (resp) {
               if (self.appModel.enabled) {
-                self.alertSrv.set("failed to verify account key", resp.msg, 'error', 10000);
+                //self.alertSrv.set("failed to verify account key", resp.msg, 'error', 10000);
+                appEvents.emit('alert-error', ['Failed to verify account key', resp.msg]);
                 self.appModel.enabled = false;
                 self.appModel.jsonData.apiKeySet = false;
                 self.appModel.secureJsonData.apiKey = "";

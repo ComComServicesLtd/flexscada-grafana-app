@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['lodash', 'jquery'], function (_export, _context) {
+System.register(['lodash', 'jquery', 'app/core/core'], function (_export, _context) {
   "use strict";
 
-  var _, $, _createClass, DeviceListCtrl;
+  var _, $, appEvents, _createClass, DeviceListCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -16,6 +16,8 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
       _ = _lodash.default;
     }, function (_jquery) {
       $ = _jquery.default;
+    }, function (_appCoreCore) {
+      appEvents = _appCoreCore.appEvents;
     }],
     execute: function () {
       _createClass = function () {
@@ -54,11 +56,14 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
           this.sort_field = 'name';
           this.devices = [];
           this.refresh();
+
+          this.$scope = $scope;
         }
 
         _createClass(DeviceListCtrl, [{
           key: 'refresh',
           value: function refresh() {
+
             this.getdevices();
           }
         }, {
@@ -83,11 +88,16 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
             var self = this;
             this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/devices').then(function (resp) {
               if (resp.meta.code !== 200) {
-                self.alertSrv.set("failed to get device list.", resp.meta.msg, 'error', 10000);
+                //self.alertSrv.set("failed to get device list.", resp.meta.msg, 'error', 10000);
+                appEvents.emit('alert-error', ['Failed to get device list', resp.meta.msg]);
                 return self.$q.reject(resp.meta.msg);
               }
+              //  debugger;
               self.devices = resp.body;
               self.pageReady = true;
+              self.$scope.$apply();
+              //  self.alertSrv.set("Sucessfully loaded device list.", "", 'success', 10000);
+              //  appEvents.emit('alert-success', ['Sucessfully loaded device list', '']);
             });
           }
         }, {

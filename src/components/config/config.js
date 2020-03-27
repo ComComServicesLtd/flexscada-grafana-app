@@ -1,14 +1,19 @@
 import configTemplate from './config.html!text';
+import { appEvents} from 'app/core/core';
 
 import _ from 'lodash';
 
 class FlexscadaConfigCtrl {
-  constructor($scope, $injector, $q, backendSrv, alertSrv) {
+  constructor($scope, $injector, $q, backendSrv, alertSrv, contextSrv, datasourceSrv) {
+    this.$q = $q;
     this.$q = $q;
     this.backendSrv = backendSrv;
+    this.contextSrv = contextSrv;
+    this.datasourceSrv = datasourceSrv;
     this.alertSrv = alertSrv;
     this.validKey = false;
     this.errorMsg = "";
+
 
     this.newClientAccount = {
       username: "",
@@ -50,12 +55,11 @@ createUser(){
   var p = this.backendSrv.put('/api/plugin-proxy/flexscada-app/admin/api/v2/account',this.newClientAccount);
   p.then((resp) => {
     if (resp.meta.code == 200) {
-
-      self.alertSrv.set("Success", "Account Created Successfully", 'success', 10000);
+      appEvents.emit('alert-success', ['Account Created Successfully', '']);
       self.errorMsg = "";
-
     } else {
-      self.alertSrv.set("failed to create account", resp.meta.msg, 'error', 10000);
+    //  self.alertSrv.set("failed to create account", resp.meta.msg, 'error', 10000);
+      appEvents.emit('alert-error', ['Failed to create account', resp.meta.msg]);
       self.errorMsg = resp.meta.msg;
       return self.$q.reject(resp.meta.msg);
 
@@ -71,14 +75,16 @@ createUser(){
     var p = this.backendSrv.get('/api/plugin-proxy/flexscada-app/api/v2/account');
     p.then((resp) => {
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to validate account key", resp.msg, 'error', 10000);
+        //self.alertSrv.set("failed to validate account key", resp.msg, 'error', 10000);
+        appEvents.emit('alert-error', ['Failed to validate account key', resp.msg]);
         return self.$q.reject(resp.msg);
       }
       self.validKey = true;
       self.account = resp.body;
     }, (resp) => {
       if (self.appModel.enabled) {
-        self.alertSrv.set("failed to verify account key", resp.msg, 'error', 10000);
+        //self.alertSrv.set("failed to verify account key", resp.msg, 'error', 10000);
+        appEvents.emit('alert-error', ['Failed to verify account key', resp.msg]);
         self.appModel.enabled = false;
         self.appModel.jsonData.apiKeySet = false;
         self.appModel.secureJsonData.apiKey = "";

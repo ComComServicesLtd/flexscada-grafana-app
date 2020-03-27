@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
-System.register(["lodash"], function (_export, _context) {
+System.register(['lodash', 'app/core/core'], function (_export, _context) {
   "use strict";
 
-  var _, _typeof, _createClass, DeviceDetailsCtrl;
+  var _, appEvents, _typeof, _createClass, DeviceDetailsCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -14,6 +14,8 @@ System.register(["lodash"], function (_export, _context) {
   return {
     setters: [function (_lodash) {
       _ = _lodash.default;
+    }, function (_appCoreCore) {
+      appEvents = _appCoreCore.appEvents;
     }],
     execute: function () {
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -40,7 +42,7 @@ System.register(["lodash"], function (_export, _context) {
         };
       }();
 
-      _export("DeviceDetailsCtrl", DeviceDetailsCtrl = function () {
+      _export('DeviceDetailsCtrl', DeviceDetailsCtrl = function () {
 
         /** @ngInject */
         function DeviceDetailsCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
@@ -63,18 +65,20 @@ System.register(["lodash"], function (_export, _context) {
             this.deviceID = $location.search().device;
             this.getDevice();
           } else {
-            this.alertSrv.set("no device id provided.", "", 'error', 10000);
+            //  this.alertSrv.set("no device id provided.", "", 'error', 10000);
+            appEvents.emit('alert-error', ['No device id provided', '']);
           }
         }
 
         _createClass(DeviceDetailsCtrl, [{
-          key: "getDevice",
+          key: 'getDevice',
           value: function getDevice() {
             var self = this;
 
             self.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/devices/' + self.deviceID).then(function (resp) {
               if (resp.meta.code !== 200) {
-                self.alertSrv.set("failed to get device.", resp.meta.msg, 'error', 10000);
+                //  self.alertSrv.set("failed to get device.", resp.meta.msg, 'error', 10000);
+                appEvents.emit('alert-error', ['failed to load device details.', resp.meta.msg]);
                 return self.$q.reject(resp.meta.msg);
               }
               self.device = resp.body;
@@ -91,7 +95,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "setReg",
+          key: 'setReg',
           value: function setReg(reg, val) {
             var self = this;
             return this.backendSrv.post('api/plugin-proxy/flexscada-app/api/v2/device/' + self.deviceID + '/setreg', {
@@ -99,13 +103,14 @@ System.register(["lodash"], function (_export, _context) {
               value: val
             }).then(function (resp) {
               if (resp.meta.code !== 200) {
-                self.alertSrv.set("failed to set relay.", resp.meta.message, 'error', 10000);
-                return self.$q.reject(resp.meta.message);
+                //  self.alertSrv.set("failed to set relay.", resp.meta.message, 'error', 10000);
+                appEvents.emit('alert-error', ['failed to set relay.', resp.meta.msg]);
+                return self.$q.reject(resp.meta.msg);
               }
             });
           }
         }, {
-          key: "setRelayQ5",
+          key: 'setRelayQ5',
           value: function setRelayQ5(ch, val) {
             var self = this;
             return this.backendSrv.post('api/plugin-proxy/flexscada-app/api/v2/device/' + self.deviceID + '/queue_command', {
@@ -113,16 +118,17 @@ System.register(["lodash"], function (_export, _context) {
               value: val
             }).then(function (resp) {
               if (resp.meta.code !== 200) {
-                self.alertSrv.set("failed to queue command.", resp.meta.message, 'error', 10000);
-                return self.$q.reject(resp.meta.message);
+                //  self.alertSrv.set("failed to queue command.", resp.meta.message, 'error', 10000);
+                appEvents.emit('alert-error', ['failed to queue command.', resp.meta.msg]);
+                return self.$q.reject(resp.meta.msg);
               }
             });
           }
         }, {
-          key: "monitorStateTxt",
+          key: 'monitorStateTxt',
           value: function monitorStateTxt(type) {
             var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
+            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
               return "disabled";
             }
             if (!mon.enabled) {
@@ -139,10 +145,10 @@ System.register(["lodash"], function (_export, _context) {
             return states[mon.state];
           }
         }, {
-          key: "monitorStateClass",
+          key: 'monitorStateClass',
           value: function monitorStateClass(type) {
             var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
+            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
               return "disabled";
             }
             if (!mon.enabled) {
@@ -155,12 +161,12 @@ System.register(["lodash"], function (_export, _context) {
             return states[mon.state];
           }
         }, {
-          key: "round",
+          key: 'round',
           value: function round(i) {
             return Math.round(i * 100000) / 100000;
           }
         }, {
-          key: "getTimeAgo",
+          key: 'getTimeAgo',
           value: function getTimeAgo(epoch) {
             var duration = new Date().getTime() - new Date(epoch * 1000).getTime();
             if (duration < 10000) {
@@ -182,10 +188,10 @@ System.register(["lodash"], function (_export, _context) {
             return days + " days ago";
           }
         }, {
-          key: "stateChangeStr",
+          key: 'stateChangeStr',
           value: function stateChangeStr(type) {
             var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
+            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
               return "";
             }
             var duration = new Date().getTime() - new Date(mon.stateChange).getTime();
@@ -208,10 +214,10 @@ System.register(["lodash"], function (_export, _context) {
             return "for " + days + " days";
           }
         }, {
-          key: "getProbesForCheck",
+          key: 'getProbesForCheck',
           value: function getProbesForCheck(type) {
             var check = this.getMonitorByTypeName(type);
-            if ((typeof check === "undefined" ? "undefined" : _typeof(check)) !== "object") {
+            if ((typeof check === 'undefined' ? 'undefined' : _typeof(check)) !== "object") {
               return [];
             }
             if (check.route.type === "byIds") {
@@ -232,12 +238,12 @@ System.register(["lodash"], function (_export, _context) {
             }
           }
         }, {
-          key: "setDevice",
+          key: 'setDevice',
           value: function setDevice(id) {
             this.$location.url('plugins/flexscada-app/page/device_details?device=' + id);
           }
         }, {
-          key: "gotoDashboard",
+          key: 'gotoDashboard',
           value: function gotoDashboard(device, type) {
             if (!type) {
               type = 'summary';
@@ -270,7 +276,7 @@ System.register(["lodash"], function (_export, _context) {
             }
           }
         }, {
-          key: "editFeedData",
+          key: 'editFeedData',
           value: function editFeedData(feed) {
 
             var allTags = this.device.tags.concat(feed.tags);
@@ -295,7 +301,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "getNotificationEmails",
+          key: 'getNotificationEmails',
           value: function getNotificationEmails(checkType) {
             var mon = this.getMonitorByTypeName(checkType);
             if (!mon || mon.healthSettings.notifications.addresses === "") {
@@ -309,7 +315,7 @@ System.register(["lodash"], function (_export, _context) {
             return list;
           }
         }, {
-          key: "getNotificationEmailsAsString",
+          key: 'getNotificationEmailsAsString',
           value: function getNotificationEmailsAsString(checkType) {
             var emails = this.getNotificationEmails(checkType);
             if (emails.length < 1) {
@@ -335,7 +341,7 @@ System.register(["lodash"], function (_export, _context) {
 
       DeviceDetailsCtrl.templateUrl = 'public/plugins/flexscada-app/components/device/partials/device_details.html';
 
-      _export("DeviceDetailsCtrl", DeviceDetailsCtrl);
+      _export('DeviceDetailsCtrl', DeviceDetailsCtrl);
     }
   };
 });

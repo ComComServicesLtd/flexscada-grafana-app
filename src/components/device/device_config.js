@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import angular from 'angular';
-
+import { appEvents} from 'app/core/core';
 
 class DeviceConfigCtrl {
   /** @ngInject */
@@ -240,7 +240,7 @@ class DeviceConfigCtrl {
   addDevice() {
 
 if(this.deviceID.length < 4){
-    this.alertSrv.set("Invalid UID", "UID should look like '1535235511'", 'error', 5000);
+    appEvents.emit('alert-error', ['Invalid UID', "UID should look like '1535235511'"]);
     return;
   }
 
@@ -267,7 +267,8 @@ if(this.deviceID.length < 4){
     var self = this;
     return this.backendSrv.delete('api/plugin-proxy/flexscada-app/api/v2/db/devices/' + this.deviceID).then((resp) => {
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to delete device.", resp.meta.msg, 'error', 10000);
+        //self.alertSrv.set("failed to delete device.", resp.meta.msg, 'error', 10000);
+        appEvents.emit('alert-error', ['failed to delete device.', resp.meta.msg]);
         return self.$q.reject(resp.meta.msg);
       }
       self.$location.path('plugins/flexscada-app/page/devices');
@@ -280,7 +281,8 @@ if(this.deviceID.length < 4){
     return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/keys/' + this.deviceID).then((resp) => {
 
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to download device key.", resp.meta.msg, 'error', 10000);
+        //self.alertSrv.set("failed to download device key.", resp.meta.msg, 'error', 10000);
+        appEvents.emit('alert-error', ['failed to download device key.', resp.meta.msg]);
         this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
         return self.$q.reject(resp.meta.msg);
       }
@@ -321,7 +323,8 @@ if(self.commandJson && self.commandJson.length){
       try {
         pendingCommands = JSON.parse(self.commandJson);
       } catch (e) {
-        this.alertSrv.set("Syntax Error", "Check the command queue for errors and try again", 'error', 10000);
+      //  this.alertSrv.set("Syntax Error", "Check the command queue for errors and try again", 'error', 10000);
+        appEvents.emit('alert-error', ['Syntax Error.',  "Check the command queue for errors and try again"]);
         return this.$q.reject(resp.meta.msg);
       }
 
@@ -344,7 +347,8 @@ if(self.commandJson && self.commandJson.length){
     pendingCommands.push(cmd); // Append our command to the end of the queue
     self.commandJson = JSON.stringify(pendingCommands, null, 2);
 
-    self.alertSrv.set("Command added to queue", "Save changes to apply", 'success', 10000);
+  //  self.alertSrv.set("Command added to queue", "Save changes to apply", 'success', 10000);
+    appEvents.emit('alert-success', ['Command added to queue',  "Save changes to apply"]);
   }
 
   saveCommandQueue() {
@@ -358,14 +362,16 @@ if(self.commandJson && self.commandJson.length){
   try {
     commandData = JSON.parse(this.commandJson);
   } catch (e) {
-    self.alertSrv.set("Syntax Error", "Check the command queue for errors and try again", 'error', 10000);
+    //self.alertSrv.set("Syntax Error", "Check the command queue for errors and try again", 'error', 10000);
+    appEvents.emit('alert-error', ['Syntax Error.',  "Check the command queue for errors and try again"]);
     return self.$q.reject(resp.meta.msg);
   }
 
   for(var i = 0; i < commandData.length; i++) {
       var obj = commandData[i];
       if(!obj.id){
-        self.alertSrv.set("Syntax Error", "One or more commands in the queue does not have an ID associated with it, please make sure each command has a valid numerical `id` object.", 'error', 10000);
+        //self.alertSrv.set("Syntax Error", "One or more commands in the queue does not have an ID associated with it, please make sure each command has a valid numerical `id` object.", 'error', 10000);
+        appEvents.emit('alert-error', ['Syntax Error.',  "One or more commands in the queue does not have an ID associated with it, please make sure each command has a valid numerical `id` object."]);
         return self.$q.reject(resp.meta.msg);
       }
   }
@@ -378,7 +384,8 @@ if(self.commandJson && self.commandJson.length){
     return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/v2/db/keys/' + this.deviceID, this.key).then((resp) => {
       self.$window.console.log(resp);
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to update command queue.", resp.meta.msg, 'error', 10000);
+      //  self.alertSrv.set("failed to update command queue.", resp.meta.msg, 'error', 10000);
+        appEvents.emit('alert-error', ['failed to update command queue',  resp.meta.msg]);
         return self.$q.reject(resp.meta.msg);
       }
       this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
@@ -403,7 +410,8 @@ if(this.deviceType == 3) { // Flexs Q5
     }
 
   } catch (e) {
-    self.alertSrv.set("Syntax Error", "Check the config file for errors and try again", 'error', 10000);
+      appEvents.emit('alert-error', ['Syntax Error.',  "Check the config file for errors and try again"]);
+  //  self.alertSrv.set("Syntax Error", "Check the config file for errors and try again", 'error', 10000);
     return self.$q.reject(resp.meta.msg);
   }
 }
@@ -416,13 +424,17 @@ if(this.deviceType == 3) { // Flexs Q5
     return this.backendSrv.put('api/plugin-proxy/flexscada-app/api/v2/db/devices/' + this.deviceID + ((this.deviceStatus === 1) ? '/?create=true' : ''), this.config).then((resp) => {
       self.$window.console.log(resp);
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to update device.", resp.meta.msg, 'error', 10000);
+      //self.alertSrv.set("failed to update device.", resp.meta.msg, 'error', 10000);
+        appEvents.emit('alert-error', ['failed to update device config',  resp.meta.msg]);
         return self.$q.reject(resp.meta.msg);
       }
       this.deviceStatus = 2;
       this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
+      appEvents.emit('alert-success', ['Changes Saved', '']);
     });
   }
+
+
   getTimeAgo(epoch) {
     var duration = new Date().getTime() - new Date(epoch * 1000).getTime();
     if (duration < 10000) {
@@ -453,7 +465,8 @@ if(this.deviceType == 3) { // Flexs Q5
     return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/db/devices/' + this.deviceID).then((resp) => {
       self.$window.console.log(resp);
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to update device.", resp.meta.msg, 'error', 10000);
+      //  self.alertSrv.set("failed to update device.", resp.meta.msg, 'error', 10000);
+        appEvents.emit('alert-error', ['failed to load device',  resp.meta.msg]);
         this.$location.url('plugins/flexscada-app/page/devices'); // go back to devices page
         return self.$q.reject(resp.meta.msg);
       }
@@ -491,7 +504,8 @@ self.loadKey();
     return this.backendSrv.get('api/plugin-proxy/flexscada-app/api/v2/available_templates').then((resp) => {
       self.$window.console.log(resp);
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to donwload templates.", resp.meta.msg, 'error', 10000);
+      //  self.alertSrv.set("failed to donwload templates.", resp.meta.msg, 'error', 10000);
+      appEvents.emit('alert-error', ['failed to load device templates',  resp.meta.msg]);
         return self.$q.reject(resp.meta.msg);
       }
       self.templates = resp.body;

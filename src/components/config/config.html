@@ -1,4 +1,4 @@
-<div ng-if="ctrl.backendSrv.contextSrv.isGrafanaAdmin && ctrl.appModel.jsonData.apiKeySet && ctrl.validKey">
+<div ng-if="ctrl.contextSrv.isGrafanaAdmin && ctrl.appModel.jsonData.apiKeySet && ctrl.validKey">
 
 <p> It appears that you are logged in using the Grafana Admin user account.<br>
 	The FlexSCADA app cannot be used on the admin account however it can be used to setup grafana accounts with the FlexSCADA App Enabled. (Client Accounts)
@@ -51,14 +51,14 @@
 </div>
 
 
-<form  ng-if="!(ctrl.backendSrv.contextSrv.isGrafanaAdmin && ctrl.appModel.jsonData.apiKeySet && ctrl.validKey)" name="editForm">
+<form  ng-if="!(ctrl.contextSrv.isGrafanaAdmin && ctrl.appModel.jsonData.apiKeySet && ctrl.validKey)" name="editForm">
 	<div class="gf-form-group">
 
-		<p ng-if="ctrl.backendSrv.contextSrv.isGrafanaAdmin">
+		<p ng-if="ctrl.contextSrv.isGrafanaAdmin">
 			Since you are logged in as the admin user this would be the inital account key with the `"admin":true` attribute set in the devices.json database file.
 </p>
 
-		<p  ng-if="!ctrl.backendSrv.contextSrv.isGrafanaAdmin">If you did not receive your account key please <a href="https://flexscada.com/contact-us/">contact us</a>.</p>
+		<p  ng-if="!ctrl.contextSrv.isGrafanaAdmin">If you did not receive your account key please <a href="https://flexscada.com/contact-us/">contact us</a>.</p>
   <div class="gf-form">
 			<label class="gf-form-label width-12">Account Key</label>
 			<input type="password" class="gf-form-input max-width-24" ng-model="ctrl.appModel.secureJsonData.apiKey" ng-if="!ctrl.appModel.jsonData.apiKeySet" required>
