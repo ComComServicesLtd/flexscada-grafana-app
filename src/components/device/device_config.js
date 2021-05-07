@@ -13,11 +13,13 @@ class DeviceConfigCtrl {
     this.alertSrv = alertSrv;
     this.$window = $window;
     this.$rootScope = $rootScope;
+    this.$scope = $scope;
 
     this.key = {};
     this.key.status = {};
 
     $window.scope = $scope;
+
     $window.rootscope = $rootScope;
 
     this.configJson = "";
@@ -330,11 +332,19 @@ if(self.commandJson && self.commandJson.length){
 
 // If pending commands, get the last ID, otherwise reset the object
       if(pendingCommands.length)
-          lastPendingCommandID = pendingCommands[pendingCommands.length-1].id;
-          else
-          pendingCommands = [];
+      {
+        lastPendingCommandID = pendingCommands[pendingCommands.length-1].id;
+      }
+      else
+      {
+        pendingCommands = [];
+        lastPendingCommandID = self.key.status.cmd_ack;
+      }
 
 
+      if(lastPendingCommandID == -1){ // Cannot use the sticky command id
+          lastPendingCommandID = self.key.status.cmd_ack;
+      }
     }
 
 
@@ -348,7 +358,9 @@ if(self.commandJson && self.commandJson.length){
     self.commandJson = JSON.stringify(pendingCommands, null, 2);
 
   //  self.alertSrv.set("Command added to queue", "Save changes to apply", 'success', 10000);
+
     appEvents.emit('alert-success', ['Command added to queue',  "Save changes to apply"]);
+    this.$scope.$apply();
   }
 
   saveCommandQueue() {
