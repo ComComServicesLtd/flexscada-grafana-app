@@ -1,12 +1,26 @@
+
+#### Changelog
+
+    Nov 7 2023, plugin completely rewritten and updated
+
+
 # FlexSCADA Plugin App
 
-This device allows you to manage your flexSCADA devices from Grafana
 
+    This plugin is for managing FlexSCADA devices through grafana
+    https://flexscada.com/flexs-q5-remote-site-telemetry-and-control/
 
+    To use this plugin you must install the FlexSCADA backend service on your server and InfluxDB.   Contact FlexSCADA for assistance.
+    https://github.com/ComComServicesLtd/flexscada-docker
+
+#### Features of this plugin include
+    Device Configuration Editing
+    Automatic Graphing of all configured inputs, relays, temp sensors etc.  Channel labels on the device are automatically used     as database tags
+    Highly compressed and encrypted binary transfer of data from the Flexs Qx series PLCs and your servers. typ 1-2MB month
 
 ## Getting started
 
-This package is installed as part of the flexSCADA cloud suite, it requires the backend server to operate
+This package is installed as part of the flexSCADA cloud suite, it requires the backend server to operate (https://github.com/ComComServicesLtd/flexscada-docker)
 
 
 ### Building this package
