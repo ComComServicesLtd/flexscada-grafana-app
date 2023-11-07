@@ -1,101 +1,42 @@
 {
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "app",
-  "name": "FlexSCADA",
-  "id": "flexscada-app",
-
-  "routes": [{
-      "path": "admin/*",
-      "method": "GET,PUT,DELETE,POST",
-      "url": "http://127.0.0.1:7001/admin",
-      "reqSignedIn": true,
-      "reqRole": "Admin",
-      "headers": [{
-        "name": "Authorization",
-        "content": "Bearer {{.SecureJsonData.apiKey}}"
-      }]
-    },{
-      "path": "api/*",
-      "method": "PUT,DELETE,POST",
-      "url": "http://127.0.0.1:7001/api",
-      "reqSignedIn": true,
-      "reqRole": "Editor",
-      "headers": [{
-        "name": "Authorization",
-        "content": "Bearer {{.SecureJsonData.apiKey}}"
-      }]
-    },
+  "name": "Flexscada",
+  "id": "flexscada",
+    "routes": [
     {
       "path": "api/*",
-      "method": "GET",
-      "url": "http://127.0.0.1:7001/api",
+      "method": "*",
+      "url": "http://172.18.0.22:7001/api",
       "reqSignedIn": true,
-      "reqRole": "Viewer",
       "headers": [{
         "name": "Authorization",
         "content": "Bearer {{.SecureJsonData.apiKey}}"
       }]
-    },
-    {
-      "path": "public_api/*",
-      "method": "POST,GET",
-      "url": "http://127.0.0.1:7001/api",
-      "reqSignedIn": false,
-      "reqRole": "Viewer"
     }
   ],
-
-
   "info": {
-    "description": "This plugin transforms grafana into a world class situational monitoring toolkit, Using our revolutionary vibration monitoring devices this plugin allows you to quickly visualize dangerous trends.  With our Flexs series remote site monitoring devices this plugin allows you to log and visualize metrics from remote power systems.",
+    "keywords": ["app"],
+    "description": "Flex scada device management",
     "author": {
-      "name": "FlexSCADA a division of Com Com Services LTD",
-      "url": "https://flexscada.com"
+      "name": "Comcomservices"
     },
-    "keywords": ["flexscada", "pulsation", "Flexs Q4", "Flexs Q5"],
     "logos": {
-      "small": "img/flexscada_small.png",
-      "large": "img/flexscada.png"
+      "small": "img/logo.png",
+      "large": "img/logo.png"
     },
-    "links": [{
-        "name": "FlexSCADA",
-        "url": "https://flexscada.com"
-      },
-      {
-        "name": "GitHub",
-        "url": "https://github.com/comming-soon"
-      },
-      {
-        "name": "License",
-        "url": "https://www.apache.org/licenses/LICENSE-2.0"
-      }
-    ],
-    "screenshots": [{
-        "name": "FlexSCADA Vibration Monitoring",
-        "path": "img/vibration-montioring-dashboard.png"
-      },
-      {
-        "name": "FlexSCADA Remote Site Monitoring",
-        "path": "img/remote-site-monitoring-dashboard.png"
-      }
-    ],
-    "version": "0.0.2",
-    "updated": "2017-02-10"
+    "screenshots": [],
+    "version": "1.0.0",
+    "updated": "2023-02-09"
   },
-
   "includes": [
     {
-      "type": "dashboard",
-      "name": "FlexSCADA Home",
-      "path": "dashboards/flexscada-home.json",
+      "type": "page",
+      "name": "Default",
+      "path": "/a/flexscada",
+      "role": "Admin",
       "addToNav": true,
       "defaultNav": true
-    },
-    {
-      "type": "dashboard",
-      "name": "FlexSCADA Data Edit",
-      "path": "dashboards/flexscada-data-edit.json",
-      "addToNav": false,
-      "defaultNav": false
     },
     {
       "type": "dashboard",
@@ -106,10 +47,10 @@
     },
     {
       "type": "dashboard",
-      "name": "Flexs Q5 Device Overview",
+      "name": "Device Overview",
       "path": "dashboards/device-overview.json",
-      "addToNav": false,
-      "defaultNav": false
+      "addToNav": true,
+      "defaultNav": true
     },
     {
       "type": "dashboard",
@@ -124,72 +65,10 @@
       "path": "dashboards/power-metrics.json",
       "addToNav": false,
       "defaultNav": false
-    },
-    {
-      "type": "page",
-      "name": "Devices",
-      "component": "DeviceListCtrl",
-      "role": "Viewer",
-      "addToNav": true
-    },
-    {
-      "type": "page",
-      "name": "Device Details",
-      "component": "DeviceDetailsCtrl",
-      "role": "Viewer",
-      "addToNav": false
-    },
-    {
-      "type": "page",
-      "name": "Device Config",
-      "component": "DeviceConfigCtrl",
-      "role": "Editor",
-      "addToNav": false
-    },
-    {
-      "type": "page",
-      "name": "Add Device",
-      "component": "NewDeviceCtrl",
-      "role": "Editor",
-      "addToNav": false
-    },
-    {
-      "type": "page",
-      "name": "Template Config",
-      "component": "TemplateConfigCtrl",
-      "role": "Editor",
-      "addToNav": false
-    },
-    {
-      "type": "page",
-      "name": "Templates",
-      "component": "TemplateListCtrl",
-      "role": "Viewer",
-      "addToNav": false
-    },
-    {
-      "type": "page",
-      "name": "Advanced Analysis",
-      "component": "AnalysisCtrl",
-      "role": "Viewer",
-      "addToNav": false
-    },
-    {
-      "type": "panel",
-      "name": "FlexSCADA Device List"
-    },
-    {
-      "type": "panel",
-      "name": "FlexSCADA Data Editor"
-    },
-    {
-      "type": "panel",
-      "name": "Flexs Q5 Data Editor"
     }
   ],
-
   "dependencies": {
-    "grafanaVersion": "4.x",
+    "grafanaDependency": ">=9.2.5",
     "plugins": []
   }
 }

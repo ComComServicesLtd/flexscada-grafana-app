@@ -1,47 +1,6 @@
-'use strict';
-
-System.register(['./components/config/config', './components/device/device_list', './components/device/device_details', './components/device/device_config', './components/template/template_config', './components/template/template_list', './components/device/new_device', 'app/plugins/sdk', './filters/all', './directives/all'], function (_export, _context) {
-  "use strict";
-
-  var ConfigCtrl, DeviceListCtrl, DeviceDetailsCtrl, DeviceConfigCtrl, TemplateConfigCtrl, TemplateListCtrl, NewDeviceCtrl, loadPluginCss;
-  return {
-    setters: [function (_componentsConfigConfig) {
-      ConfigCtrl = _componentsConfigConfig.ConfigCtrl;
-    }, function (_componentsDeviceDevice_list) {
-      DeviceListCtrl = _componentsDeviceDevice_list.DeviceListCtrl;
-    }, function (_componentsDeviceDevice_details) {
-      DeviceDetailsCtrl = _componentsDeviceDevice_details.DeviceDetailsCtrl;
-    }, function (_componentsDeviceDevice_config) {
-      DeviceConfigCtrl = _componentsDeviceDevice_config.DeviceConfigCtrl;
-    }, function (_componentsTemplateTemplate_config) {
-      TemplateConfigCtrl = _componentsTemplateTemplate_config.TemplateConfigCtrl;
-    }, function (_componentsTemplateTemplate_list) {
-      TemplateListCtrl = _componentsTemplateTemplate_list.TemplateListCtrl;
-    }, function (_componentsDeviceNew_device) {
-      NewDeviceCtrl = _componentsDeviceNew_device.NewDeviceCtrl;
-    }, function (_appPluginsSdk) {
-      loadPluginCss = _appPluginsSdk.loadPluginCss;
-    }, function (_filtersAll) {}, function (_directivesAll) {}],
-    execute: function () {
-      //import {AnalysisCtrl} from './components/analysis/analysis';
-      loadPluginCss({
-        dark: 'plugins/flexscada-app/css/flexscada.dark.css',
-        light: 'plugins/flexscada-app/css/flexscada.light.css'
-      });
-
-      _export('DeviceListCtrl', DeviceListCtrl);
-
-      _export('DeviceDetailsCtrl', DeviceDetailsCtrl);
-
-      _export('DeviceConfigCtrl', DeviceConfigCtrl);
-
-      _export('TemplateConfigCtrl', TemplateConfigCtrl);
-
-      _export('TemplateListCtrl', TemplateListCtrl);
-
-      _export('NewDeviceCtrl', NewDeviceCtrl);
-
-      _export('ConfigCtrl', ConfigCtrl);
-    }
-  };
-});
+define(["@grafana/data","react","@grafana/ui","@grafana/runtime","@emotion/css","rxjs"],((e,t,n,r,a,o)=>(()=>{"use strict";var i={644:e=>{e.exports=a},305:t=>{t.exports=e},545:e=>{e.exports=r},388:e=>{e.exports=n},650:e=>{e.exports=t},177:e=>{e.exports=o}},l={};function c(e){var t=l[e];if(void 0!==t)return t.exports;var n=l[e]={exports:{}};return i[e](n,n.exports,c),n.exports}c.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return c.d(t,{a:t}),t},c.d=(e,t)=>{for(var n in t)c.o(t,n)&&!c.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},c.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),c.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})};var s={};return(()=>{c.r(s),c.d(s,{plugin:()=>f});var e=c(305),t=c(650),n=c.n(t);class r extends t.PureComponent{render(){let e=window.location.pathname.substr(0,window.location.pathname.indexOf("/a/comcomservices"))+"/public/plugins/flexscada/img/main.html";return window.location=e,t.createElement("div",{className:"page-container"},"Loading...")}}var a=c(388),o=c(545),i=c(644),l=c(177);function u(e,t,n,r,a,o,i){try{var l=e[o](i),c=l.value}catch(e){return void n(e)}l.done?t(c):Promise.resolve(c).then(r,a)}function d(e){return function(){var t=this,n=arguments;return new Promise((function(r,a){var o=e.apply(t,n);function i(e){u(o,r,a,i,l,"next",e)}function l(e){u(o,r,a,i,l,"throw",e)}i(void 0)}))}}const p=e=>({colorWeak:i.css`
+    color: ${e.colors.text.secondary};
+  `,marginTop:i.css`
+    margin-top: ${e.spacing(3)};
+  `}),g=(m=d((function*(e,t){try{yield v(e,t),window.location.reload()}catch(e){console.error("Error while updating the plugin",e)}})),function(e,t){return m.apply(this,arguments)});var m;const v=function(){var e=d((function*(e,t){const n=(0,o.getBackendSrv)().fetch({url:`/api/plugins/${e}/settings`,method:"POST",data:t});return(0,l.lastValueFrom)(n)}));return function(t,n){return e.apply(this,arguments)}}(),f=(new e.AppPlugin).setRootPage(r).addConfigPage({title:"Configuration",icon:"cog",body:({plugin:e})=>{const t=(0,a.useStyles2)(p),{enabled:r,secureJsonFields:o}=e.meta;let i;return console.log(o),n().createElement("div",{className:"gf-form-group"},n().createElement("div",null,!r&&n().createElement(n().Fragment,null,n().createElement(a.Legend,null,"Activate the FlexSCADA Plugin"),n().createElement(a.InlineField,{label:"API Key"},n().createElement(a.Input,{type:"string",onChange:e=>i=e.currentTarget.value,placeholder:""})),n().createElement("div",{className:t.colorWeak},"The plugin is currently not enabled."),n().createElement(a.Button,{className:t.marginTop,variant:"primary",onClick:()=>g(e.meta.id,{enabled:!0,pinned:!0,secureJsonData:{apiKey:i,path:void 0}})},"Activate plugin")),r&&n().createElement(n().Fragment,null,n().createElement(a.Legend,null,"The FlexSCADA Plugin is Already Activated"),n().createElement(a.Button,{className:t.marginTop,variant:"destructive",onClick:()=>g(e.meta.id,{enabled:!1,pinned:!1,secureJsonData:{apiKey:"",path:""}})},"Reset plugin"))))},id:"configuration"})})(),s})()));
+//# sourceMappingURL=module.js.map

@@ -21,14 +21,6 @@
   "iteration": 1544031195914,
   "links": [
     {
-      "icon": "external link",
-      "keepTime": false,
-      "tags": [],
-      "title": "Device List",
-      "type": "link",
-      "url": "/visualization/plugins/flexscada-app/page/devices"
-    },
-    {
       "icon": "info",
       "tags": [],
       "title": "Support",
@@ -406,5 +398,6 @@
   },
   "timezone": "browser",
   "title": "Flexs Q5 Data Editor",
+  "uid": "q5DataEditor",
   "version": 7
 }
